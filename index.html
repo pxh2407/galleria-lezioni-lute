@@ -105,6 +105,34 @@
       }
     }
 
+    /* ===== Foglio A4 (794x1123 px = A4 a 96 dpi) ===== */
+    .a4-sheet { width: 794px; height: 1123px; background: #fff; padding: 34px 36px 24px; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; color: #1e293b; display: flex; flex-direction: column; overflow: hidden; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .a4-head { display: flex; align-items: center; gap: 14px; padding-bottom: 14px; border-bottom: 3px solid #f28c38; }
+    .a4-logo { width: 50px; height: 50px; border-radius: 14px; background: linear-gradient(135deg, #1a5f7a, #578e7e); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 30px; flex-shrink: 0; }
+    .a4-title { font-family: 'Playfair Display', serif; font-size: 27px; font-weight: 700; color: #0d2538; line-height: 1.1; }
+    .a4-sub { font-size: 13px; color: #475569; margin-top: 4px; font-weight: 600; }
+    .a4-count { margin-left: auto; text-align: center; background: #0d2538; color: #fff; border-radius: 12px; padding: 6px 14px; font-size: 11px; font-weight: 600; line-height: 1.2; }
+    .a4-count b { display: block; font-size: 24px; font-weight: 800; }
+    .a4-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 16px; flex: 1; min-height: 0; }
+    .a4-cols { --k: 1; }
+    .a4-day { margin-bottom: calc(12px * var(--k)); }
+    .a4-dayhead { background: #0d2538; color: #fff; font-weight: 800; font-size: calc(13px * var(--k)); letter-spacing: 0.05em; text-transform: uppercase; padding: calc(6px * var(--k)) 10px; border-radius: 8px; display: flex; justify-content: space-between; }
+    .a4-dayhead span { font-weight: 600; letter-spacing: 0; text-transform: none; opacity: 0.8; }
+    .a4-row { display: flex; align-items: center; gap: 8px; padding: calc(6px * var(--k)) 4px; border-bottom: 1px solid #e2e8f0; }
+    .a4-time { width: 88px; flex-shrink: 0; font-weight: 700; font-size: calc(13px * var(--k)); color: #334155; }
+    .a4-aula { width: 68px; flex-shrink: 0; text-align: center; color: #fff; font-weight: 800; font-size: 10.5px; border-radius: 5px; padding: 3px 0; }
+    .a4-txt { min-width: 0; }
+    .a4-txt b { display: block; font-size: calc(14px * var(--k)); line-height: 1.2; color: #0d2538; }
+    .a4-txt span { display: block; font-size: calc(11px * var(--k)); color: #64748b; line-height: 1.3; }
+    .a4-foot { border-top: 1px solid #cbd5e1; padding-top: 8px; font-size: 10.5px; color: #64748b; display: flex; justify-content: space-between; }
+    @media print {
+      body.stampa-a4 > *:not(#a4Overlay) { display: none !important; }
+      body.stampa-a4 #a4Overlay { position: static !important; display: block !important; background: none !important; padding: 0 !important; overflow: visible !important; }
+      body.stampa-a4 #a4Toolbar { display: none !important; }
+      body.stampa-a4 #a4Frame { width: auto !important; height: auto !important; box-shadow: none !important; }
+      body.stampa-a4 #a4Preview { transform: none !important; width: 210mm !important; height: 296mm !important; }
+    }
+
     /* Glass Effect */
     .glass-header {
       background: rgba(255, 255, 255, 0.92);
@@ -139,6 +167,12 @@
             <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Periodo</span>
             <span class="text-sm font-bold text-slate-700">05 Ottobre - 09 Ottobre 2026</span>
           </div>
+
+          <!-- Foglio A4 (solo PC): tutte le lezioni in una pagina, come immagine o da stampare -->
+          <button onclick="openA4()" class="no-print hidden md:inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-bold text-white bg-brand-teal hover:bg-brand-navy rounded-xl shadow-xs transition" title="Tutte le lezioni in un foglio A4: immagine per WhatsApp o stampa">
+            <i class="ph-bold ph-file-image text-base"></i>
+            <span>Foglio A4</span>
+          </button>
 
           <!-- Print / Export Button -->
           <button onclick="window.print()" class="no-print inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-semibold text-slate-700 bg-white hover:bg-slate-50 border border-slate-200 rounded-xl shadow-xs transition hover:border-slate-300" title="Stampa o Salva PDF">
@@ -372,6 +406,29 @@
       </div>
     </div>
   </div>
+
+  <!-- Foglio A4: anteprima + Scarica / Copia / Stampa -->
+  <div id="a4Overlay" class="fixed inset-0 z-50 hidden bg-slate-900/75 overflow-auto p-4" onclick="if (event.target === this) closeA4()">
+    <div id="a4Toolbar" class="max-w-3xl mx-auto mb-3 flex flex-wrap items-center justify-center gap-2">
+      <button onclick="downloadA4()" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-brand-teal hover:bg-brand-navy text-white text-sm font-bold shadow">
+        <i class="ph-bold ph-download-simple text-lg"></i> Scarica immagine
+      </button>
+      <button onclick="copyA4()" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold shadow" title="Poi in WhatsApp premi Ctrl+V">
+        <i class="ph-bold ph-copy text-lg"></i> Copia immagine (per WhatsApp)
+      </button>
+      <button onclick="printA4()" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white hover:bg-slate-100 text-slate-800 text-sm font-bold shadow">
+        <i class="ph-bold ph-printer text-lg"></i> Stampa
+      </button>
+      <button onclick="closeA4()" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-700 hover:bg-slate-600 text-white text-sm font-bold shadow">
+        <i class="ph-bold ph-x text-lg"></i> Chiudi
+      </button>
+    </div>
+    <div id="a4Frame" class="mx-auto bg-white shadow-2xl overflow-hidden">
+      <div id="a4Preview" class="a4-sheet" style="transform-origin: top left;"></div>
+    </div>
+  </div>
+  <!-- Copia a grandezza vera, fuori schermo: è quella che diventa immagine -->
+  <div style="position: fixed; left: -10000px; top: 0;" aria-hidden="true"><div id="a4Capture" class="a4-sheet"></div></div>
 
   <!-- Toast Feedback Notification -->
   <div id="toastNotification" class="fixed bottom-6 right-6 z-50 hidden bg-slate-900 text-white px-4 py-3 rounded-2xl shadow-xl flex items-center gap-3 text-xs font-medium border border-slate-700 animate-bounce">
@@ -1294,13 +1351,158 @@
       }, 3000);
     }
 
+    // ===== Foglio A4 =====
+    const a4AulaColors = { 'S09': '#0369a1', 'S08': '#7e22ce', 'S07': '#047857', 'S06': '#d97706', 'S05': '#be185d', 'Palestra': '#b91c1c', 'Aula Magna': '#3730a3' };
+    const a4FileName = 'LUTE - Orario lezioni 5-9 ottobre 2026.jpg';
+
+    function buildA4Html() {
+      const days = ['LUNEDÌ', 'MARTEDÌ', 'MERCOLEDÌ', 'GIOVEDÌ', 'VENERDÌ'];
+      const blocks = days.map(day => {
+        const lessons = lessonsData.filter(l => l.day === day)
+          .sort((a, b) => a.startTime.localeCompare(b.startTime) || a.aula.localeCompare(b.aula));
+        const html = `
+          <div class="a4-day">
+            <div class="a4-dayhead">${day} <span>${lessons[0] ? lessons[0].date : ''}</span></div>
+            ${lessons.map(l => `
+              <div class="a4-row">
+                <div class="a4-time">${l.timeSlot.replace(' - ', ' – ')}</div>
+                <div class="a4-aula" style="background:${a4AulaColors[l.aula] || '#334155'}">${l.aula}</div>
+                <div class="a4-txt"><b>${l.title}</b><span>${l.teacher}</span></div>
+              </div>`).join('')}
+          </div>`;
+        return { html, n: lessons.length };
+      });
+
+      // Divido i giorni in due colonne con circa lo stesso numero di lezioni
+      const half = lessonsData.length / 2;
+      let left = 0, split = 0;
+      while (split < blocks.length && Math.abs(left + blocks[split].n - half) < Math.abs(left - half)) {
+        left += blocks[split].n;
+        split++;
+      }
+
+      return `
+        <div class="a4-head">
+          <div class="a4-logo"><i class="ph-bold ph-graduation-cap"></i></div>
+          <div>
+            <div class="a4-title">LUTE · Orario delle Lezioni</div>
+            <div class="a4-sub">Settimana dal 5 al 9 ottobre 2026 · Anno Accademico 2026/27</div>
+          </div>
+          <div class="a4-count"><b>${lessonsData.length}</b>lezioni</div>
+        </div>
+        <div class="a4-cols">
+          <div>${blocks.slice(0, split).map(b => b.html).join('')}</div>
+          <div>${blocks.slice(split).map(b => b.html).join('')}</div>
+        </div>
+        <div class="a4-foot">
+          <span><b>LUTE Milazzo</b> · Libera Università delle Tre Età</span>
+          <span>Aggiornato al 30-09-2026</span>
+        </div>`;
+    }
+
+    function fitA4Preview() {
+      const s = Math.min(1, (window.innerHeight - 110) / 1123, (window.innerWidth - 40) / 794);
+      document.getElementById('a4Preview').style.transform = `scale(${s})`;
+      const frame = document.getElementById('a4Frame');
+      frame.style.width = (794 * s) + 'px';
+      frame.style.height = (1123 * s) + 'px';
+    }
+
+    async function openA4() {
+      await document.fonts.ready;
+      const html = buildA4Html();
+      document.getElementById('a4Preview').innerHTML = html;
+      document.getElementById('a4Capture').innerHTML = html;
+
+      // Sempre una sola pagina: se le lezioni non entrano, riduco il testo quanto basta
+      const capCols = document.querySelector('#a4Capture .a4-cols');
+      const overflows = () => [...capCols.children].some(col => col.lastElementChild &&
+        col.lastElementChild.getBoundingClientRect().bottom > capCols.getBoundingClientRect().bottom + 0.5);
+      let k = 1;
+      capCols.style.setProperty('--k', k);
+      while (overflows() && k > 0.6) {
+        k = Math.round((k - 0.02) * 100) / 100;
+        capCols.style.setProperty('--k', k);
+      }
+      document.querySelector('#a4Preview .a4-cols').style.setProperty('--k', k);
+
+      document.getElementById('a4Overlay').classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+      fitA4Preview();
+    }
+
+    function closeA4() {
+      document.getElementById('a4Overlay').classList.add('hidden');
+      document.body.style.overflow = 'auto';
+    }
+
+    window.addEventListener('resize', () => {
+      if (!document.getElementById('a4Overlay').classList.contains('hidden')) fitA4Preview();
+    });
+
+    // html2canvas si carica solo la prima volta che serve
+    function loadHtml2Canvas() {
+      if (window.html2canvas) return Promise.resolve();
+      return new Promise((resolve, reject) => {
+        const s = document.createElement('script');
+        s.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
+        s.onload = resolve;
+        s.onerror = () => reject(new Error('html2canvas'));
+        document.head.appendChild(s);
+      });
+    }
+
+    async function renderA4Canvas() {
+      showToast('Preparo l\'immagine…');
+      await loadHtml2Canvas();
+      await document.fonts.ready;
+      return html2canvas(document.getElementById('a4Capture'), { scale: 3, backgroundColor: '#ffffff', useCORS: true, logging: false });
+    }
+
+    async function downloadA4() {
+      try {
+        const canvas = await renderA4Canvas();
+        const a = document.createElement('a');
+        a.href = canvas.toDataURL('image/jpeg', 0.92);
+        a.download = a4FileName;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        showToast('Immagine salvata nella cartella Download');
+      } catch (err) {
+        showToast('Impossibile creare l\'immagine. Controlla la connessione.');
+      }
+    }
+
+    async function copyA4() {
+      try {
+        const canvas = await renderA4Canvas();
+        const blob = await new Promise(r => canvas.toBlob(r, 'image/png'));
+        await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+        showToast('Immagine copiata: in WhatsApp premi Ctrl+V');
+      } catch (err) {
+        showToast('Copia non riuscita: usa "Scarica immagine"');
+      }
+    }
+
+    function printA4() {
+      // @page A4 senza margini solo per questa stampa (non per "Stampa / PDF")
+      const pageStyle = document.createElement('style');
+      pageStyle.textContent = '@page { size: A4 portrait; margin: 0; }';
+      document.head.appendChild(pageStyle);
+      document.body.classList.add('stampa-a4');
+      window.print();
+      document.body.classList.remove('stampa-a4');
+      pageStyle.remove();
+    }
+
     // Close modal on background click or ESC key
     document.getElementById('lessonModal').addEventListener('click', (e) => {
       if (e.target.id === 'lessonModal') closeModal();
     });
 
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') closeModal();
+      if (e.key === 'Escape') { closeModal(); closeA4(); }
     });
 
     window.addEventListener('DOMContentLoaded', () => {
