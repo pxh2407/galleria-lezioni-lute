@@ -257,9 +257,11 @@
           <h3 class="text-sm font-bold text-brand-navy">Tabellone Orario Settimanale LUTE</h3>
           <p class="text-xs text-slate-500">Schema a matrice aule/orari (05 - 09 Ottobre 2026)</p>
         </div>
-        <span class="text-xs text-slate-400 italic">Tocca una casella per aprire la scheda<span class="sm:hidden"> · scorri di lato per le altre aule</span></span>
+        <span class="text-xs text-slate-400 italic">Tocca una lezione per aprire la scheda</span>
       </div>
-      <div class="overflow-x-auto">
+      <!-- Sul telefono: elenco compatto per giorno (la griglia aule/orari è troppo larga) -->
+      <div id="tableMobile" class="sm:hidden divide-y divide-slate-200"></div>
+      <div class="hidden sm:block overflow-x-auto">
         <table class="w-full text-xs text-left border-collapse">
           <thead>
             <tr class="bg-slate-100/80 text-slate-700 font-bold uppercase tracking-wider text-[11px] border-b border-slate-200">
@@ -1107,6 +1109,31 @@
       });
 
       tableBody.innerHTML = html;
+
+      // Elenco compatto per il telefono: un blocco per giorno, lezioni in ordine di orario
+      document.getElementById('tableMobile').innerHTML = days.map(day => {
+        const lessons = lessonsData.filter(l => l.day === day)
+          .sort((a, b) => a.startTime.localeCompare(b.startTime) || a.aula.localeCompare(b.aula));
+        return `
+          <div>
+            <div class="bg-slate-200/90 text-brand-navy font-bold px-4 py-2 text-xs tracking-wider uppercase flex items-center gap-2">
+              <i class="ph-bold ph-calendar"></i> ${day} <span class="font-semibold normal-case tracking-normal text-slate-500">${lessons[0] ? lessons[0].date.replace(' 2026', '') : ''}</span>
+            </div>
+            ${lessons.map(l => `
+              <div onclick="openModal('${l.id}')" class="flex items-center gap-3 px-4 py-2.5 border-t border-slate-100 active:bg-slate-50 cursor-pointer">
+                <span class="w-12 flex-shrink-0 leading-tight">
+                  <span class="block text-sm font-bold text-slate-700">${l.startTime}</span>
+                  <span class="block text-[11px] text-slate-400">${l.timeSlot.split(' - ')[1] || ''}</span>
+                </span>
+                <span class="w-[4.5rem] flex-shrink-0 text-center text-[11px] px-1.5 py-0.5 rounded font-bold ${aulaColorMap[l.aula] || 'bg-slate-700 text-white'}">${l.aula}</span>
+                <span class="min-w-0 flex-grow">
+                  <span class="block text-sm font-semibold text-slate-800 leading-tight">${l.title}</span>
+                  <span class="block text-xs text-slate-500 truncate">${l.teacher}</span>
+                </span>
+                <i class="ph-bold ph-caret-right text-slate-400"></i>
+              </div>`).join('')}
+          </div>`;
+      }).join('');
     }
 
     function selectDay(day) {
