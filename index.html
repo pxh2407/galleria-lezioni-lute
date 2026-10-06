@@ -1,0 +1,1277 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LUTE - Orario Lezioni Settimanale (05 - 09 Ottobre 2026)</title>
+  <!-- Anteprima del link (WhatsApp ecc.): copertina creata con crea_copertina.py -->
+  <meta name="description" content="LUTE Milazzo · Galleria delle lezioni della settimana 5–9 ottobre 2026: giorno, aula, orario e docente di ogni corso.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="LUTE Milazzo">
+  <meta property="og:url" content="https://pxh2407.github.io/galleria-lezioni-lute/">
+  <meta property="og:title" content="LUTE · Galleria Lezioni della Settimana (5–9 ottobre 2026)">
+  <meta property="og:description" content="34 lezioni: tocca per vedere giorno, aula, orario e docente di ogni corso.">
+  <meta property="og:image" content="https://pxh2407.github.io/galleria-lezioni-lute/images/copertina.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Google Fonts: Plus Jakarta Sans & Playfair Display -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+  
+  <!-- Phosphor Icons -->
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              navy: '#0d2538',
+              teal: '#1a5f7a',
+              sage: '#578e7e',
+              amber: '#f28c38',
+              sand: '#f8f6f0',
+              cream: '#fffdf9'
+            },
+            aula: {
+              s09: '#0284c7', // Sky
+              s08: '#7c3aed', // Violet
+              s07: '#059669', // Emerald
+              s06: '#d97706', // Amber
+              s05: '#db2777', // Pink
+              palestra: '#dc2626', // Red
+              magna: '#4338ca' // Indigo
+            }
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            serif: ['"Playfair Display"', 'serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #f7f9fa;
+      color: #1e293b;
+    }
+    
+    .font-serif-title {
+      font-family: 'Playfair Display', serif;
+    }
+    
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+
+    /* Print Optimization */
+    @media print {
+      header, .no-print, nav, #filters-section, .filter-bar, footer {
+        display: none !important;
+      }
+      body {
+        background: white !important;
+        color: black !important;
+        padding: 0 !important;
+      }
+      .card-item {
+        break-inside: avoid;
+        page-break-inside: avoid;
+        box-shadow: none !important;
+        border: 1px solid #e2e8f0 !important;
+      }
+    }
+
+    /* Glass Effect */
+    .glass-header {
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased selection:bg-teal-500 selection:text-white">
+
+  <header class="sticky top-0 z-40 glass-header border-b border-slate-200/80 transition-all duration-200 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        
+        <!-- Logo and University Title -->
+        <div class="flex items-center space-x-3.5">
+          <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-brand-teal to-brand-sage flex items-center justify-center text-white shadow-md shadow-brand-teal/20">
+            <i class="ph-bold ph-graduation-cap text-2xl"></i>
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-xl sm:text-2xl font-black tracking-tight text-brand-navy">LUTE</span>
+              <span class="text-xs px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-semibold border border-emerald-200">Anno Accademico 2026/27</span>
+            </div>
+            <p class="text-xs text-slate-500 hidden sm:block">Libera Università delle Tre Età • Orario Didattico</p>
+          </div>
+        </div>
+
+        <!-- Weekly Badge & Utility Actions -->
+        <div class="flex items-center space-x-2 sm:space-x-4">
+          <div class="hidden md:flex flex-col text-right">
+            <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Periodo</span>
+            <span class="text-sm font-bold text-slate-700">05 Ottobre - 09 Ottobre 2026</span>
+          </div>
+
+          <!-- Print / Export Button -->
+          <button onclick="window.print()" class="no-print inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-semibold text-slate-700 bg-white hover:bg-slate-50 border border-slate-200 rounded-xl shadow-xs transition hover:border-slate-300" title="Stampa o Salva PDF">
+            <i class="ph-bold ph-printer text-base text-slate-500"></i>
+            <span class="hidden sm:inline">Stampa / PDF</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+    
+    <!-- Hero / Headline -->
+    <div class="mb-6 flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+      <div>
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-amber-50 text-amber-700 border border-amber-200 mb-2">
+          <i class="ph-fill ph-calendar-check text-amber-500"></i> Aggiornato al 30-09-2026
+        </span>
+        <h1 class="font-serif-title text-2xl sm:text-4xl font-bold text-brand-navy tracking-tight">
+          Galleria Lezioni della Settimana
+        </h1>
+        <p class="text-sm sm:text-base text-slate-600 mt-1 max-w-2xl">
+          Consulta tutte le attività, laboratori e conferenze ordinate per orario e aula con schede dettagliate e visive.
+        </p>
+      </div>
+
+      <!-- View Switcher (Cards vs Schedule Matrix) -->
+      <div class="flex items-center bg-slate-200/80 p-1 rounded-xl self-start md:self-auto border border-slate-300/60 no-print">
+        <button id="viewGridBtn" onclick="switchView('grid')" class="px-3.5 py-1.5 text-xs font-bold rounded-lg transition-all flex items-center gap-1.5 bg-white text-brand-navy shadow-sm">
+          <i class="ph-bold ph-squares-four text-sm"></i>
+          <span>Galleria Card</span>
+        </button>
+        <button id="viewTableBtn" onclick="switchView('table')" class="px-3.5 py-1.5 text-xs font-semibold rounded-lg transition-all flex items-center gap-1.5 text-slate-600 hover:text-brand-navy">
+          <i class="ph-bold ph-table text-sm"></i>
+          <span>Tabella Orario</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="no-print space-y-4 mb-8">
+      
+      <!-- Day Switcher Pills -->
+      <div class="flex items-center overflow-x-auto pb-2 gap-2 scrollbar-none">
+        <button onclick="selectDay('TUTTI')" data-day="TUTTI" class="day-tab flex-shrink-0 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition border border-transparent bg-brand-navy text-white shadow-sm">
+          Tutta la Settimana (34)
+        </button>
+        <button onclick="selectDay('LUNEDÌ')" data-day="LUNEDÌ" class="day-tab flex-shrink-0 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition border border-slate-200 bg-white text-slate-700 hover:bg-slate-50">
+          Lunedì 05 Ottobre <span class="ml-1 text-xs opacity-75">(8)</span>
+        </button>
+        <button onclick="selectDay('MARTEDÌ')" data-day="MARTEDÌ" class="day-tab flex-shrink-0 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition border border-slate-200 bg-white text-slate-700 hover:bg-slate-50">
+          Martedì 06 Ottobre <span class="ml-1 text-xs opacity-75">(8)</span>
+        </button>
+        <button onclick="selectDay('MERCOLEDÌ')" data-day="MERCOLEDÌ" class="day-tab flex-shrink-0 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition border border-slate-200 bg-white text-slate-700 hover:bg-slate-50">
+          Mercoledì 07 Ottobre <span class="ml-1 text-xs opacity-75">(9)</span>
+        </button>
+        <button onclick="selectDay('GIOVEDÌ')" data-day="GIOVEDÌ" class="day-tab flex-shrink-0 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition border border-slate-200 bg-white text-slate-700 hover:bg-slate-50">
+          Giovedì 08 Ottobre <span class="ml-1 text-xs opacity-75">(6)</span>
+        </button>
+        <button onclick="selectDay('VENERDÌ')" data-day="VENERDÌ" class="day-tab flex-shrink-0 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition border border-slate-200 bg-white text-slate-700 hover:bg-slate-50">
+          Venerdì 09 Ottobre <span class="ml-1 text-xs opacity-75">(3)</span>
+        </button>
+      </div>
+
+      <!-- Filters & Quick Search Bar -->
+      <div class="bg-white p-4 rounded-2xl border border-slate-200/90 shadow-xs flex flex-col md:flex-row gap-3 items-stretch md:items-center justify-between">
+        
+        <!-- Search Input -->
+        <div class="relative flex-grow max-w-lg">
+          <i class="ph-bold ph-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-lg"></i>
+          <input 
+            type="text" 
+            id="searchInput"
+            placeholder="Cerca per materia, docente o orario..." 
+            oninput="applyFilters()"
+            class="w-full pl-10 pr-4 py-2.5 text-xs sm:text-sm rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-teal/30 focus:border-brand-teal transition"
+          >
+          <button id="clearSearch" onclick="clearSearchInput()" class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600">
+            <i class="ph-bold ph-x-circle text-lg"></i>
+          </button>
+        </div>
+
+        <!-- Aula Filter Pills -->
+        <div class="flex items-center gap-1.5 overflow-x-auto pb-1 md:pb-0 scrollbar-none">
+          <span class="text-xs font-semibold text-slate-400 flex items-center gap-1 mr-1">
+            <i class="ph-bold ph-door text-sm"></i> Aula:
+          </span>
+          <button onclick="filterByAula('ALL')" data-aula="ALL" class="aula-btn text-xs px-2.5 py-1.5 rounded-lg font-semibold bg-brand-teal text-white">Tutte</button>
+          <button onclick="filterByAula('S09')" data-aula="S09" class="aula-btn text-xs px-2.5 py-1.5 rounded-lg font-medium bg-slate-100 hover:bg-slate-200 text-slate-700">S09</button>
+          <button onclick="filterByAula('S08')" data-aula="S08" class="aula-btn text-xs px-2.5 py-1.5 rounded-lg font-medium bg-slate-100 hover:bg-slate-200 text-slate-700">S08</button>
+          <button onclick="filterByAula('S07')" data-aula="S07" class="aula-btn text-xs px-2.5 py-1.5 rounded-lg font-medium bg-slate-100 hover:bg-slate-200 text-slate-700">S07</button>
+          <button onclick="filterByAula('S06')" data-aula="S06" class="aula-btn text-xs px-2.5 py-1.5 rounded-lg font-medium bg-slate-100 hover:bg-slate-200 text-slate-700">S06</button>
+          <button onclick="filterByAula('S05')" data-aula="S05" class="aula-btn text-xs px-2.5 py-1.5 rounded-lg font-medium bg-slate-100 hover:bg-slate-200 text-slate-700">S05</button>
+          <button onclick="filterByAula('Palestra')" data-aula="Palestra" class="aula-btn text-xs px-2.5 py-1.5 rounded-lg font-medium bg-slate-100 hover:bg-slate-200 text-slate-700">Palestra</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Active Summary Info -->
+    <div id="resultsCount" class="text-xs font-semibold text-slate-500 mb-4 px-1 flex items-center justify-between">
+      <span>Visualizzazione lezioni</span>
+      <span id="counterBadge" class="bg-slate-200 text-slate-700 px-2 py-0.5 rounded-full text-[11px] font-bold">34 lezioni</span>
+    </div>
+
+    
+    <!-- View 1: Cards Gallery Container -->
+    <div id="galleryView" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+      <!-- Injected via JavaScript -->
+    </div>
+
+    <!-- View 2: Traditional Grid Schedule (Hidden by default) -->
+    <div id="tableView" class="hidden bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
+      <div class="p-4 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
+        <div>
+          <h3 class="text-sm font-bold text-brand-navy">Tabellone Orario Settimanale LUTE</h3>
+          <p class="text-xs text-slate-500">Schema a matrice aule/orari (05 - 09 Ottobre 2026)</p>
+        </div>
+        <span class="text-xs text-slate-400 italic">Clicca sulle caselle per aprire la scheda</span>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="w-full text-xs text-left border-collapse">
+          <thead>
+            <tr class="bg-slate-100/80 text-slate-700 font-bold uppercase tracking-wider text-[11px] border-b border-slate-200">
+              <th class="p-3.5 border-r border-slate-200 w-28">Giorno / Ora</th>
+              <th class="p-3.5 border-r border-slate-200 min-w-[140px] text-sky-800">Aula S09</th>
+              <th class="p-3.5 border-r border-slate-200 min-w-[140px] text-purple-800">Aula S08</th>
+              <th class="p-3.5 border-r border-slate-200 min-w-[140px] text-emerald-800">Aula S07</th>
+              <th class="p-3.5 border-r border-slate-200 min-w-[140px] text-amber-800">Aula S06</th>
+              <th class="p-3.5 border-r border-slate-200 min-w-[140px] text-pink-800">Aula S05</th>
+              <th class="p-3.5 min-w-[150px] text-red-800">Palestra / Altro</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody" class="divide-y divide-slate-200 font-normal">
+            <!-- Injected via JavaScript -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Empty State -->
+    <div id="emptyState" class="hidden py-16 text-center">
+      <div class="w-16 h-16 rounded-full bg-slate-100 flex items-center justify-center text-slate-400 mx-auto mb-4">
+        <i class="ph-duotone ph-magnifying-glass text-3xl"></i>
+      </div>
+      <h3 class="text-base font-bold text-slate-700">Nessuna lezione trovata</h3>
+      <p class="text-xs text-slate-500 max-w-sm mx-auto mt-1">Nessun corso corrisponde ai filtri di ricerca impostati. Prova a reimpostare i parametri o seleziona un altro giorno.</p>
+      <button onclick="resetFilters()" class="mt-4 px-4 py-2 bg-brand-teal text-white text-xs font-semibold rounded-xl shadow-xs hover:bg-brand-navy transition">
+        Reimposta filtri
+      </button>
+    </div>
+
+  </main>
+
+  <!-- Lesson Detail Modal -->
+  <div id="lessonModal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto">
+    <div class="relative w-full max-w-2xl bg-white rounded-3xl shadow-2xl overflow-hidden my-8 animate-fade-in border border-slate-100" onclick="event.stopPropagation()">
+      
+      <!-- Close Button -->
+      <button onclick="closeModal()" class="absolute top-4 right-4 z-20 w-9 h-9 rounded-full bg-white/80 hover:bg-white text-slate-700 flex items-center justify-center shadow-md backdrop-blur-md transition hover:scale-105">
+        <i class="ph-bold ph-x text-lg"></i>
+      </button>
+
+      <!-- Modal Image Cover with Tag -->
+      <div class="relative h-64 sm:h-72 w-full overflow-hidden bg-slate-900">
+        <img id="modalImage" src="" alt="Dettaglio Lezione" class="w-full h-full object-cover opacity-90 transition duration-300">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent"></div>
+        
+        <!-- Badges on image -->
+        <div class="absolute bottom-4 left-4 right-4 text-white">
+          <div class="flex flex-wrap items-center gap-2 mb-2">
+            <span id="modalDayBadge" class="px-2.5 py-0.5 rounded-md text-xs font-bold uppercase tracking-wider bg-white/20 backdrop-blur-md border border-white/20"></span>
+            <span id="modalAulaBadge" class="px-2.5 py-0.5 rounded-md text-xs font-bold text-white shadow-xs"></span>
+            <span id="modalCategoryBadge" class="px-2.5 py-0.5 rounded-md text-xs font-semibold bg-brand-amber/90 text-white"></span>
+          </div>
+          <h2 id="modalTitle" class="text-xl sm:text-2xl font-bold font-serif-title leading-snug"></h2>
+        </div>
+      </div>
+
+      <!-- Modal Body Content -->
+      <div class="p-6 sm:p-7 space-y-6">
+        
+        <!-- Info Grid -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 p-4 rounded-2xl bg-slate-50 border border-slate-100">
+          <div>
+            <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">Orario</span>
+            <span id="modalTime" class="text-sm font-semibold text-slate-800 flex items-center gap-1.5 mt-0.5">
+              <i class="ph-bold ph-clock text-brand-teal"></i>
+              <span></span>
+            </span>
+          </div>
+
+          <div>
+            <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">Docente/i</span>
+            <span id="modalTeacher" class="text-sm font-semibold text-slate-800 flex items-center gap-1.5 mt-0.5">
+              <i class="ph-bold ph-chalkboard-teacher text-brand-teal"></i>
+              <span></span>
+            </span>
+          </div>
+
+          <div class="col-span-2 sm:col-span-1">
+            <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">Ubicazione</span>
+            <span id="modalRoom" class="text-sm font-semibold text-slate-800 flex items-center gap-1.5 mt-0.5">
+              <i class="ph-bold ph-door text-brand-teal"></i>
+              <span></span>
+            </span>
+          </div>
+        </div>
+
+        <!-- Description / Focus Note -->
+        <div>
+          <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5">Note e Dettagli Didattici</h4>
+          <p id="modalDescription" class="text-xs sm:text-sm text-slate-600 leading-relaxed bg-brand-sand/50 p-4 rounded-xl border border-brand-sand"></p>
+        </div>
+
+        <!-- Actions -->
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-3 pt-3 border-t border-slate-100">
+          <button id="copyShareBtn" onclick="copyLessonDetails()" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-slate-200 text-slate-700 text-xs font-bold hover:bg-slate-50 transition active:scale-95">
+            <i class="ph-bold ph-copy text-base text-slate-400"></i>
+            <span>Copia Dettagli Lezione</span>
+          </button>
+
+          <button onclick="closeModal()" class="w-full sm:w-auto px-6 py-2.5 bg-brand-navy hover:bg-slate-800 text-white rounded-xl text-xs font-bold transition shadow-xs">
+            Chiudi Scheda
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Feedback Notification -->
+  <div id="toastNotification" class="fixed bottom-6 right-6 z-50 hidden bg-slate-900 text-white px-4 py-3 rounded-2xl shadow-xl flex items-center gap-3 text-xs font-medium border border-slate-700 animate-bounce">
+    <i class="ph-bold ph-check-circle text-emerald-400 text-lg"></i>
+    <span id="toastMessage">Testo copiato con successo!</span>
+  </div>
+
+  <footer class="mt-12 bg-white border-t border-slate-200/80 py-8 no-print">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+      <div class="flex items-center space-x-2">
+        <span class="font-bold text-brand-navy">LUTE</span>
+        <span>• Libera Università delle Tre Età • Orario 05 - 09 Ottobre 2026</span>
+      </div>
+      <div>
+        <span>Design minimale curato • Senza figure umane</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Complete structured dataset for all lessons from October 5 to October 9, 2026
+    const lessonsData = [
+      // ================= LUNEDÌ (05 Ottobre 2026) =================
+      {
+        id: 'LUN-1',
+        day: 'LUNEDÌ',
+        date: '05 Ottobre 2026',
+        startTime: '15:30',
+        endTime: '16:30',
+        timeSlot: '15:30 - 16:30',
+        aula: 'S07',
+        title: 'Dipingiamo insieme',
+        teacher: 'GUERRESCHI M.',
+        category: 'Arte & Creatività',
+        categoryColor: 'bg-emerald-500',
+        image: 'https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=800&q=80',
+        description: 'Laboratorio artistico pratico dedicato alla pittura, all\'esplorazione del colore su tela e all\'acquerello. Cavalletti, tavolozze e colori ad olio e acrilico forniti per la libera espressione espressiva.'
+      },
+      {
+        id: 'LUN-2',
+        day: 'LUNEDÌ',
+        date: '05 Ottobre 2026',
+        startTime: '16:30',
+        endTime: '17:30',
+        timeSlot: '16:30 - 17:30',
+        aula: 'S09',
+        title: 'Vi racconto un film.....',
+        teacher: "ISGRO' A.N.",
+        category: 'Cinema & Cultura',
+        categoryColor: 'bg-sky-600',
+        image: 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=800&q=80',
+        description: 'Analisi cinematografica, scomposizione visiva e approfondimento critico di pellicole storiche con visioni guidate di sequenze chiave e dibattito culturale in aula.'
+      },
+      {
+        id: 'LUN-3',
+        day: 'LUNEDÌ',
+        date: '05 Ottobre 2026',
+        startTime: '16:30',
+        endTime: '17:30',
+        timeSlot: '16:30 - 17:30',
+        aula: 'S06',
+        title: 'Bigiotteria con le stoffe',
+        teacher: 'BARBERA T.',
+        category: 'Artigianato & Moda',
+        categoryColor: 'bg-amber-600',
+        image: 'https://images.unsplash.com/photo-1528458876885-5b6eeb83d091?auto=format&fit=crop&w=800&q=80',
+        description: 'Creazione artigianale di accessori e monili unici riutilizzando tessuti pregiati, perle in legno, cordoncini e passamaneria con tecniche di ricamo e montaggio a mano.'
+      },
+      {
+        id: 'LUN-4',
+        day: 'LUNEDÌ',
+        date: '05 Ottobre 2026',
+        startTime: '17:30',
+        endTime: '18:30',
+        timeSlot: '17:30 - 18:30',
+        aula: 'S08',
+        title: 'Burraco',
+        teacher: 'FALLITI G. / PITRONE C.',
+        category: 'Giochi & Socialità',
+        categoryColor: 'bg-purple-600',
+        image: 'https://images.unsplash.com/photo-1541278107931-e006523892df?auto=format&fit=crop&w=800&q=80',
+        description: 'Tavoli di gioco strategico e socialità. Studio delle regole federali, combinazioni di carte, prese dal monte scarti e gestione del pozzetto con tornei amichevoli.'
+      },
+      {
+        id: 'LUN-5',
+        day: 'LUNEDÌ',
+        date: '05 Ottobre 2026',
+        startTime: '17:30',
+        endTime: '18:30',
+        timeSlot: '17:30 - 18:30',
+        aula: 'S07',
+        title: 'Corso di pittura su stoffa',
+        teacher: 'MIRODDI R.',
+        category: 'Arte & Creatività',
+        categoryColor: 'bg-emerald-600',
+        image: 'https://images.unsplash.com/photo-1582562124811-c09040d0a901?auto=format&fit=crop&w=800&q=80',
+        description: 'Tecniche di decorazione pittorica applicate a seta, lino e cotone. Utilizzo di colori specifici per tessuti, stencil, sfumature ed effetti a rilievo.'
+      },
+      {
+        id: 'LUN-6',
+        day: 'LUNEDÌ',
+        date: '05 Ottobre 2026',
+        startTime: '17:30',
+        endTime: '18:30',
+        timeSlot: '17:30 - 18:30',
+        aula: 'Palestra',
+        title: 'Ballo di Gruppo 1',
+        teacher: 'Istruttore LUTE',
+        category: 'Benessere & Movimento',
+        categoryColor: 'bg-rose-600',
+        image: 'https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?auto=format&fit=crop&w=800&q=80',
+        description: 'Coreografie di gruppo a tempo di musica, passi sincroni e attività motoria a basso impatto per mantenere agilità, coordinazione e buonumore.'
+      },
+      {
+        id: 'LUN-7',
+        day: 'LUNEDÌ',
+        date: '05 Ottobre 2026',
+        startTime: '18:30',
+        endTime: '19:30',
+        timeSlot: '18:30 - 19:30',
+        aula: 'S09',
+        title: "Paesaggi dell'anima in Sicilia",
+        teacher: 'DI BELLA / GIORGIANNI',
+        category: 'Territorio & Tradizioni',
+        categoryColor: 'bg-blue-600',
+        image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80',
+        description: 'Itinerario geografico, letterario e poetico attraverso i panorami, le coste e i borghi siciliani che hanno ispirato grandi scrittori e artisti del Novecento.'
+      },
+      {
+        id: 'LUN-8',
+        day: 'LUNEDÌ',
+        date: '05 Ottobre 2026',
+        startTime: '18:30',
+        endTime: '19:30',
+        timeSlot: '18:30 - 19:30',
+        aula: 'Palestra',
+        title: 'Ballo di Gruppo 2',
+        teacher: 'Istruttore LUTE',
+        category: 'Benessere & Movimento',
+        categoryColor: 'bg-rose-600',
+        image: 'https://images.unsplash.com/photo-1547153760-18fc86324498?auto=format&fit=crop&w=800&q=80',
+        description: 'Seconda sessione serale di danze collettive su ritmi folk e latini per stimolare l\'equilibrio, il senso del ritmo e la mobilità fisica.'
+      },
+
+      // ================= MARTEDÌ (06 Ottobre 2026) =================
+      {
+        id: 'MAR-1',
+        day: 'MARTEDÌ',
+        date: '06 Ottobre 2026',
+        startTime: '15:30',
+        endTime: '16:30',
+        timeSlot: '15:30 - 16:30',
+        aula: 'S08',
+        title: "L'Arte dell'Intreccio",
+        teacher: 'RAGNO G.',
+        category: 'Tradizioni & Artigianato',
+        categoryColor: 'bg-amber-700',
+        image: 'https://images.unsplash.com/photo-1590736969955-71cc94801759?auto=format&fit=crop&w=800&q=80',
+        description: 'Antica arte manuale dell\'intreccio di canne, vimini ed essenze naturali per la creazione di ceste tradizionali e manufatti rustici.'
+      },
+      {
+        id: 'MAR-2',
+        day: 'MARTEDÌ',
+        date: '06 Ottobre 2026',
+        startTime: '16:30',
+        endTime: '17:30',
+        timeSlot: '16:30 - 17:30',
+        aula: 'S09',
+        title: '"Noi siamo i tempi" dal libro di Damilano',
+        teacher: 'RAPPAZZO M.',
+        category: 'Letteratura & Attualità',
+        categoryColor: 'bg-indigo-600',
+        image: 'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&w=800&q=80',
+        description: 'Lettura critica ed esegesi del testo di Marco Damilano. Una profonda riflessione sulla responsabilità civile e sulla coscienza storica dei nostri giorni.'
+      },
+      {
+        id: 'MAR-3',
+        day: 'MARTEDÌ',
+        date: '06 Ottobre 2026',
+        startTime: '16:30',
+        endTime: '17:30',
+        timeSlot: '16:30 - 17:30',
+        aula: 'S07',
+        title: 'Dipingo e creo',
+        teacher: 'LO VANO R.',
+        category: 'Arte & Creatività',
+        categoryColor: 'bg-emerald-600',
+        image: 'https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?auto=format&fit=crop&w=800&q=80',
+        description: 'Workshop pratico di manipolazione di materiali misti, pittura polimaterica e riciclo artistico per opere creative e decorative.'
+      },
+      {
+        id: 'MAR-4',
+        day: 'MARTEDÌ',
+        date: '06 Ottobre 2026',
+        startTime: '16:30',
+        endTime: '17:30',
+        timeSlot: '16:30 - 17:30',
+        aula: 'Palestra',
+        title: 'Ginnastica dolce',
+        teacher: 'MENTO N.',
+        category: 'Benessere & Salute',
+        categoryColor: 'bg-teal-600',
+        image: 'https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=800&q=80',
+        description: 'Esercizi posturali a corpo libero con piccoli attrezzi per distendere la colonna, migliorare la respirazione e rinforzare le articolazioni in totale sicurezza.'
+      },
+      {
+        id: 'MAR-5',
+        day: 'MARTEDÌ',
+        date: '06 Ottobre 2026',
+        startTime: '17:30',
+        endTime: '18:30',
+        timeSlot: '17:30 - 18:30',
+        aula: 'S05',
+        title: 'Informatica Base',
+        teacher: 'ITALIANO P.',
+        category: 'Tecnologia & Digitale',
+        categoryColor: 'bg-cyan-600',
+        image: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=800&q=80',
+        description: 'Primi passi con il computer: gestione delle cartelle, navigazione sicura sul web, utilizzo della posta elettronica e introduzione agli strumenti d\'ufficio.'
+      },
+      {
+        id: 'MAR-6',
+        day: 'MARTEDÌ',
+        date: '06 Ottobre 2026',
+        startTime: '17:30',
+        endTime: '19:30',
+        timeSlot: '17:30 - 19:30',
+        aula: 'Palestra',
+        title: 'Ballo di Coppia 1',
+        teacher: 'CALAMERA S.',
+        category: 'Danza & Musica',
+        categoryColor: 'bg-rose-600',
+        image: 'https://images.unsplash.com/photo-1545959570-a94084071b5d?auto=format&fit=crop&w=800&q=80',
+        description: 'Studio dei passi fondamentali di valzer, mazurka, tango e balli da sala tradizionali condotti con eleganza e coordinazione in coppia.'
+      },
+      {
+        id: 'MAR-7',
+        day: 'MARTEDÌ',
+        date: '06 Ottobre 2026',
+        startTime: '18:30',
+        endTime: '19:30',
+        timeSlot: '18:30 - 19:30',
+        aula: 'S09',
+        title: 'Canto Corale',
+        teacher: 'PICCIOLO S.',
+        category: 'Musica & Voce',
+        categoryColor: 'bg-violet-600',
+        image: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=800&q=80',
+        description: 'Esercizi di impostazione vocale, respirazione diaframmatica, intonazione ed esecuzione polifonica di canti tradizionali e classici corali.'
+      },
+      {
+        id: 'MAR-8',
+        day: 'MARTEDÌ',
+        date: '06 Ottobre 2026',
+        startTime: '18:30',
+        endTime: '19:30',
+        timeSlot: '18:30 - 19:30',
+        aula: 'S05',
+        title: 'Arte Contemporanea',
+        teacher: 'PANTANO G.',
+        category: 'Arte & Cultura',
+        categoryColor: 'bg-fuchsia-600',
+        image: 'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=800&q=80',
+        description: 'Guida all\'interpretazione delle avanguardie artistiche, delle installazioni museali e dei grandi linguaggi figurativi del XX e XXI secolo.'
+      },
+
+      // ================= MERCOLEDÌ (07 Ottobre 2026) =================
+      {
+        id: 'MER-1',
+        day: 'MERCOLEDÌ',
+        date: '07 Ottobre 2026',
+        startTime: '15:30',
+        endTime: '16:30',
+        timeSlot: '15:30 - 16:30',
+        aula: 'S07',
+        title: 'Smartphone Android',
+        teacher: 'FORESTIERI V.',
+        category: 'Tecnologia & Digitale',
+        categoryColor: 'bg-cyan-600',
+        image: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=800&q=80',
+        description: 'Imparare a padroneggiare lo smartphone Android: impostazioni, WhatsApp, SPID, prenotazioni online e salvataggio foto in cloud.'
+      },
+      {
+        id: 'MER-2',
+        day: 'MERCOLEDÌ',
+        date: '07 Ottobre 2026',
+        startTime: '16:30',
+        endTime: '18:30',
+        timeSlot: '16:30 - 18:30',
+        aula: 'S08',
+        title: 'Fotografia',
+        teacher: 'LA CARA F. - RIGGI V.',
+        category: 'Arti Visive',
+        categoryColor: 'bg-amber-600',
+        image: 'https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=800&q=80',
+        description: 'Composizione fotografica, padronanza della luce, tempi di scatto e diaframma. Uscite didattiche ed elaborazione visiva di scatti urbani e ritratti.'
+      },
+      {
+        id: 'MER-3',
+        day: 'MERCOLEDÌ',
+        date: '07 Ottobre 2026',
+        startTime: '16:30',
+        endTime: '17:30',
+        timeSlot: '16:30 - 17:30',
+        aula: 'S07',
+        title: 'Laboratorio Teatrale "La Lingua Siciliana"',
+        teacher: 'AMATO S.',
+        category: 'Teatro & Tradizione',
+        categoryColor: 'bg-purple-600',
+        image: 'https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?auto=format&fit=crop&w=800&q=80',
+        description: 'Dizione, espressività corporea e valorizzazione del patrimonio dialettale e letterario della commedia e poesia siciliana.'
+      },
+      {
+        id: 'MER-4',
+        day: 'MERCOLEDÌ',
+        date: '07 Ottobre 2026',
+        startTime: '16:30',
+        endTime: '17:30',
+        timeSlot: '16:30 - 17:30',
+        aula: 'S06',
+        title: 'Punto croce e Intaglio / Tombolo',
+        teacher: 'TRIMBOLI M. / STAGNO M.',
+        category: 'Ricamo Tradizionale',
+        categoryColor: 'bg-pink-600',
+        image: 'https://images.unsplash.com/photo-1606857521015-7f9fcf423740?auto=format&fit=crop&w=800&q=80',
+        description: 'Tecniche del ricamo raffinato su tela: trame, sfilature, precisione dei nodi al tombolo e realizzazione di bordure e centrini artigianali.'
+      },
+      {
+        id: 'MER-5',
+        day: 'MERCOLEDÌ',
+        date: '07 Ottobre 2026',
+        startTime: '16:30',
+        endTime: '17:30',
+        timeSlot: '16:30 - 17:30',
+        aula: 'S05',
+        title: 'Medicina Lutelisir',
+        teacher: 'FALLITI G.',
+        category: 'Salute & Prevenzione',
+        categoryColor: 'bg-red-600',
+        image: 'https://images.unsplash.com/photo-1505751172876-fa1923c5c528?auto=format&fit=crop&w=800&q=80',
+        description: 'Incontri informativi su corretti stili di vita, prevenzione cardiovascolare, alimentazione equilibrata e sana longevità.'
+      },
+      {
+        id: 'MER-6',
+        day: 'MERCOLEDÌ',
+        date: '07 Ottobre 2026',
+        startTime: '16:30',
+        endTime: '17:30',
+        timeSlot: '16:30 - 17:30',
+        aula: 'Palestra',
+        title: 'Fit Walking',
+        teacher: 'GERACI G.',
+        category: 'Benessere all\'Aperto',
+        categoryColor: 'bg-emerald-600',
+        image: 'https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?auto=format&fit=crop&w=800&q=80',
+        description: 'Tecnica di camminata sportiva e tonificazione dinamica per migliorare l\'efficienza cardiorespiratoria ed il metabolismo attivo.'
+      },
+      {
+        id: 'MER-7',
+        day: 'MERCOLEDÌ',
+        date: '07 Ottobre 2026',
+        startTime: '17:30',
+        endTime: '18:30',
+        timeSlot: '17:30 - 18:30',
+        aula: 'S09',
+        title: 'Storia della Sicilia dal 700 ad oggi',
+        teacher: 'MILAZZO F.',
+        category: 'Storia & Territorio',
+        categoryColor: 'bg-blue-700',
+        image: 'https://images.unsplash.com/photo-1461360370896-922624d12aa1?auto=format&fit=crop&w=800&q=80',
+        description: 'Dalle riforme illuministe borboniche al Risorgimento, fino alle grandi trasformazioni sociali ed economiche dell\'età contemporanea in Sicilia.'
+      },
+      {
+        id: 'MER-8',
+        day: 'MERCOLEDÌ',
+        date: '07 Ottobre 2026',
+        startTime: '17:30',
+        endTime: '18:30',
+        timeSlot: '17:30 - 18:30',
+        aula: 'Palestra',
+        title: 'Ballo di Gruppo 3',
+        teacher: 'Istruttore LUTE',
+        category: 'Benessere & Movimento',
+        categoryColor: 'bg-rose-600',
+        image: 'https://images.unsplash.com/photo-1518834107812-67b0b7c58434?auto=format&fit=crop&w=800&q=80',
+        description: 'Sessione pomeridiana intermedia di balli di gruppo: passi sincronizzati e sequenze musicali per mantenersi sempre in forma e divertirsi.'
+      },
+      {
+        id: 'MER-9',
+        day: 'MERCOLEDÌ',
+        date: '07 Ottobre 2026',
+        startTime: '18:30',
+        endTime: '19:30',
+        timeSlot: '18:30 - 19:30',
+        aula: 'Palestra',
+        title: 'Ballo di Gruppo 4',
+        teacher: 'Istruttore LUTE',
+        category: 'Benessere & Movimento',
+        categoryColor: 'bg-rose-600',
+        image: 'https://images.unsplash.com/photo-1545959570-a94084071b5d?auto=format&fit=crop&w=800&q=80',
+        description: 'Conclusione pomeridiana con balli sociali, ritmi pop e coinvolgimento per tutti i partecipanti.'
+      },
+
+      // ================= GIOVEDÌ (08 Ottobre 2026) =================
+      {
+        id: 'GIO-1',
+        day: 'GIOVEDÌ',
+        date: '08 Ottobre 2026',
+        startTime: '15:30',
+        endTime: '16:30',
+        timeSlot: '15:30 - 16:30',
+        aula: 'S09',
+        title: 'Storia del cinema italiano',
+        teacher: 'LAGANÀ S.',
+        category: "Cinema d'Autore",
+        categoryColor: 'bg-sky-600',
+        image: 'https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=800&q=80',
+        description: 'Viaggio tra i capolavori del Neorealismo, la commedia all\'italiana e i grandi registi che hanno reso celebre il cinema italiano nel mondo (Fellini, Visconti, Antonioni).'
+      },
+      {
+        id: 'GIO-2',
+        day: 'GIOVEDÌ',
+        date: '08 Ottobre 2026',
+        startTime: '15:30',
+        endTime: '16:30',
+        timeSlot: '15:30 - 16:30',
+        aula: 'S08',
+        title: 'Scacchi',
+        teacher: 'FOBERT G.',
+        category: 'Mente & Strategia',
+        categoryColor: 'bg-slate-700',
+        image: 'https://images.unsplash.com/photo-1529699211952-734e80c4d42b?auto=format&fit=crop&w=800&q=80',
+        description: 'Aperture, tattiche di mediogioco e finali. Esercizi di calcolo, schemi geometrici sulla scacchiera e partite ragionate per allenare la mente.'
+      },
+      {
+        id: 'GIO-3',
+        day: 'GIOVEDÌ',
+        date: '08 Ottobre 2026',
+        startTime: '16:30',
+        endTime: '17:30',
+        timeSlot: '16:30 - 17:30',
+        aula: 'Palestra',
+        title: 'Ginnastica dolce',
+        teacher: 'MENTO N.',
+        category: 'Benessere & Salute',
+        categoryColor: 'bg-teal-600',
+        image: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=800&q=80',
+        description: 'Sessione di scarico muscolare, allungamento dolce e respirazione guidata per favorire la coordinazione e la flessibilità corporea.'
+      },
+      {
+        id: 'GIO-4',
+        day: 'GIOVEDÌ',
+        date: '08 Ottobre 2026',
+        startTime: '17:30',
+        endTime: '18:30',
+        timeSlot: '17:30 - 18:30',
+        aula: 'S09',
+        title: 'Giorgio La Pira',
+        teacher: 'MAFERA C.',
+        category: 'Storia & Pensiero Civile',
+        categoryColor: 'bg-indigo-700',
+        image: 'https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=800&q=80',
+        description: 'Approfondimento storico e filosofico sulla figura di Giorgio La Pira: il politico siciliano "sindaco santo", costruttore instancabile di ponti di pace e dialogo mediterraneo.'
+      },
+      {
+        id: 'GIO-5',
+        day: 'GIOVEDÌ',
+        date: '08 Ottobre 2026',
+        startTime: '17:30',
+        endTime: '18:30',
+        timeSlot: '17:30 - 18:30',
+        aula: 'S06',
+        title: 'Lettura e Scrittura Creativa',
+        teacher: 'MILANI CASSIA',
+        category: 'Scrittura Narrativa',
+        categoryColor: 'bg-amber-600',
+        image: 'https://images.unsplash.com/photo-1457369804613-52c61a468e7d?auto=format&fit=crop&w=800&q=80',
+        description: 'Esercizi pratici per dare voce ai propri ricordi e alla fantasia: costruzione dei personaggi, dialoghi, descrizioni evocative ed elaborazione di racconti brevi.'
+      },
+      {
+        id: 'GIO-6',
+        day: 'GIOVEDÌ',
+        date: '08 Ottobre 2026',
+        startTime: '17:30',
+        endTime: '19:30',
+        timeSlot: '17:30 - 19:30',
+        aula: 'Palestra',
+        title: 'Ballo di Coppia 2',
+        teacher: 'CALAMERA S.',
+        category: 'Danza & Musica',
+        categoryColor: 'bg-rose-600',
+        image: 'https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?auto=format&fit=crop&w=800&q=80',
+        description: 'Approfondimento delle figure di ballo liscio e latino-americano per consolidare posture, armonia di movimento ed eleganza.'
+      },
+
+      // ================= VENERDÌ (09 Ottobre 2026) =================
+      {
+        id: 'VEN-1',
+        day: 'VENERDÌ',
+        date: '09 Ottobre 2026',
+        startTime: '16:30',
+        endTime: 'Fine',
+        timeSlot: '16:30 - Termine',
+        aula: 'Aula Magna',
+        title: "I VENERDI' DELLA LUTE - MOSAICO '900",
+        teacher: 'Relatori Ospiti LUTE',
+        category: 'Evento Speciale / Plenaria',
+        categoryColor: 'bg-indigo-900',
+        image: 'https://images.unsplash.com/photo-1475721027785-f74eccf877e2?auto=format&fit=crop&w=800&q=80',
+        description: 'Conferenza plenaria aperta a tutti gli iscritti: percorso storico e culturale tra arte, letteratura e cronache del Novecento con interventi e testimonianze.'
+      },
+      {
+        id: 'VEN-2',
+        day: 'VENERDÌ',
+        date: '09 Ottobre 2026',
+        startTime: '17:30',
+        endTime: '18:30',
+        timeSlot: '17:30 - 18:30',
+        aula: 'Palestra',
+        title: 'Tarantella e balli sociali',
+        teacher: 'LA SPADA',
+        category: 'Tradizioni Popolari',
+        categoryColor: 'bg-orange-600',
+        image: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=800&q=80',
+        description: 'Musica tradizionale siciliana e del sud Italia: passi tipici della tarantella, ritmi con tamburelli e coinvolgenti danze popolari.'
+      },
+      {
+        id: 'VEN-3',
+        day: 'VENERDÌ',
+        date: '09 Ottobre 2026',
+        startTime: '18:30',
+        endTime: '19:30',
+        timeSlot: '18:30 - 19:30',
+        aula: 'Palestra',
+        title: 'Yoga',
+        teacher: 'PACI E.',
+        category: 'Meditazione & Flessibilità',
+        categoryColor: 'bg-emerald-700',
+        image: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=800&q=80',
+        description: 'Pratica yoga per il rilassamento del corpo e della mente. Asana dolci, respirazione pranayama e distensione finale per chiudere con serenità la settimana accademica.'
+      }
+    ];
+
+    // Helper map for Aula badge colors
+    const aulaColorMap = {
+      'S09': 'bg-sky-700 text-white',
+      'S08': 'bg-purple-700 text-white',
+      'S07': 'bg-emerald-700 text-white',
+      'S06': 'bg-amber-600 text-white',
+      'S05': 'bg-pink-700 text-white',
+      'Palestra': 'bg-red-700 text-white',
+      'Aula Magna': 'bg-indigo-800 text-white'
+    };
+
+    // State management
+    let currentDayFilter = 'TUTTI';
+    let currentAulaFilter = 'ALL';
+    let currentSearchQuery = '';
+    let currentActiveLesson = null;
+
+    function getFilteredLessons() {
+      return lessonsData.filter(lesson => {
+        // Day filter
+        const matchDay = (currentDayFilter === 'TUTTI') || (lesson.day === currentDayFilter);
+        
+        // Aula filter
+        const matchAula = (currentAulaFilter === 'ALL') || (lesson.aula === currentAulaFilter);
+        
+        // Search filter
+        const query = currentSearchQuery.toLowerCase().trim();
+        const matchSearch = !query || 
+          lesson.title.toLowerCase().includes(query) ||
+          lesson.teacher.toLowerCase().includes(query) ||
+          lesson.aula.toLowerCase().includes(query) ||
+          lesson.category.toLowerCase().includes(query) ||
+          lesson.day.toLowerCase().includes(query) ||
+          lesson.timeSlot.toLowerCase().includes(query);
+
+        return matchDay && matchAula && matchSearch;
+      });
+    }
+
+    function renderGallery() {
+      const container = document.getElementById('galleryView');
+      const emptyState = document.getElementById('emptyState');
+      const counterBadge = document.getElementById('counterBadge');
+      
+      const filtered = getFilteredLessons();
+      counterBadge.textContent = `${filtered.length} ${filtered.length === 1 ? 'lezione' : 'lezioni'}`;
+
+      if (filtered.length === 0) {
+        container.innerHTML = '';
+        emptyState.classList.remove('hidden');
+        return;
+      }
+
+      emptyState.classList.add('hidden');
+      
+      container.innerHTML = filtered.map(lesson => {
+        const aulaBadgeClass = aulaColorMap[lesson.aula] || 'bg-slate-700 text-white';
+        
+        return `
+          <div 
+            onclick="openModal('${lesson.id}')"
+            class="card-item group bg-white rounded-2xl border border-slate-200/90 overflow-hidden shadow-xs hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col cursor-pointer"
+          >
+            <!-- Card Image Container -->
+            <div class="relative h-44 w-full overflow-hidden bg-slate-100">
+              <img 
+                src="${lesson.image}" 
+                alt="${lesson.title}"
+                loading="lazy"
+                onerror="this.src='https://placehold.co/600x400/0d2538/ffffff?text=${encodeURIComponent(lesson.title)}'"
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
+              >
+              
+              <!-- Subtle image gradient overlay -->
+              <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+              
+              <!-- Floating Day & Aula Pills -->
+              <div class="absolute top-3 left-3 right-3 flex items-center justify-between">
+                <span class="px-2.5 py-1 rounded-lg text-[11px] font-bold tracking-wider uppercase bg-white/90 backdrop-blur-md text-brand-navy shadow-xs">
+                  ${lesson.day}
+                </span>
+                <span class="px-2.5 py-1 rounded-lg text-[11px] font-bold ${aulaBadgeClass} shadow-xs">
+                  ${lesson.aula}
+                </span>
+              </div>
+
+              <!-- Time Badge overlay -->
+              <div class="absolute bottom-2.5 left-3 flex items-center gap-1.5 text-white text-xs font-semibold drop-shadow-md">
+                <i class="ph-bold ph-clock text-amber-400"></i>
+                <span>${lesson.timeSlot}</span>
+              </div>
+            </div>
+
+            <!-- Card Content Body -->
+            <div class="p-4 flex flex-col flex-grow justify-between bg-white">
+              <div>
+                <!-- Category Tag -->
+                <div class="flex items-center gap-1.5 mb-1.5">
+                  <span class="inline-block w-2 h-2 rounded-full ${lesson.categoryColor}"></span>
+                  <span class="text-[11px] font-semibold tracking-wide text-slate-500 uppercase">${lesson.category}</span>
+                </div>
+
+                <!-- Title -->
+                <h3 class="text-sm font-bold text-slate-800 leading-snug group-hover:text-brand-teal transition-colors line-clamp-2">
+                  ${lesson.title}
+                </h3>
+              </div>
+
+              <!-- Teacher & Info footer -->
+              <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
+                <div class="flex items-center gap-1.5 text-slate-600 truncate mr-2" title="${lesson.teacher}">
+                  <i class="ph-bold ph-user text-slate-400"></i>
+                  <span class="truncate font-medium">${lesson.teacher}</span>
+                </div>
+                
+                <span class="text-brand-teal font-semibold flex items-center gap-0.5 group-hover:translate-x-0.5 transition-transform flex-shrink-0">
+                  Dettagli <i class="ph-bold ph-caret-right text-xs"></i>
+                </span>
+              </div>
+
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderTableView() {
+      const tableBody = document.getElementById('tableBody');
+      const timeSlots = ['15:30 - 16:30', '16:30 - 17:30', '17:30 - 18:30', '18:30 - 19:30'];
+      const aules = ['S09', 'S08', 'S07', 'S06', 'S05', 'Palestra'];
+
+      const days = ['LUNEDÌ', 'MARTEDÌ', 'MERCOLEDÌ', 'GIOVEDÌ', 'VENERDÌ'];
+
+      let html = '';
+
+      days.forEach(day => {
+        // Group header for each day
+        html += `
+          <tr class="bg-slate-200/90 text-brand-navy font-bold">
+            <td colspan="7" class="p-2.5 px-4 text-xs tracking-wider uppercase flex items-center gap-2">
+              <i class="ph-bold ph-calendar"></i> ${day}
+            </td>
+          </tr>
+        `;
+
+        timeSlots.forEach(slot => {
+          html += `<tr class="hover:bg-slate-50/80 transition-colors">
+            <td class="p-3 border-r border-slate-200 font-bold text-slate-700 bg-slate-50/50">${slot}</td>
+          `;
+
+          aules.forEach(aula => {
+            // Find lesson matching this slot & aula
+            const lesson = lessonsData.find(l => {
+              if (l.day !== day) return false;
+              if (aula === 'Palestra') {
+                if (l.aula !== 'Palestra' && l.aula !== 'Aula Magna') return false;
+              } else {
+                if (l.aula !== aula) return false;
+              }
+
+              // Time matching
+              if (l.timeSlot.includes('17:30 - 19:30')) {
+                return (slot === '17:30 - 18:30' || slot === '18:30 - 19:30');
+              }
+              if (l.timeSlot.includes('16:30 - 18:30')) {
+                return (slot === '16:30 - 17:30' || slot === '17:30 - 18:30');
+              }
+              if (l.day === 'VENERDÌ' && l.title.includes('MOSAICO') && aula === 'Palestra') {
+                return slot === '16:30 - 17:30';
+              }
+              return l.timeSlot === slot;
+            });
+
+            if (lesson) {
+              const bgBadge = aulaColorMap[lesson.aula] || 'bg-slate-700 text-white';
+              html += `
+                <td class="p-2 border-r border-slate-200 align-top">
+                  <div onclick="openModal('${lesson.id}')" class="p-2 rounded-xl bg-white border border-slate-200 shadow-xs hover:border-brand-teal hover:shadow-md cursor-pointer transition">
+                    <span class="text-[10px] px-1.5 py-0.5 rounded font-bold ${bgBadge} inline-block mb-1">${lesson.aula}</span>
+                    <h5 class="font-bold text-[11px] text-slate-800 line-clamp-2 leading-tight">${lesson.title}</h5>
+                    <p class="text-[10px] text-slate-500 mt-1 truncate">${lesson.teacher}</p>
+                  </div>
+                </td>
+              `;
+            } else {
+              html += `<td class="p-2 border-r border-slate-200 text-center text-slate-300 text-xs">—</td>`;
+            }
+          });
+
+          html += `</tr>`;
+        });
+      });
+
+      tableBody.innerHTML = html;
+    }
+
+    function selectDay(day) {
+      currentDayFilter = day;
+      
+      // Update Tab Buttons
+      document.querySelectorAll('.day-tab').forEach(btn => {
+        if (btn.getAttribute('data-day') === day) {
+          btn.className = 'day-tab flex-shrink-0 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition bg-brand-navy text-white shadow-sm border border-transparent';
+        } else {
+          btn.className = 'day-tab flex-shrink-0 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition border border-slate-200 bg-white text-slate-700 hover:bg-slate-50';
+        }
+      });
+
+      renderGallery();
+    }
+
+    function filterByAula(aula) {
+      currentAulaFilter = aula;
+      
+      // Update Aula buttons
+      document.querySelectorAll('.aula-btn').forEach(btn => {
+        if (btn.getAttribute('data-aula') === aula) {
+          btn.className = 'aula-btn text-xs px-2.5 py-1.5 rounded-lg font-semibold bg-brand-teal text-white shadow-xs';
+        } else {
+          btn.className = 'aula-btn text-xs px-2.5 py-1.5 rounded-lg font-medium bg-slate-100 hover:bg-slate-200 text-slate-700';
+        }
+      });
+
+      renderGallery();
+    }
+
+    function applyFilters() {
+      const searchInput = document.getElementById('searchInput');
+      const clearBtn = document.getElementById('clearSearch');
+      currentSearchQuery = searchInput.value;
+
+      if (currentSearchQuery.length > 0) {
+        clearBtn.classList.remove('hidden');
+      } else {
+        clearBtn.classList.add('hidden');
+      }
+
+      renderGallery();
+    }
+
+    function clearSearchInput() {
+      const searchInput = document.getElementById('searchInput');
+      searchInput.value = '';
+      currentSearchQuery = '';
+      document.getElementById('clearSearch').classList.add('hidden');
+      renderGallery();
+    }
+
+    function resetFilters() {
+      clearSearchInput();
+      selectDay('TUTTI');
+      filterByAula('ALL');
+    }
+
+    function switchView(view) {
+      const gallery = document.getElementById('galleryView');
+      const table = document.getElementById('tableView');
+      const gridBtn = document.getElementById('viewGridBtn');
+      const tableBtn = document.getElementById('viewTableBtn');
+
+      if (view === 'grid') {
+        gallery.classList.remove('hidden');
+        table.classList.add('hidden');
+        gridBtn.className = 'px-3.5 py-1.5 text-xs font-bold rounded-lg transition-all flex items-center gap-1.5 bg-white text-brand-navy shadow-sm';
+        tableBtn.className = 'px-3.5 py-1.5 text-xs font-semibold rounded-lg transition-all flex items-center gap-1.5 text-slate-600 hover:text-brand-navy';
+      } else {
+        gallery.classList.add('hidden');
+        table.classList.remove('hidden');
+        tableBtn.className = 'px-3.5 py-1.5 text-xs font-bold rounded-lg transition-all flex items-center gap-1.5 bg-white text-brand-navy shadow-sm';
+        gridBtn.className = 'px-3.5 py-1.5 text-xs font-semibold rounded-lg transition-all flex items-center gap-1.5 text-slate-600 hover:text-brand-navy';
+        renderTableView();
+      }
+    }
+
+    // Modal Control
+    function openModal(lessonId) {
+      const lesson = lessonsData.find(l => l.id === lessonId);
+      if (!lesson) return;
+
+      currentActiveLesson = lesson;
+
+      document.getElementById('modalImage').src = lesson.image;
+      document.getElementById('modalTitle').textContent = lesson.title;
+      document.getElementById('modalDayBadge').textContent = `${lesson.day} • ${lesson.date}`;
+      
+      const aulaBadge = document.getElementById('modalAulaBadge');
+      aulaBadge.textContent = lesson.aula;
+      aulaBadge.className = `px-2.5 py-0.5 rounded-md text-xs font-bold ${aulaColorMap[lesson.aula] || 'bg-slate-700 text-white'}`;
+
+      document.getElementById('modalCategoryBadge').textContent = lesson.category;
+      document.getElementById('modalTime').querySelector('span').textContent = lesson.timeSlot;
+      document.getElementById('modalTeacher').querySelector('span').textContent = lesson.teacher;
+      document.getElementById('modalRoom').querySelector('span').textContent = lesson.aula;
+      document.getElementById('modalDescription').textContent = lesson.description;
+
+      const modal = document.getElementById('lessonModal');
+      modal.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      const modal = document.getElementById('lessonModal');
+      modal.classList.add('hidden');
+      document.body.style.overflow = 'auto';
+      currentActiveLesson = null;
+    }
+
+    // Copy lesson text to clipboard with fallback
+    function copyLessonDetails() {
+      if (!currentActiveLesson) return;
+
+      const summaryText = `[LUTE - Orario Lezioni]\n` +
+        `Corso: ${currentActiveLesson.title}\n` +
+        `Giorno: ${currentActiveLesson.day} (${currentActiveLesson.date})\n` +
+        `Orario: ${currentActiveLesson.timeSlot}\n` +
+        `Aula: ${currentActiveLesson.aula}\n` +
+        `Docente: ${currentActiveLesson.teacher}\n` +
+        `Materia: ${currentActiveLesson.category}`;
+
+      const tempTextArea = document.createElement('textarea');
+      tempTextArea.value = summaryText;
+      tempTextArea.style.position = 'fixed';
+      tempTextArea.style.left = '-9999px';
+      document.body.appendChild(tempTextArea);
+      tempTextArea.focus();
+      tempTextArea.select();
+      
+      try {
+        document.execCommand('copy');
+        showToast('Dettagli della lezione copiati negli appunti!');
+      } catch (err) {
+        showToast('Impossibile copiare il testo.');
+      }
+      
+      document.body.removeChild(tempTextArea);
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById('toastNotification');
+      const toastMsg = document.getElementById('toastMessage');
+      toastMsg.textContent = message;
+      toast.classList.remove('hidden');
+      
+      setTimeout(() => {
+        toast.classList.add('hidden');
+      }, 3000);
+    }
+
+    // Close modal on background click or ESC key
+    document.getElementById('lessonModal').addEventListener('click', (e) => {
+      if (e.target.id === 'lessonModal') closeModal();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModal();
+    });
+
+    window.addEventListener('DOMContentLoaded', () => {
+      renderGallery();
+      renderTableView();
+    });
+  </script>
+</body>
+</html>
