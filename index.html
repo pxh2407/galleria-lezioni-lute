@@ -457,8 +457,8 @@
         day: 'LUNEDÌ',
         date: '05 Ottobre 2026',
         startTime: '15:30',
-        endTime: '16:30',
-        timeSlot: '15:30 - 16:30',
+        endTime: '17:30',
+        timeSlot: '15:30 - 17:30',
         aula: 'S07',
         title: 'Dipingiamo insieme',
         teacher: 'GUERRESCHI M.',
@@ -472,8 +472,8 @@
         day: 'LUNEDÌ',
         date: '05 Ottobre 2026',
         startTime: '16:30',
-        endTime: '17:30',
-        timeSlot: '16:30 - 17:30',
+        endTime: '18:30',
+        timeSlot: '16:30 - 18:30',
         aula: 'S09',
         title: 'Vi racconto un film.....',
         teacher: "ISGRO' A.N.",
@@ -502,8 +502,8 @@
         day: 'LUNEDÌ',
         date: '05 Ottobre 2026',
         startTime: '17:30',
-        endTime: '18:30',
-        timeSlot: '17:30 - 18:30',
+        endTime: '19:30',
+        timeSlot: '17:30 - 19:30',
         aula: 'S08',
         title: 'Burraco',
         teacher: 'FALLITI G. / PITRONE C.',
@@ -517,8 +517,8 @@
         day: 'LUNEDÌ',
         date: '05 Ottobre 2026',
         startTime: '17:30',
-        endTime: '18:30',
-        timeSlot: '17:30 - 18:30',
+        endTime: '19:30',
+        timeSlot: '17:30 - 19:30',
         aula: 'S07',
         title: 'Corso di pittura su stoffa',
         teacher: 'MIRODDI R.',
@@ -579,8 +579,8 @@
         day: 'MARTEDÌ',
         date: '06 Ottobre 2026',
         startTime: '15:30',
-        endTime: '16:30',
-        timeSlot: '15:30 - 16:30',
+        endTime: '17:30',
+        timeSlot: '15:30 - 17:30',
         aula: 'S08',
         title: "L'Arte dell'Intreccio",
         teacher: 'RAGNO G.',
@@ -594,8 +594,8 @@
         day: 'MARTEDÌ',
         date: '06 Ottobre 2026',
         startTime: '16:30',
-        endTime: '17:30',
-        timeSlot: '16:30 - 17:30',
+        endTime: '18:30',
+        timeSlot: '16:30 - 18:30',
         aula: 'S09',
         title: '"Noi siamo i tempi" dal libro di Damilano',
         teacher: 'RAPPAZZO M.',
@@ -609,8 +609,8 @@
         day: 'MARTEDÌ',
         date: '06 Ottobre 2026',
         startTime: '16:30',
-        endTime: '17:30',
-        timeSlot: '16:30 - 17:30',
+        endTime: '18:30',
+        timeSlot: '16:30 - 18:30',
         aula: 'S07',
         title: 'Dipingo e creo',
         teacher: 'LO VANO R.',
@@ -731,8 +731,8 @@
         day: 'MERCOLEDÌ',
         date: '07 Ottobre 2026',
         startTime: '16:30',
-        endTime: '17:30',
-        timeSlot: '16:30 - 17:30',
+        endTime: '18:30',
+        timeSlot: '16:30 - 18:30',
         aula: 'S07',
         title: 'Laboratorio Teatrale "La Lingua Siciliana"',
         teacher: 'AMATO S.',
@@ -746,8 +746,8 @@
         day: 'MERCOLEDÌ',
         date: '07 Ottobre 2026',
         startTime: '16:30',
-        endTime: '17:30',
-        timeSlot: '16:30 - 17:30',
+        endTime: '18:30',
+        timeSlot: '16:30 - 18:30',
         aula: 'S06',
         title: 'Punto croce e Intaglio / Tombolo',
         teacher: 'TRIMBOLI M. / STAGNO M.',
@@ -838,8 +838,8 @@
         day: 'GIOVEDÌ',
         date: '08 Ottobre 2026',
         startTime: '15:30',
-        endTime: '16:30',
-        timeSlot: '15:30 - 16:30',
+        endTime: '17:30',
+        timeSlot: '15:30 - 17:30',
         aula: 'S09',
         title: 'Storia del cinema italiano',
         teacher: 'LAGANÀ S.',
@@ -853,8 +853,8 @@
         day: 'GIOVEDÌ',
         date: '08 Ottobre 2026',
         startTime: '15:30',
-        endTime: '16:30',
-        timeSlot: '15:30 - 16:30',
+        endTime: '17:30',
+        timeSlot: '15:30 - 17:30',
         aula: 'S08',
         title: 'Scacchi',
         teacher: 'FOBERT G.',
@@ -898,8 +898,8 @@
         day: 'GIOVEDÌ',
         date: '08 Ottobre 2026',
         startTime: '17:30',
-        endTime: '18:30',
-        timeSlot: '17:30 - 18:30',
+        endTime: '19:30',
+        timeSlot: '17:30 - 19:30',
         aula: 'S06',
         title: 'Lettura e Scrittura Creativa',
         teacher: 'MILANI CASSIA',
@@ -1132,17 +1132,10 @@
                 if (l.aula !== aula) return false;
               }
 
-              // Time matching
-              if (l.timeSlot.includes('17:30 - 19:30')) {
-                return (slot === '17:30 - 18:30' || slot === '18:30 - 19:30');
-              }
-              if (l.timeSlot.includes('16:30 - 18:30')) {
-                return (slot === '16:30 - 17:30' || slot === '17:30 - 18:30');
-              }
-              if (l.day === 'VENERDÌ' && l.title.includes('MOSAICO') && aula === 'Palestra') {
-                return slot === '16:30 - 17:30';
-              }
-              return l.timeSlot === slot;
+              // La lezione occupa ogni fascia oraria compresa tra inizio e fine (anche quelle di 2 ore)
+              const slotStart = slot.split(' - ')[0];
+              if (!/^\d\d:\d\d$/.test(l.endTime)) return slotStart === l.startTime; // es. "Termine"
+              return slotStart >= l.startTime && slotStart < l.endTime;
             });
 
             if (lesson) {
