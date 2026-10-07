@@ -340,24 +340,23 @@
       </button>
 
       <!-- Modal Image Cover with Tag -->
-      <div class="relative h-64 sm:h-72 w-full overflow-hidden bg-slate-900">
+      <!-- Foto pulita, senza ombre: titolo ed etichette stanno sotto, in scuro -->
+      <div class="relative h-52 sm:h-64 w-full overflow-hidden bg-slate-100">
         <img id="modalImage" src="" alt="Dettaglio Lezione" onerror="this.style.visibility='hidden'" onload="this.style.visibility='visible'" class="w-full h-full object-cover transition duration-300">
-        <!-- Sfumatura solo nella metà bassa, dietro titolo ed etichette -->
-        <div class="absolute inset-x-0 bottom-0 h-3/5 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
-        
-        <!-- Badges on image -->
-        <div class="absolute bottom-4 left-4 right-4 text-white">
-          <div class="flex flex-wrap items-center gap-2 mb-2">
-            <span id="modalDayBadge" class="px-2.5 py-0.5 rounded-md text-xs font-bold uppercase tracking-wider bg-white/20 backdrop-blur-md border border-white/20"></span>
-            <span id="modalAulaBadge" class="px-2.5 py-0.5 rounded-md text-xs font-bold text-white shadow-xs"></span>
-            <span id="modalCategoryBadge" class="px-2.5 py-0.5 rounded-md text-xs font-semibold bg-brand-amber/90 text-white"></span>
-          </div>
-          <h2 id="modalTitle" class="text-xl sm:text-2xl font-bold font-serif-title leading-snug"></h2>
-        </div>
       </div>
 
       <!-- Modal Body Content -->
       <div class="p-6 sm:p-7 space-y-6">
+
+        <!-- Etichette e titolo -->
+        <div>
+          <div class="flex flex-wrap items-center gap-2 mb-2">
+            <span id="modalDayBadge" class="px-2.5 py-0.5 rounded-md text-xs font-bold uppercase tracking-wider bg-slate-100 text-brand-navy border border-slate-200"></span>
+            <span id="modalAulaBadge" class="px-2.5 py-0.5 rounded-md text-xs font-bold text-white shadow-xs"></span>
+            <span id="modalCategoryBadge" class="px-2.5 py-0.5 rounded-md text-xs font-semibold bg-amber-100 text-amber-800 border border-amber-200"></span>
+          </div>
+          <h2 id="modalTitle" class="text-xl sm:text-2xl font-bold font-serif-title leading-snug text-brand-navy"></h2>
+        </div>
         
         <!-- Info Grid -->
         <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 p-4 rounded-2xl bg-slate-50 border border-slate-100">
@@ -1047,8 +1046,6 @@
               >
               
               <!-- Subtle image gradient overlay -->
-              <!-- Sfumatura solo in basso, sotto l'orario: il resto della foto resta luminoso -->
-              <div class="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/55 to-transparent"></div>
               
               <!-- Floating Day & Aula Pills -->
               <div class="absolute top-3 left-3 right-3 flex items-center justify-between">
@@ -1061,8 +1058,8 @@
               </div>
 
               <!-- Time Badge overlay -->
-              <div class="absolute bottom-2.5 left-3 flex items-center gap-1.5 text-white text-xs font-semibold drop-shadow-md">
-                <i class="ph-bold ph-clock text-amber-400"></i>
+              <div class="absolute bottom-2.5 left-3 flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white/90 backdrop-blur-md text-brand-navy text-xs font-bold shadow-xs">
+                <i class="ph-bold ph-clock text-amber-600"></i>
                 <span>${lesson.timeSlot}</span>
               </div>
             </div>
