@@ -802,7 +802,7 @@
         const ricevi = e => {
           if (e.source !== window.opener || !e.data || e.data.tipo !== 'anteprima') return;
           window.removeEventListener('message', ricevi);
-          resolve(e.data.dati);
+          resolve(e.data);   // { dati, conflitti }
         };
         window.addEventListener('message', ricevi);
         window.opener.postMessage({ tipo: 'chiediAnteprima' }, '*');
@@ -810,13 +810,32 @@
       });
     }
 
+    // Pulsanti della striscia di anteprima: la pubblicazione la fa il programma di gestione (che ha la chiave)
+    let conflittiAnteprima = [];
+    function pubblicaDaAnteprima() {
+      if (!window.opener) return alert('Il programma Gestione Orario è stato chiuso: riaprilo e premi Pubblica da lì.');
+      const avviso = conflittiAnteprima.length ? 'ATTENZIONE, ci sono lezioni che si sovrappongono:\n' + conflittiAnteprima.join('\n') + '\n\n' : '';
+      if (!confirm(avviso + `Pubblicare per i soci l'orario della settimana ${periodoLungo()} (${lessonsData.length} lezioni)?`)) return;
+      window.opener.postMessage({ tipo: 'pubblicaDaAnteprima' }, '*');
+      esciDaAnteprima();
+    }
+    function esciDaAnteprima() {
+      try { window.opener && window.opener.focus(); } catch (e) {}
+      window.close();
+    }
+
     async function caricaSettimana() {
       try {
         const bozza = await chiediAnteprima();
         if (bozza) {
-          settimana = bozza;
-          document.body.insertAdjacentHTML('afterbegin',
-            '<div class="relative z-50 bg-amber-400 text-slate-900 text-center font-bold text-sm sm:text-base py-2 px-4 shadow">👀 ANTEPRIMA — questa versione non è ancora pubblicata: i soci non la vedono</div>');
+          settimana = bozza.dati;
+          conflittiAnteprima = bozza.conflitti || [];
+          document.body.insertAdjacentHTML('afterbegin', `
+            <div class="relative z-50 bg-amber-400 text-slate-900 font-bold text-sm sm:text-base py-2 px-4 shadow flex flex-wrap items-center justify-center gap-3">
+              <span>👀 ANTEPRIMA — questa versione non è ancora pubblicata: i soci non la vedono</span>
+              <button onclick="pubblicaDaAnteprima()" class="px-4 py-1.5 rounded-lg bg-brand-teal hover:bg-brand-navy text-white">📤 Pubblica</button>
+              <button onclick="esciDaAnteprima()" class="px-4 py-1.5 rounded-lg bg-white hover:bg-slate-100 text-slate-800 border border-slate-300">✕ Esci</button>
+            </div>`);
         } else {
           const r = await fetch('dati/settimana.json?t=' + Date.now(), { cache: 'no-store' });
           settimana = await r.json();
