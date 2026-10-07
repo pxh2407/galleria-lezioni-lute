@@ -794,10 +794,33 @@
       selectDay(currentDayFilter);   // applica gli stili (giorno scelto in blu scuro)
     }
 
+    // Anteprima dal programma "Gestione Orario": la pagina aperta con ?anteprima riceve l'orario
+    // non ancora pubblicato dalla finestra che l'ha aperta (solo per chi la apre, i soci non la vedono)
+    function chiediAnteprima() {
+      if (!/anteprima/.test(location.search) || !window.opener) return Promise.resolve(null);
+      return new Promise(resolve => {
+        const ricevi = e => {
+          if (e.source !== window.opener || !e.data || e.data.tipo !== 'anteprima') return;
+          window.removeEventListener('message', ricevi);
+          resolve(e.data.dati);
+        };
+        window.addEventListener('message', ricevi);
+        window.opener.postMessage({ tipo: 'chiediAnteprima' }, '*');
+        setTimeout(() => resolve(null), 5000);
+      });
+    }
+
     async function caricaSettimana() {
       try {
-        const r = await fetch('dati/settimana.json?t=' + Date.now(), { cache: 'no-store' });
-        settimana = await r.json();
+        const bozza = await chiediAnteprima();
+        if (bozza) {
+          settimana = bozza;
+          document.body.insertAdjacentHTML('afterbegin',
+            '<div class="relative z-50 bg-amber-400 text-slate-900 text-center font-bold text-sm sm:text-base py-2 px-4 shadow">👀 ANTEPRIMA — questa versione non è ancora pubblicata: i soci non la vedono</div>');
+        } else {
+          const r = await fetch('dati/settimana.json?t=' + Date.now(), { cache: 'no-store' });
+          settimana = await r.json();
+        }
       } catch (err) {
         document.getElementById('galleryView').innerHTML =
           '<p class="text-sm text-slate-600 col-span-full">Non riesco a caricare l\'orario. Controlla la connessione e ricarica la pagina.</p>';
