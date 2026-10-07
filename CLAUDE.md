@@ -14,3 +14,4 @@
 - 2026-10-07 (3): SCELTA DELL'UTENTE: stile uniforme → TUTTE le immagini dall'app `CLAUDE\CORSI LUTE\immagini` (numero corso), le Gemini dello zip NON si usano più (lo zip resta sul Desktop). Abbinamenti: 020 Cineforum (stesso docente Isgrò) per "Vi racconto un film"; 215 per tutti i Balli di gruppo; 210 per i Balli di coppia; 800A Medicina di laboratorio (Falliti, dal 7-10) per "Medicina Lutelisir"; "Noi siamo i tempi" non ha immagine propria → usa 640 (Lettura e scrittura) provvisoriamente. 28 file in `images/corsi/`.
 - Anteprima WhatsApp: risolta (confermato dall'utente il 2026-10-06 con il link `?settimana`).
 - NON mettere `og:url`: WhatsApp segue quell'indirizzo e riusa l'anteprima vuota memorizzata, ignorando i link nuovi (2026-10-06).
+- Le immagini hanno `?v=N` nel percorso (cache busting): se si sostituisce un file con lo stesso nome, aumentare N, altrimenti telefoni e PC mostrano la vecchia.
