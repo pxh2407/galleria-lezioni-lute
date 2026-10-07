@@ -165,7 +165,7 @@
         <div class="flex items-center space-x-2 sm:space-x-4">
           <div class="hidden md:flex flex-col text-right">
             <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Periodo</span>
-            <span class="text-sm font-bold text-slate-700">05 Ottobre - 09 Ottobre 2026</span>
+            <span class="text-sm font-bold text-slate-700 w-periodo"></span>
           </div>
 
           <!-- Foglio A4 (solo PC): tutte le lezioni in una pagina, come immagine o da stampare -->
@@ -190,7 +190,7 @@
     <div class="mb-6 flex flex-col md:flex-row md:items-end md:justify-between gap-4">
       <div>
         <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-amber-50 text-amber-700 border border-amber-200 mb-2">
-          <i class="ph-fill ph-calendar-check text-amber-500"></i> Aggiornato al 30-09-2026
+          <i class="ph-fill ph-calendar-check text-amber-500"></i> Aggiornato al <span class="w-aggiornato"></span>
         </span>
         <h1 class="font-serif-title text-2xl sm:text-4xl font-bold text-brand-navy tracking-tight">
           Galleria Lezioni della Settimana
@@ -217,26 +217,8 @@
       
       <!-- Day Switcher Pills -->
       <!-- Sul telefono: griglia a 2 colonne, tutti i giorni visibili senza scorrere di lato -->
-      <div class="grid grid-cols-2 sm:flex sm:flex-wrap sm:items-center pb-2 gap-2">
-        <button onclick="selectDay('TUTTI')" data-day="TUTTI" class="day-tab col-span-2 flex-shrink-0 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition border border-transparent bg-brand-navy text-white shadow-sm">
-          Tutta la Settimana (34)
-        </button>
-        <button onclick="selectDay('LUNEDÌ')" data-day="LUNEDÌ" class="day-tab flex-shrink-0 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition border border-slate-200 bg-white text-slate-700 hover:bg-slate-50">
-          Lunedì 05 Ottobre <span class="ml-1 text-xs opacity-75">(8)</span>
-        </button>
-        <button onclick="selectDay('MARTEDÌ')" data-day="MARTEDÌ" class="day-tab flex-shrink-0 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition border border-slate-200 bg-white text-slate-700 hover:bg-slate-50">
-          Martedì 06 Ottobre <span class="ml-1 text-xs opacity-75">(8)</span>
-        </button>
-        <button onclick="selectDay('MERCOLEDÌ')" data-day="MERCOLEDÌ" class="day-tab flex-shrink-0 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition border border-slate-200 bg-white text-slate-700 hover:bg-slate-50">
-          Mercoledì 07 Ottobre <span class="ml-1 text-xs opacity-75">(9)</span>
-        </button>
-        <button onclick="selectDay('GIOVEDÌ')" data-day="GIOVEDÌ" class="day-tab flex-shrink-0 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition border border-slate-200 bg-white text-slate-700 hover:bg-slate-50">
-          Giovedì 08 Ottobre <span class="ml-1 text-xs opacity-75">(6)</span>
-        </button>
-        <button onclick="selectDay('VENERDÌ')" data-day="VENERDÌ" class="day-tab flex-shrink-0 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition border border-slate-200 bg-white text-slate-700 hover:bg-slate-50">
-          Venerdì 09 Ottobre <span class="ml-1 text-xs opacity-75">(3)</span>
-        </button>
-      </div>
+      <!-- Pulsanti dei giorni: creati da creaPulsantiGiorni() in base ai dati della settimana -->
+      <div id="dayTabs" class="grid grid-cols-2 sm:flex sm:flex-wrap sm:items-center pb-2 gap-2"></div>
 
       <!-- Filters & Quick Search Bar -->
       <div class="bg-white p-4 rounded-2xl border border-slate-200/90 shadow-xs flex flex-col md:flex-row gap-3 items-stretch md:items-center justify-between">
@@ -275,7 +257,7 @@
     <!-- Active Summary Info -->
     <div id="resultsCount" class="text-xs font-semibold text-slate-500 mb-4 px-1 flex items-center justify-between">
       <span>Visualizzazione lezioni</span>
-      <span id="counterBadge" class="bg-slate-200 text-slate-700 px-2 py-0.5 rounded-full text-[11px] font-bold">34 lezioni</span>
+      <span id="counterBadge" class="bg-slate-200 text-slate-700 px-2 py-0.5 rounded-full text-[11px] font-bold"></span>
     </div>
 
     
@@ -289,7 +271,7 @@
       <div class="p-4 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
         <div>
           <h3 class="text-sm font-bold text-brand-navy">Tabellone Orario Settimanale LUTE</h3>
-          <p class="text-xs text-slate-500">Schema a matrice aule/orari (05 - 09 Ottobre 2026)</p>
+          <p class="text-xs text-slate-500">Schema a matrice aule/orari (<span class="w-periodo"></span>)</p>
         </div>
         <span class="text-xs text-slate-400 italic">Tocca una lezione per aprire la scheda</span>
       </div>
@@ -440,7 +422,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
       <div class="flex items-center space-x-2">
         <span class="font-bold text-brand-navy">LUTE</span>
-        <span>• Libera Università delle Tre Età • Orario 05 - 09 Ottobre 2026</span>
+        <span>• Libera Università delle Tre Età • Orario <span class="w-periodo"></span></span>
       </div>
       <div>
         <span>Design minimale curato • Senza figure umane</span>
@@ -450,527 +432,8 @@
 
   <script>
     // Complete structured dataset for all lessons from October 5 to October 9, 2026
-    const lessonsData = [
-      // ================= LUNEDÌ (05 Ottobre 2026) =================
-      {
-        id: 'LUN-1',
-        day: 'LUNEDÌ',
-        date: '05 Ottobre 2026',
-        startTime: '15:30',
-        endTime: '17:30',
-        timeSlot: '15:30 - 17:30',
-        aula: 'S07',
-        title: 'Dipingiamo insieme',
-        teacher: 'GUERRESCHI M.',
-        category: 'Arte & Creatività',
-        categoryColor: 'bg-emerald-500',
-        image: 'images/corsi/dipingiamo-insieme.jpg?v=2',
-        description: 'Laboratorio artistico pratico dedicato alla pittura, all\'esplorazione del colore su tela e all\'acquerello. Cavalletti, tavolozze e colori ad olio e acrilico forniti per la libera espressione espressiva.'
-      },
-      {
-        id: 'LUN-2',
-        day: 'LUNEDÌ',
-        date: '05 Ottobre 2026',
-        startTime: '16:30',
-        endTime: '18:30',
-        timeSlot: '16:30 - 18:30',
-        aula: 'S09',
-        title: 'Vi racconto un film.....',
-        teacher: "ISGRO' A.N.",
-        category: 'Cinema & Cultura',
-        categoryColor: 'bg-sky-600',
-        image: 'images/corsi/vi-racconto-un-film.jpg?v=2',
-        description: 'Analisi cinematografica, scomposizione visiva e approfondimento critico di pellicole storiche con visioni guidate di sequenze chiave e dibattito culturale in aula.'
-      },
-      {
-        id: 'LUN-3',
-        day: 'LUNEDÌ',
-        date: '05 Ottobre 2026',
-        startTime: '16:30',
-        endTime: '17:30',
-        timeSlot: '16:30 - 17:30',
-        aula: 'S06',
-        title: 'Bigiotteria con le stoffe',
-        teacher: 'BARBERA T.',
-        category: 'Artigianato & Moda',
-        categoryColor: 'bg-amber-600',
-        image: 'images/corsi/bigiotteria-con-le-stoffe.jpg?v=2',
-        description: 'Creazione artigianale di accessori e monili unici riutilizzando tessuti pregiati, perle in legno, cordoncini e passamaneria con tecniche di ricamo e montaggio a mano.'
-      },
-      {
-        id: 'LUN-4',
-        day: 'LUNEDÌ',
-        date: '05 Ottobre 2026',
-        startTime: '17:30',
-        endTime: '19:30',
-        timeSlot: '17:30 - 19:30',
-        aula: 'S08',
-        title: 'Burraco',
-        teacher: 'FALLITI G. / PITRONE C.',
-        category: 'Giochi & Socialità',
-        categoryColor: 'bg-purple-600',
-        image: 'images/corsi/burraco.jpg?v=2',
-        description: 'Tavoli di gioco strategico e socialità. Studio delle regole federali, combinazioni di carte, prese dal monte scarti e gestione del pozzetto con tornei amichevoli.'
-      },
-      {
-        id: 'LUN-5',
-        day: 'LUNEDÌ',
-        date: '05 Ottobre 2026',
-        startTime: '17:30',
-        endTime: '19:30',
-        timeSlot: '17:30 - 19:30',
-        aula: 'S07',
-        title: 'Corso di pittura su stoffa',
-        teacher: 'MIRODDI R.',
-        category: 'Arte & Creatività',
-        categoryColor: 'bg-emerald-600',
-        image: 'images/corsi/corso-di-pittura-su-stoffa.jpg?v=2',
-        description: 'Tecniche di decorazione pittorica applicate a seta, lino e cotone. Utilizzo di colori specifici per tessuti, stencil, sfumature ed effetti a rilievo.'
-      },
-      {
-        id: 'LUN-6',
-        day: 'LUNEDÌ',
-        date: '05 Ottobre 2026',
-        startTime: '17:30',
-        endTime: '18:30',
-        timeSlot: '17:30 - 18:30',
-        aula: 'Palestra',
-        title: 'Ballo di Gruppo 1',
-        teacher: 'Istruttore LUTE',
-        category: 'Benessere & Movimento',
-        categoryColor: 'bg-rose-600',
-        image: 'images/corsi/ballo-di-gruppo.jpg?v=2',
-        description: 'Coreografie di gruppo a tempo di musica, passi sincroni e attività motoria a basso impatto per mantenere agilità, coordinazione e buonumore.'
-      },
-      {
-        id: 'LUN-7',
-        day: 'LUNEDÌ',
-        date: '05 Ottobre 2026',
-        startTime: '18:30',
-        endTime: '19:30',
-        timeSlot: '18:30 - 19:30',
-        aula: 'S09',
-        title: "Paesaggi dell'anima in Sicilia",
-        teacher: 'DI BELLA / GIORGIANNI',
-        category: 'Territorio & Tradizioni',
-        categoryColor: 'bg-blue-600',
-        image: 'images/corsi/paesaggi-dell-anima-in-sicilia.jpg?v=2',
-        description: 'Itinerario geografico, letterario e poetico attraverso i panorami, le coste e i borghi siciliani che hanno ispirato grandi scrittori e artisti del Novecento.'
-      },
-      {
-        id: 'LUN-8',
-        day: 'LUNEDÌ',
-        date: '05 Ottobre 2026',
-        startTime: '18:30',
-        endTime: '19:30',
-        timeSlot: '18:30 - 19:30',
-        aula: 'Palestra',
-        title: 'Ballo di Gruppo 2',
-        teacher: 'Istruttore LUTE',
-        category: 'Benessere & Movimento',
-        categoryColor: 'bg-rose-600',
-        image: 'images/corsi/ballo-di-gruppo.jpg?v=2',
-        description: 'Seconda sessione serale di danze collettive su ritmi folk e latini per stimolare l\'equilibrio, il senso del ritmo e la mobilità fisica.'
-      },
-
-      // ================= MARTEDÌ (06 Ottobre 2026) =================
-      {
-        id: 'MAR-1',
-        day: 'MARTEDÌ',
-        date: '06 Ottobre 2026',
-        startTime: '15:30',
-        endTime: '17:30',
-        timeSlot: '15:30 - 17:30',
-        aula: 'S08',
-        title: "L'Arte dell'Intreccio",
-        teacher: 'RAGNO G.',
-        category: 'Tradizioni & Artigianato',
-        categoryColor: 'bg-amber-700',
-        image: 'images/corsi/arte-dell-intreccio.jpg?v=2',
-        description: 'Antica arte manuale dell\'intreccio di canne, vimini ed essenze naturali per la creazione di ceste tradizionali e manufatti rustici.'
-      },
-      {
-        id: 'MAR-2',
-        day: 'MARTEDÌ',
-        date: '06 Ottobre 2026',
-        startTime: '16:30',
-        endTime: '18:30',
-        timeSlot: '16:30 - 18:30',
-        aula: 'S09',
-        title: '"Noi siamo i tempi" dal libro di Damilano',
-        teacher: 'RAPPAZZO M.',
-        category: 'Letteratura & Attualità',
-        categoryColor: 'bg-indigo-600',
-        image: 'images/corsi/lettura-e-scrittura-creativa.jpg?v=2',
-        description: 'Lettura critica ed esegesi del testo di Marco Damilano. Una profonda riflessione sulla responsabilità civile e sulla coscienza storica dei nostri giorni.'
-      },
-      {
-        id: 'MAR-3',
-        day: 'MARTEDÌ',
-        date: '06 Ottobre 2026',
-        startTime: '16:30',
-        endTime: '18:30',
-        timeSlot: '16:30 - 18:30',
-        aula: 'S07',
-        title: 'Dipingo e creo',
-        teacher: 'LO VANO R.',
-        category: 'Arte & Creatività',
-        categoryColor: 'bg-emerald-600',
-        image: 'images/corsi/dipingo-e-creo.jpg?v=2',
-        description: 'Workshop pratico di manipolazione di materiali misti, pittura polimaterica e riciclo artistico per opere creative e decorative.'
-      },
-      {
-        id: 'MAR-4',
-        day: 'MARTEDÌ',
-        date: '06 Ottobre 2026',
-        startTime: '16:30',
-        endTime: '17:30',
-        timeSlot: '16:30 - 17:30',
-        aula: 'Palestra',
-        title: 'Ginnastica dolce',
-        teacher: 'MENTO N.',
-        category: 'Benessere & Salute',
-        categoryColor: 'bg-teal-600',
-        image: 'images/corsi/ginnastica-dolce.jpg?v=2',
-        description: 'Esercizi posturali a corpo libero con piccoli attrezzi per distendere la colonna, migliorare la respirazione e rinforzare le articolazioni in totale sicurezza.'
-      },
-      {
-        id: 'MAR-5',
-        day: 'MARTEDÌ',
-        date: '06 Ottobre 2026',
-        startTime: '17:30',
-        endTime: '18:30',
-        timeSlot: '17:30 - 18:30',
-        aula: 'S05',
-        title: 'Informatica Base',
-        teacher: 'ITALIANO P.',
-        category: 'Tecnologia & Digitale',
-        categoryColor: 'bg-cyan-600',
-        image: 'images/corsi/informatica-base.jpg?v=2',
-        description: 'Primi passi con il computer: gestione delle cartelle, navigazione sicura sul web, utilizzo della posta elettronica e introduzione agli strumenti d\'ufficio.'
-      },
-      {
-        id: 'MAR-6',
-        day: 'MARTEDÌ',
-        date: '06 Ottobre 2026',
-        startTime: '17:30',
-        endTime: '19:30',
-        timeSlot: '17:30 - 19:30',
-        aula: 'Palestra',
-        title: 'Ballo di Coppia 1',
-        teacher: 'CALAMERA S.',
-        category: 'Danza & Musica',
-        categoryColor: 'bg-rose-600',
-        image: 'images/corsi/ballo-di-coppia.jpg?v=2',
-        description: 'Studio dei passi fondamentali di valzer, mazurka, tango e balli da sala tradizionali condotti con eleganza e coordinazione in coppia.'
-      },
-      {
-        id: 'MAR-7',
-        day: 'MARTEDÌ',
-        date: '06 Ottobre 2026',
-        startTime: '18:30',
-        endTime: '19:30',
-        timeSlot: '18:30 - 19:30',
-        aula: 'S09',
-        title: 'Canto Corale',
-        teacher: 'PICCIOLO S.',
-        category: 'Musica & Voce',
-        categoryColor: 'bg-violet-600',
-        image: 'images/corsi/canto-corale.jpg?v=2',
-        description: 'Esercizi di impostazione vocale, respirazione diaframmatica, intonazione ed esecuzione polifonica di canti tradizionali e classici corali.'
-      },
-      {
-        id: 'MAR-8',
-        day: 'MARTEDÌ',
-        date: '06 Ottobre 2026',
-        startTime: '18:30',
-        endTime: '19:30',
-        timeSlot: '18:30 - 19:30',
-        aula: 'S05',
-        title: 'Arte Contemporanea',
-        teacher: 'PANTANO G.',
-        category: 'Arte & Cultura',
-        categoryColor: 'bg-fuchsia-600',
-        image: 'images/corsi/arte-contemporanea.jpg?v=2',
-        description: 'Guida all\'interpretazione delle avanguardie artistiche, delle installazioni museali e dei grandi linguaggi figurativi del XX e XXI secolo.'
-      },
-
-      // ================= MERCOLEDÌ (07 Ottobre 2026) =================
-      {
-        id: 'MER-1',
-        day: 'MERCOLEDÌ',
-        date: '07 Ottobre 2026',
-        startTime: '15:30',
-        endTime: '16:30',
-        timeSlot: '15:30 - 16:30',
-        aula: 'S07',
-        title: 'Smartphone Android',
-        teacher: 'FORESTIERI V.',
-        category: 'Tecnologia & Digitale',
-        categoryColor: 'bg-cyan-600',
-        image: 'images/corsi/smartphone-android.jpg?v=2',
-        description: 'Imparare a padroneggiare lo smartphone Android: impostazioni, WhatsApp, SPID, prenotazioni online e salvataggio foto in cloud.'
-      },
-      {
-        id: 'MER-2',
-        day: 'MERCOLEDÌ',
-        date: '07 Ottobre 2026',
-        startTime: '16:30',
-        endTime: '18:30',
-        timeSlot: '16:30 - 18:30',
-        aula: 'S08',
-        title: 'Fotografia',
-        teacher: 'LA CARA F. - RIGGI V.',
-        category: 'Arti Visive',
-        categoryColor: 'bg-amber-600',
-        image: 'images/corsi/fotografia.jpg?v=2',
-        description: 'Composizione fotografica, padronanza della luce, tempi di scatto e diaframma. Uscite didattiche ed elaborazione visiva di scatti urbani e ritratti.'
-      },
-      {
-        id: 'MER-3',
-        day: 'MERCOLEDÌ',
-        date: '07 Ottobre 2026',
-        startTime: '16:30',
-        endTime: '18:30',
-        timeSlot: '16:30 - 18:30',
-        aula: 'S07',
-        title: 'Laboratorio Teatrale "La Lingua Siciliana"',
-        teacher: 'AMATO S.',
-        category: 'Teatro & Tradizione',
-        categoryColor: 'bg-purple-600',
-        image: 'images/corsi/laboratorio-teatrale-lingua-siciliana.jpg?v=2',
-        description: 'Dizione, espressività corporea e valorizzazione del patrimonio dialettale e letterario della commedia e poesia siciliana.'
-      },
-      {
-        id: 'MER-4',
-        day: 'MERCOLEDÌ',
-        date: '07 Ottobre 2026',
-        startTime: '16:30',
-        endTime: '18:30',
-        timeSlot: '16:30 - 18:30',
-        aula: 'S06',
-        title: 'Punto croce e Intaglio / Tombolo',
-        teacher: 'TRIMBOLI M. / STAGNO M.',
-        category: 'Ricamo Tradizionale',
-        categoryColor: 'bg-pink-600',
-        image: 'images/corsi/punto-croce-intaglio-tombolo.jpg?v=2',
-        description: 'Tecniche del ricamo raffinato su tela: trame, sfilature, precisione dei nodi al tombolo e realizzazione di bordure e centrini artigianali.'
-      },
-      {
-        id: 'MER-5',
-        day: 'MERCOLEDÌ',
-        date: '07 Ottobre 2026',
-        startTime: '16:30',
-        endTime: '17:30',
-        timeSlot: '16:30 - 17:30',
-        aula: 'S05',
-        title: 'Medicina Lutelisir',
-        teacher: 'FALLITI G.',
-        category: 'Salute & Prevenzione',
-        categoryColor: 'bg-red-600',
-        image: 'images/corsi/medicina-lutelisir.jpg?v=2',
-        description: 'Incontri informativi su corretti stili di vita, prevenzione cardiovascolare, alimentazione equilibrata e sana longevità.'
-      },
-      {
-        id: 'MER-6',
-        day: 'MERCOLEDÌ',
-        date: '07 Ottobre 2026',
-        startTime: '16:30',
-        endTime: '17:30',
-        timeSlot: '16:30 - 17:30',
-        aula: 'Palestra',
-        title: 'Fit Walking',
-        teacher: 'GERACI G.',
-        category: 'Benessere all\'Aperto',
-        categoryColor: 'bg-emerald-600',
-        image: 'images/corsi/fit-walking.jpg?v=2',
-        description: 'Tecnica di camminata sportiva e tonificazione dinamica per migliorare l\'efficienza cardiorespiratoria ed il metabolismo attivo.'
-      },
-      {
-        id: 'MER-7',
-        day: 'MERCOLEDÌ',
-        date: '07 Ottobre 2026',
-        startTime: '17:30',
-        endTime: '18:30',
-        timeSlot: '17:30 - 18:30',
-        aula: 'S09',
-        title: 'Storia della Sicilia dal 700 ad oggi',
-        teacher: 'MILAZZO F.',
-        category: 'Storia & Territorio',
-        categoryColor: 'bg-blue-700',
-        image: 'images/corsi/storia-della-sicilia-dal-700.jpg?v=2',
-        description: 'Dalle riforme illuministe borboniche al Risorgimento, fino alle grandi trasformazioni sociali ed economiche dell\'età contemporanea in Sicilia.'
-      },
-      {
-        id: 'MER-8',
-        day: 'MERCOLEDÌ',
-        date: '07 Ottobre 2026',
-        startTime: '17:30',
-        endTime: '18:30',
-        timeSlot: '17:30 - 18:30',
-        aula: 'Palestra',
-        title: 'Ballo di Gruppo 3',
-        teacher: 'Istruttore LUTE',
-        category: 'Benessere & Movimento',
-        categoryColor: 'bg-rose-600',
-        image: 'images/corsi/ballo-di-gruppo.jpg?v=2',
-        description: 'Sessione pomeridiana intermedia di balli di gruppo: passi sincronizzati e sequenze musicali per mantenersi sempre in forma e divertirsi.'
-      },
-      {
-        id: 'MER-9',
-        day: 'MERCOLEDÌ',
-        date: '07 Ottobre 2026',
-        startTime: '18:30',
-        endTime: '19:30',
-        timeSlot: '18:30 - 19:30',
-        aula: 'Palestra',
-        title: 'Ballo di Gruppo 4',
-        teacher: 'Istruttore LUTE',
-        category: 'Benessere & Movimento',
-        categoryColor: 'bg-rose-600',
-        image: 'images/corsi/ballo-di-gruppo.jpg?v=2',
-        description: 'Conclusione pomeridiana con balli sociali, ritmi pop e coinvolgimento per tutti i partecipanti.'
-      },
-
-      // ================= GIOVEDÌ (08 Ottobre 2026) =================
-      {
-        id: 'GIO-1',
-        day: 'GIOVEDÌ',
-        date: '08 Ottobre 2026',
-        startTime: '15:30',
-        endTime: '17:30',
-        timeSlot: '15:30 - 17:30',
-        aula: 'S09',
-        title: 'Storia del cinema italiano',
-        teacher: 'LAGANÀ S.',
-        category: "Cinema d'Autore",
-        categoryColor: 'bg-sky-600',
-        image: 'images/corsi/storia-del-cinema-italiano.jpg?v=2',
-        description: 'Viaggio tra i capolavori del Neorealismo, la commedia all\'italiana e i grandi registi che hanno reso celebre il cinema italiano nel mondo (Fellini, Visconti, Antonioni).'
-      },
-      {
-        id: 'GIO-2',
-        day: 'GIOVEDÌ',
-        date: '08 Ottobre 2026',
-        startTime: '15:30',
-        endTime: '17:30',
-        timeSlot: '15:30 - 17:30',
-        aula: 'S08',
-        title: 'Scacchi',
-        teacher: 'FOBERT G.',
-        category: 'Mente & Strategia',
-        categoryColor: 'bg-slate-700',
-        image: 'images/corsi/scacchi.jpg?v=2',
-        description: 'Aperture, tattiche di mediogioco e finali. Esercizi di calcolo, schemi geometrici sulla scacchiera e partite ragionate per allenare la mente.'
-      },
-      {
-        id: 'GIO-3',
-        day: 'GIOVEDÌ',
-        date: '08 Ottobre 2026',
-        startTime: '16:30',
-        endTime: '17:30',
-        timeSlot: '16:30 - 17:30',
-        aula: 'Palestra',
-        title: 'Ginnastica dolce',
-        teacher: 'MENTO N.',
-        category: 'Benessere & Salute',
-        categoryColor: 'bg-teal-600',
-        image: 'images/corsi/ginnastica-dolce.jpg?v=2',
-        description: 'Sessione di scarico muscolare, allungamento dolce e respirazione guidata per favorire la coordinazione e la flessibilità corporea.'
-      },
-      {
-        id: 'GIO-4',
-        day: 'GIOVEDÌ',
-        date: '08 Ottobre 2026',
-        startTime: '17:30',
-        endTime: '18:30',
-        timeSlot: '17:30 - 18:30',
-        aula: 'S09',
-        title: 'Giorgio La Pira',
-        teacher: 'MAFERA C.',
-        category: 'Storia & Pensiero Civile',
-        categoryColor: 'bg-indigo-700',
-        image: 'images/corsi/giorgio-la-pira.jpg?v=2',
-        description: 'Approfondimento storico e filosofico sulla figura di Giorgio La Pira: il politico siciliano "sindaco santo", costruttore instancabile di ponti di pace e dialogo mediterraneo.'
-      },
-      {
-        id: 'GIO-5',
-        day: 'GIOVEDÌ',
-        date: '08 Ottobre 2026',
-        startTime: '17:30',
-        endTime: '19:30',
-        timeSlot: '17:30 - 19:30',
-        aula: 'S06',
-        title: 'Lettura e Scrittura Creativa',
-        teacher: 'MILANI CASSIA',
-        category: 'Scrittura Narrativa',
-        categoryColor: 'bg-amber-600',
-        image: 'images/corsi/lettura-e-scrittura-creativa.jpg?v=2',
-        description: 'Esercizi pratici per dare voce ai propri ricordi e alla fantasia: costruzione dei personaggi, dialoghi, descrizioni evocative ed elaborazione di racconti brevi.'
-      },
-      {
-        id: 'GIO-6',
-        day: 'GIOVEDÌ',
-        date: '08 Ottobre 2026',
-        startTime: '17:30',
-        endTime: '19:30',
-        timeSlot: '17:30 - 19:30',
-        aula: 'Palestra',
-        title: 'Ballo di Coppia 2',
-        teacher: 'CALAMERA S.',
-        category: 'Danza & Musica',
-        categoryColor: 'bg-rose-600',
-        image: 'images/corsi/ballo-di-coppia.jpg?v=2',
-        description: 'Approfondimento delle figure di ballo liscio e latino-americano per consolidare posture, armonia di movimento ed eleganza.'
-      },
-
-      // ================= VENERDÌ (09 Ottobre 2026) =================
-      {
-        id: 'VEN-1',
-        day: 'VENERDÌ',
-        date: '09 Ottobre 2026',
-        startTime: '16:30',
-        endTime: 'Fine',
-        timeSlot: '16:30 - Termine',
-        aula: 'Aula Magna',
-        title: "I VENERDI' DELLA LUTE - MOSAICO '900",
-        teacher: 'Relatori Ospiti LUTE',
-        category: 'Evento Speciale / Plenaria',
-        categoryColor: 'bg-indigo-900',
-        image: 'images/corsi/mosaico-900.jpg?v=2',
-        description: 'Conferenza plenaria aperta a tutti gli iscritti: percorso storico e culturale tra arte, letteratura e cronache del Novecento con interventi e testimonianze.'
-      },
-      {
-        id: 'VEN-2',
-        day: 'VENERDÌ',
-        date: '09 Ottobre 2026',
-        startTime: '17:30',
-        endTime: '18:30',
-        timeSlot: '17:30 - 18:30',
-        aula: 'Palestra',
-        title: 'Tarantella e balli sociali',
-        teacher: 'LA SPADA',
-        category: 'Tradizioni Popolari',
-        categoryColor: 'bg-orange-600',
-        image: 'images/corsi/tarantella-e-balli-sociali.jpg?v=2',
-        description: 'Musica tradizionale siciliana e del sud Italia: passi tipici della tarantella, ritmi con tamburelli e coinvolgenti danze popolari.'
-      },
-      {
-        id: 'VEN-3',
-        day: 'VENERDÌ',
-        date: '09 Ottobre 2026',
-        startTime: '18:30',
-        endTime: '19:30',
-        timeSlot: '18:30 - 19:30',
-        aula: 'Palestra',
-        title: 'Yoga',
-        teacher: 'PACI E.',
-        category: 'Meditazione & Flessibilità',
-        categoryColor: 'bg-emerald-700',
-        image: 'images/corsi/yoga.jpg?v=2',
-        description: 'Pratica yoga per il rilassamento del corpo e della mente. Asana dolci, respirazione pranayama e distensione finale per chiudere con serenità la settimana accademica.'
-      }
-    ];
+    let lessonsData = [];   // caricate da dati/settimana.json (vedi caricaSettimana)
+    let settimana = null;
 
     // Helper map for Aula badge colors
     const aulaColorMap = {
@@ -1093,7 +556,7 @@
       const timeSlots = ['15:30 - 16:30', '16:30 - 17:30', '17:30 - 18:30', '18:30 - 19:30'];
       const aules = ['S09', 'S08', 'S07', 'S06', 'S05', 'Palestra'];
 
-      const days = ['LUNEDÌ', 'MARTEDÌ', 'MERCOLEDÌ', 'GIOVEDÌ', 'VENERDÌ'];
+      const days = GIORNI.filter(g => lessonsData.some(l => l.day === g));
 
       let html = '';
 
@@ -1157,7 +620,7 @@
         return `
           <div>
             <div class="bg-slate-200/90 text-brand-navy font-bold px-4 py-2 text-xs tracking-wider uppercase flex items-center gap-2">
-              <i class="ph-bold ph-calendar"></i> ${day} <span class="font-semibold normal-case tracking-normal text-slate-500">${lessons[0] ? lessons[0].date.replace(' 2026', '') : ''}</span>
+              <i class="ph-bold ph-calendar"></i> ${day} <span class="font-semibold normal-case tracking-normal text-slate-500">${dataGiorno(day).replace(/ d{4}$/, '')}</span>
             </div>
             ${lessons.map(l => `
               <div onclick="openModal('${l.id}')" class="flex items-center gap-3 px-4 py-2.5 border-t border-slate-100 active:bg-slate-50 cursor-pointer">
@@ -1280,6 +743,7 @@
       document.getElementById('modalTeacher').querySelector('span').textContent = lesson.teacher;
       document.getElementById('modalRoom').querySelector('span').textContent = lesson.aula;
       document.getElementById('modalDescription').textContent = lesson.description;
+      document.getElementById('modalDescription').parentElement.classList.toggle('hidden', !lesson.description);
 
       const modal = document.getElementById('lessonModal');
       modal.classList.remove('hidden');
@@ -1336,16 +800,16 @@
 
     // ===== Foglio A4 =====
     const a4AulaColors = { 'S09': '#0369a1', 'S08': '#7e22ce', 'S07': '#047857', 'S06': '#d97706', 'S05': '#be185d', 'Palestra': '#b91c1c', 'Aula Magna': '#3730a3' };
-    const a4FileName = 'LUTE - Orario lezioni 5-9 ottobre 2026.jpg';
+    const a4FileName = () => 'LUTE - Orario lezioni ' + periodoLungo().replace(/^dal /, '').replace(' al ', '-') + '.jpg';
 
     function buildA4Html() {
-      const days = ['LUNEDÌ', 'MARTEDÌ', 'MERCOLEDÌ', 'GIOVEDÌ', 'VENERDÌ'];
+      const days = GIORNI.filter(g => lessonsData.some(l => l.day === g));
       const blocks = days.map(day => {
         const lessons = lessonsData.filter(l => l.day === day)
           .sort((a, b) => a.startTime.localeCompare(b.startTime) || a.aula.localeCompare(b.aula));
         const html = `
           <div class="a4-day">
-            <div class="a4-dayhead">${day} <span>${lessons[0] ? lessons[0].date : ''}</span></div>
+            <div class="a4-dayhead">${day} <span>${dataGiorno(day)}</span></div>
             ${lessons.map(l => `
               <div class="a4-row">
                 <div class="a4-time">${l.timeSlot.replace(' - ', ' – ')}</div>
@@ -1369,7 +833,7 @@
           <div class="a4-logo"><i class="ph-bold ph-graduation-cap"></i></div>
           <div>
             <div class="a4-title">LUTE · Orario delle Lezioni</div>
-            <div class="a4-sub">Settimana dal 5 al 9 ottobre 2026 · Anno Accademico 2026/27</div>
+            <div class="a4-sub">Settimana ${periodoLungo()} · Anno Accademico 2026/27</div>
           </div>
           <div class="a4-count"><b>${lessonsData.length}</b>lezioni</div>
         </div>
@@ -1379,7 +843,7 @@
         </div>
         <div class="a4-foot">
           <span><b>LUTE Milazzo</b> · Libera Università delle Tre Età</span>
-          <span>Aggiornato al 30-09-2026</span>
+          <span>Aggiornato al ${aggiornatoIl()}</span>
         </div>`;
     }
 
@@ -1447,7 +911,7 @@
         const canvas = await renderA4Canvas();
         const a = document.createElement('a');
         a.href = canvas.toDataURL('image/jpeg', 0.92);
-        a.download = a4FileName;
+        a.download = a4FileName();
         document.body.appendChild(a);
         a.click();
         a.remove();
@@ -1488,10 +952,77 @@
       if (e.key === 'Escape') { closeModal(); closeA4(); }
     });
 
-    window.addEventListener('DOMContentLoaded', () => {
+    // ===== Dati della settimana (dati/settimana.json, scritto dal programma "Gestione Orario") =====
+    const GIORNI = ['LUNEDÌ', 'MARTEDÌ', 'MERCOLEDÌ', 'GIOVEDÌ', 'VENERDÌ'];
+    const MESI = ['gennaio', 'febbraio', 'marzo', 'aprile', 'maggio', 'giugno', 'luglio', 'agosto', 'settembre', 'ottobre', 'novembre', 'dicembre'];
+    const maiusc = s => s.charAt(0).toUpperCase() + s.slice(1);
+    const dueCifre = n => String(n).padStart(2, '0');
+
+    // "2026-10-05" + n giorni → oggetto Date (a mezzogiorno, così l'ora legale non sposta il giorno)
+    function giornoDopo(iso, n) {
+      const d = new Date(iso + 'T12:00:00');
+      d.setDate(d.getDate() + n);
+      return d;
+    }
+    // es. "05 Ottobre 2026"
+    function dataGiorno(day) {
+      const d = giornoDopo(settimana.dal, Math.max(0, GIORNI.indexOf(day)));
+      return `${dueCifre(d.getDate())} ${maiusc(MESI[d.getMonth()])} ${d.getFullYear()}`;
+    }
+    // es. "05 - 09 Ottobre 2026" (o "28 Settembre - 02 Ottobre 2026")
+    function periodoBreve() {
+      const a = giornoDopo(settimana.dal, 0), b = giornoDopo(settimana.al, 0);
+      const primo = a.getMonth() === b.getMonth() ? dueCifre(a.getDate()) : `${dueCifre(a.getDate())} ${maiusc(MESI[a.getMonth()])}`;
+      return `${primo} - ${dueCifre(b.getDate())} ${maiusc(MESI[b.getMonth()])} ${b.getFullYear()}`;
+    }
+    // es. "dal 5 al 9 ottobre 2026"
+    function periodoLungo() {
+      const a = giornoDopo(settimana.dal, 0), b = giornoDopo(settimana.al, 0);
+      const primo = a.getMonth() === b.getMonth() ? `${a.getDate()}` : `${a.getDate()} ${MESI[a.getMonth()]}`;
+      return `dal ${primo} al ${b.getDate()} ${MESI[b.getMonth()]} ${b.getFullYear()}`;
+    }
+    function aggiornatoIl() {
+      const [y, m, d] = (settimana.aggiornato || settimana.dal).split('-');
+      return `${d}-${m}-${y}`;
+    }
+
+    function creaPulsantiGiorni() {
+      const giorni = GIORNI.filter(g => lessonsData.some(l => l.day === g));
+      document.getElementById('dayTabs').innerHTML =
+        `<button onclick="selectDay('TUTTI')" data-day="TUTTI" class="day-tab col-span-2">Tutta la Settimana (${lessonsData.length})</button>` +
+        giorni.map(g => `<button onclick="selectDay('${g}')" data-day="${g}" class="day-tab">
+            ${maiusc(g.toLowerCase())} ${dataGiorno(g).replace(/ \d{4}$/, '')} <span class="ml-1 text-xs opacity-75">(${lessonsData.filter(l => l.day === g).length})</span>
+          </button>`).join('');
+      selectDay(currentDayFilter);   // applica gli stili (giorno scelto in blu scuro)
+    }
+
+    async function caricaSettimana() {
+      try {
+        const r = await fetch('dati/settimana.json?t=' + Date.now(), { cache: 'no-store' });
+        settimana = await r.json();
+      } catch (err) {
+        document.getElementById('galleryView').innerHTML =
+          '<p class="text-sm text-slate-600 col-span-full">Non riesco a caricare l\'orario. Controlla la connessione e ricarica la pagina.</p>';
+        return;
+      }
+      const v = settimana.versioneImmagini || 1;   // da aumentare se si sostituisce un'immagine con lo stesso nome
+      lessonsData = settimana.lezioni.map(l => ({
+        ...l,
+        date: dataGiorno(l.day),
+        timeSlot: `${l.startTime} - ${l.endTime}`,
+        image: `images/corsi/${l.cod}.jpg?v=${v}`,
+        description: l.description || ''
+      })).sort((a, b) => GIORNI.indexOf(a.day) - GIORNI.indexOf(b.day) || a.startTime.localeCompare(b.startTime) || a.aula.localeCompare(b.aula));
+
+      document.title = `LUTE - Orario Lezioni Settimanale (${periodoBreve()})`;
+      document.querySelectorAll('.w-periodo').forEach(el => el.textContent = periodoBreve());
+      document.querySelectorAll('.w-aggiornato').forEach(el => el.textContent = aggiornatoIl());
+      creaPulsantiGiorni();
       renderGallery();
       renderTableView();
-    });
+    }
+
+    window.addEventListener('DOMContentLoaded', caricaSettimana);
   </script>
 </body>
 </html>

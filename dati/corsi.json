@@ -1,0 +1,368 @@
+[
+ {
+  "cod": "010",
+  "nome": "Storia del cinema italiano",
+  "doc": "Laganà Santi",
+  "area": "Arte, musica e spettacolo"
+ },
+ {
+  "cod": "020",
+  "nome": "Cineforum",
+  "doc": "Isgrò Antonio Nunzio",
+  "area": "Arte, musica e spettacolo"
+ },
+ {
+  "cod": "030",
+  "nome": "Arte contemporanea",
+  "doc": "Pantano Giovanni",
+  "area": "Arte, musica e spettacolo"
+ },
+ {
+  "cod": "040",
+  "nome": "Post-impressionismo",
+  "doc": "Scolaro Francesco",
+  "area": "Arte, musica e spettacolo"
+ },
+ {
+  "cod": "050",
+  "nome": "Jazz",
+  "doc": "Franzini",
+  "area": "Arte, musica e spettacolo"
+ },
+ {
+  "cod": "060",
+  "nome": "Musica ed emozioni",
+  "doc": "Schepis Nicola",
+  "area": "Arte, musica e spettacolo"
+ },
+ {
+  "cod": "100",
+  "nome": "Lab Teatrale - La lingua Siciliana",
+  "doc": "Amato Salvatore",
+  "area": "Attività artistica"
+ },
+ {
+  "cod": "110",
+  "nome": "Fotografia",
+  "doc": "La Cara / Riggi",
+  "area": "Attività artistica"
+ },
+ {
+  "cod": "120",
+  "nome": "Dipingo e creo",
+  "doc": "Lo Vano Rosetta",
+  "area": "Attività artistica"
+ },
+ {
+  "cod": "130",
+  "nome": "Dipingiamo insieme",
+  "doc": "Guerreschi M.",
+  "area": "Attività artistica"
+ },
+ {
+  "cod": "140",
+  "nome": "Canto corale",
+  "doc": "Picciolo Santino",
+  "area": "Attività artistica"
+ },
+ {
+  "cod": "210",
+  "nome": "Ballo di coppia",
+  "doc": "Calamera Salvatore",
+  "area": "Benessere"
+ },
+ {
+  "cod": "215",
+  "nome": "Ballo di gruppo (max 200)",
+  "doc": "Calamera, Maarit, Piera, Carmela, Rosa",
+  "area": "Benessere"
+ },
+ {
+  "cod": "220",
+  "nome": "Scacchi",
+  "doc": "Fobert Gianpippo",
+  "area": "Benessere"
+ },
+ {
+  "cod": "225",
+  "nome": "Back school (max 30)",
+  "doc": "Geraci Giuseppe",
+  "area": "Benessere"
+ },
+ {
+  "cod": "230",
+  "nome": "Fit walking (max 40)",
+  "doc": "Geraci Giuseppe",
+  "area": "Benessere"
+ },
+ {
+  "cod": "235",
+  "nome": "Ginnastica dolce",
+  "doc": "Mento Nicola",
+  "area": "Benessere"
+ },
+ {
+  "cod": "240",
+  "nome": "Yoga",
+  "doc": "Paci Enzo",
+  "area": "Benessere"
+ },
+ {
+  "cod": "245",
+  "nome": "Burraco",
+  "doc": "Falliti G. / Pitrone C.",
+  "area": "Benessere"
+ },
+ {
+  "cod": "250",
+  "nome": "Tarantella e balli sociali",
+  "doc": "La Spada Carmela",
+  "area": "Benessere"
+ },
+ {
+  "cod": "255",
+  "nome": "Tutto sulle erbe",
+  "doc": "Russo Mario",
+  "area": "Benessere"
+ },
+ {
+  "cod": "260",
+  "nome": "Tradizioni enogastronomiche della Campania",
+  "doc": "Petti Carmela",
+  "area": "Benessere"
+ },
+ {
+  "cod": "400",
+  "nome": "Storia della Sicilia",
+  "doc": "Pasquariello Emanuele",
+  "area": "Diritto, economia, scienze umane, storia"
+ },
+ {
+  "cod": "410",
+  "nome": "Storia della Sicilia dal 700 ad oggi",
+  "doc": "Milazzo Fabio",
+  "area": "Diritto, economia, scienze umane, storia"
+ },
+ {
+  "cod": "420",
+  "nome": "Psicologia della terza età",
+  "doc": "Arria Ingrid",
+  "area": "Diritto, economia, scienze umane, storia"
+ },
+ {
+  "cod": "430",
+  "nome": "La verità è…………",
+  "doc": "Schepis Nicola",
+  "area": "Diritto, economia, scienze umane, storia"
+ },
+ {
+  "cod": "440",
+  "nome": "Il vangelo ci rende liberi",
+  "doc": "Rappazzo Mariella",
+  "area": "Diritto, economia, scienze umane, storia"
+ },
+ {
+  "cod": "450",
+  "nome": "L’enciclica di Papa Leone XIV",
+  "doc": "Padre Russo Carmelo",
+  "area": "Diritto, economia, scienze umane, storia"
+ },
+ {
+  "cod": "460",
+  "nome": "Giorgio La Pira: il pensiero e l’azione politica nel secondo dopoguerra",
+  "doc": "Mafera Carlo",
+  "area": "Diritto, economia, scienze umane, storia"
+ },
+ {
+  "cod": "500",
+  "nome": "Corso uncinetto",
+  "doc": "Accetta Maria Grazia",
+  "area": "Laboratori"
+ },
+ {
+  "cod": "505",
+  "nome": "Corso di patchwork",
+  "doc": "Arrigo Grazia",
+  "area": "Laboratori"
+ },
+ {
+  "cod": "510",
+  "nome": "Corso di punto croce e intaglio",
+  "doc": "Trimboli Mariangela",
+  "area": "Laboratori"
+ },
+ {
+  "cod": "515",
+  "nome": "Corso di pittura su stoffa",
+  "doc": "Miroddi Rosa",
+  "area": "Laboratori"
+ },
+ {
+  "cod": "520",
+  "nome": "Corso di tombolo",
+  "doc": "Stagno Mattea",
+  "area": "Laboratori"
+ },
+ {
+  "cod": "525",
+  "nome": "Pratiche di coltivazione amatoriale (15 gg)",
+  "doc": "Catalfamo Filippo",
+  "area": "Laboratori"
+ },
+ {
+  "cod": "530",
+  "nome": "Smartphone android",
+  "doc": "Forestieri Vincenzi",
+  "area": "Laboratori"
+ },
+ {
+  "cod": "535",
+  "nome": "Arte dell’intreccio",
+  "doc": "Ragno Giovanni",
+  "area": "Laboratori"
+ },
+ {
+  "cod": "540",
+  "nome": "Nozioni di informatica",
+  "doc": "Trischitta Letteria",
+  "area": "Laboratori"
+ },
+ {
+  "cod": "545",
+  "nome": "Informatica base",
+  "doc": "Italiano Pietro",
+  "area": "Laboratori"
+ },
+ {
+  "cod": "550",
+  "nome": "Bigiotteria con le stoffe",
+  "doc": "Barbera Teresa",
+  "area": "Laboratori"
+ },
+ {
+  "cod": "555",
+  "nome": "Corso di cucina tradizionale milazzese",
+  "doc": "Calderone Filippo",
+  "area": "Laboratori"
+ },
+ {
+  "cod": "600",
+  "nome": "Paesaggi dell’anima in Sicilia",
+  "doc": "Di Bella / Giorgianni",
+  "area": "Letteratura"
+ },
+ {
+  "cod": "610",
+  "nome": "Teatro greco",
+  "doc": "Muscianisi Chiara",
+  "area": "Letteratura"
+ },
+ {
+  "cod": "620",
+  "nome": "Le poesie di Cesare Pavese",
+  "doc": "Russo Filippo",
+  "area": "Letteratura"
+ },
+ {
+  "cod": "630",
+  "nome": "L’Odissea - Il desiderio del ritorno",
+  "doc": "Stagno Loredana",
+  "area": "Letteratura"
+ },
+ {
+  "cod": "640",
+  "nome": "Lettura e scrittura creativa",
+  "doc": "Milani Cassia",
+  "area": "Letteratura"
+ },
+ {
+  "cod": "700",
+  "nome": "Spagnolo base",
+  "doc": "Salvucci Ivana",
+  "area": "Lingue straniere"
+ },
+ {
+  "cod": "710",
+  "nome": "Inglese avanzato",
+  "doc": "Sciotto Cettina",
+  "area": "Lingue straniere"
+ },
+ {
+  "cod": "720",
+  "nome": "English Communication",
+  "doc": "Pitrone Giovanna",
+  "area": "Lingue straniere"
+ },
+ {
+  "cod": "730",
+  "nome": "Conversazione francese",
+  "doc": "Lumia Beatrice",
+  "area": "Lingue straniere"
+ },
+ {
+  "cod": "800",
+  "nome": "Lutelisir di salute",
+  "doc": "Docenti vari",
+  "area": "Medicina e scienze"
+ },
+ {
+  "cod": "800A",
+  "nome": "Medicina di laboratorio",
+  "doc": "Dr. G. Falliti",
+  "area": "Medicina e scienze"
+ },
+ {
+  "cod": "800B",
+  "nome": "Comprensione del rischio cardio-neuro-vascolare",
+  "doc": "Dr. G. Albano",
+  "area": "Medicina e scienze"
+ },
+ {
+  "cod": "800C",
+  "nome": "I “giovani anziani” e il corpo che cambia",
+  "doc": "Dr. G. Torre",
+  "area": "Medicina e scienze"
+ },
+ {
+  "cod": "800D",
+  "nome": "Malattie della pelle",
+  "doc": "Dr. C. Ferrara",
+  "area": "Medicina e scienze"
+ },
+ {
+  "cod": "800E",
+  "nome": "I farmaci: cosa ne sappiamo?",
+  "doc": "Dr. G. D’Andrea",
+  "area": "Medicina e scienze"
+ },
+ {
+  "cod": "800F",
+  "nome": "Alimentazione",
+  "doc": "Dr.ssa M.R. Oddo",
+  "area": "Medicina e scienze"
+ },
+ {
+  "cod": "800G",
+  "nome": "Liberi di scegliere: le trappole del quotidiano e il segreto del buon vivere",
+  "doc": "Utano Giovanni",
+  "area": "Medicina e scienze"
+ },
+ {
+  "cod": "810",
+  "nome": "Viaggio nel mondo dei microrganismi",
+  "doc": "Monticelli Louis",
+  "area": "Medicina e scienze"
+ },
+ {
+  "cod": "820",
+  "nome": "Vulcani",
+  "doc": "Ricercatori INGV",
+  "area": "Medicina e scienze"
+ },
+ {
+  "cod": "900",
+  "nome": "Venerdì della LUTE - Mosaico ’900",
+  "doc": "Docenti vari",
+  "area": "Venerdì della LUTE"
+ }
+]
