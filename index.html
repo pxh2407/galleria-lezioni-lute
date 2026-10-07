@@ -216,6 +216,7 @@
           <button onclick="filterByAula('S06')" data-aula="S06" class="aula-btn text-xs px-2.5 py-1.5 rounded-lg font-medium bg-slate-100 hover:bg-slate-200 text-slate-700">S06</button>
           <button onclick="filterByAula('S05')" data-aula="S05" class="aula-btn text-xs px-2.5 py-1.5 rounded-lg font-medium bg-slate-100 hover:bg-slate-200 text-slate-700">S05</button>
           <button onclick="filterByAula('Palestra')" data-aula="Palestra" class="aula-btn text-xs px-2.5 py-1.5 rounded-lg font-medium bg-slate-100 hover:bg-slate-200 text-slate-700">Palestra</button>
+          <button onclick="filterByAula('Aula Magna')" data-aula="Aula Magna" class="aula-btn text-xs px-2.5 py-1.5 rounded-lg font-medium bg-slate-100 hover:bg-slate-200 text-slate-700">Aula Magna</button>
         </div>
       </div>
     </div>
@@ -298,6 +299,7 @@
 
         <!-- Etichette e titolo -->
         <div>
+          <div id="modalSospesa" class="hidden mb-3 px-3 py-2 rounded-lg bg-red-700 text-white font-bold text-sm"></div>
           <div class="flex flex-wrap items-center gap-2 mb-2">
             <span id="modalDayBadge" class="px-2.5 py-0.5 rounded-md text-xs font-bold uppercase tracking-wider bg-slate-100 text-brand-navy border border-slate-200"></span>
             <span id="modalAulaBadge" class="px-2.5 py-0.5 rounded-md text-xs font-bold text-white shadow-xs"></span>
@@ -368,7 +370,7 @@
         <span>• Libera Università delle Tre Età • Orario <span class="w-periodo"></span></span>
       </div>
       <div>
-        <span>Design minimale curato • Senza figure umane</span>
+        <span>LUTE Milazzo</span>
       </div>
     </div>
   </footer>
@@ -435,22 +437,22 @@
       
       container.innerHTML = filtered.map(lesson => {
         const aulaBadgeClass = aulaColorMap[lesson.aula] || 'bg-slate-700 text-white';
-        
+
         return `
-          <div 
+          <div
             onclick="openModal('${lesson.id}')"
-            class="card-item group bg-white rounded-2xl border border-slate-200/90 overflow-hidden shadow-xs hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col cursor-pointer"
+            class="card-item group bg-white rounded-2xl border ${lesson.sospesa ? 'border-red-300' : 'border-slate-200/90'} overflow-hidden shadow-xs hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col cursor-pointer"
           >
             <!-- Card Image Container -->
             <!-- Immagine intera (16:9), senza etichette sopra: le immagini hanno già didascalia e logo -->
             <div class="relative aspect-video w-full overflow-hidden bg-slate-100">
               <img
                 src="${lesson.image}"
-                alt="${lesson.title}"
+                alt="${escHtml(lesson.title)}"
                 loading="lazy"
-                onerror="this.src='https://placehold.co/600x400/0d2538/ffffff?text=${encodeURIComponent(lesson.title)}'"
-                class="w-full h-full object-cover"
+                class="w-full h-full object-cover ${lesson.sospesa ? 'grayscale opacity-60' : ''}"
               >
+              ${lesson.sospesa ? `<div class="absolute inset-x-0 bottom-0 bg-red-700 text-white text-center text-sm font-bold py-1.5 px-2">LEZIONE SOSPESA${lesson.motivo ? ' · ' + escHtml(lesson.motivo) : ''}</div>` : ''}
             </div>
 
             <!-- Card Content Body -->
@@ -467,20 +469,20 @@
                 <!-- Category Tag -->
                 <div class="flex items-center gap-1.5 mb-1.5">
                   <span class="inline-block w-2 h-2 rounded-full ${lesson.categoryColor}"></span>
-                  <span class="text-[11px] font-semibold tracking-wide text-slate-500 uppercase">${lesson.category}</span>
+                  <span class="text-[11px] font-semibold tracking-wide text-slate-500 uppercase">${escHtml(lesson.category)}</span>
                 </div>
 
                 <!-- Title -->
-                <h3 class="text-sm font-bold text-slate-800 leading-snug group-hover:text-brand-teal transition-colors line-clamp-2">
-                  ${lesson.title}
+                <h3 class="text-sm font-bold text-slate-800 leading-snug group-hover:text-brand-teal transition-colors line-clamp-2 ${lesson.sospesa ? 'line-through decoration-red-600' : ''}">
+                  ${escHtml(lesson.title)}
                 </h3>
               </div>
 
               <!-- Teacher & Info footer -->
               <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
-                <div class="flex items-center gap-1.5 text-slate-600 truncate mr-2" title="${lesson.teacher}">
+                <div class="flex items-center gap-1.5 text-slate-600 truncate mr-2" title="${escHtml(lesson.teacher)}">
                   <i class="ph-bold ph-user text-slate-400"></i>
-                  <span class="truncate font-medium">${lesson.teacher}</span>
+                  <span class="truncate font-medium">${escHtml(lesson.teacher)}</span>
                 </div>
                 
                 <span class="text-brand-teal font-semibold flex items-center gap-0.5 group-hover:translate-x-0.5 transition-transform flex-shrink-0">
@@ -538,10 +540,10 @@
               const bgBadge = aulaColorMap[lesson.aula] || 'bg-slate-700 text-white';
               html += `
                 <td class="p-2 border-r border-slate-200 align-top">
-                  <div onclick="openModal('${lesson.id}')" class="p-2 rounded-xl bg-white border border-slate-200 shadow-xs hover:border-brand-teal hover:shadow-md cursor-pointer transition">
-                    <span class="text-[10px] px-1.5 py-0.5 rounded font-bold ${bgBadge} inline-block mb-1">${lesson.aula}</span>
-                    <h5 class="font-bold text-[11px] text-slate-800 line-clamp-2 leading-tight">${lesson.title}</h5>
-                    <p class="text-[10px] text-slate-500 mt-1 truncate">${lesson.teacher}</p>
+                  <div onclick="openModal('${lesson.id}')" class="p-2 rounded-xl bg-white border ${lesson.sospesa ? 'border-red-300 opacity-70' : 'border-slate-200'} shadow-xs hover:border-brand-teal hover:shadow-md cursor-pointer transition">
+                    <span class="text-[10px] px-1.5 py-0.5 rounded font-bold ${bgBadge} inline-block mb-1">${lesson.aula}</span>${lesson.sospesa ? ' <span class="text-[10px] px-1.5 py-0.5 rounded font-bold bg-red-700 text-white">SOSPESA</span>' : ''}
+                    <h5 class="font-bold text-[11px] text-slate-800 line-clamp-2 leading-tight ${lesson.sospesa ? 'line-through' : ''}">${escHtml(lesson.title)}</h5>
+                    <p class="text-[10px] text-slate-500 mt-1 truncate">${escHtml(lesson.teacher)}</p>
                   </div>
                 </td>
               `;
@@ -563,7 +565,7 @@
         return `
           <div>
             <div class="bg-slate-200/90 text-brand-navy font-bold px-4 py-2 text-xs tracking-wider uppercase flex items-center gap-2">
-              <i class="ph-bold ph-calendar"></i> ${day} <span class="font-semibold normal-case tracking-normal text-slate-500">${dataGiorno(day).replace(/ d{4}$/, '')}</span>
+              <i class="ph-bold ph-calendar"></i> ${day} <span class="font-semibold normal-case tracking-normal text-slate-500">${dataGiorno(day).replace(/ \d{4}$/, '')}</span>
             </div>
             ${lessons.map(l => `
               <div onclick="openModal('${l.id}')" class="flex items-center gap-3 px-4 py-2.5 border-t border-slate-100 active:bg-slate-50 cursor-pointer">
@@ -573,8 +575,9 @@
                 </span>
                 <span class="w-[4.5rem] flex-shrink-0 text-center text-[11px] px-1.5 py-0.5 rounded font-bold ${aulaColorMap[l.aula] || 'bg-slate-700 text-white'}">${l.aula}</span>
                 <span class="min-w-0 flex-grow">
-                  <span class="block text-sm font-semibold text-slate-800 leading-tight">${l.title}</span>
-                  <span class="block text-xs text-slate-500 truncate">${l.teacher}</span>
+                  <span class="block text-sm font-semibold text-slate-800 leading-tight ${l.sospesa ? 'line-through' : ''}">${escHtml(l.title)}</span>
+                  ${l.sospesa ? `<span class="block text-xs font-bold text-red-700">SOSPESA${l.motivo ? ' · ' + escHtml(l.motivo) : ''}</span>` : ''}
+                  <span class="block text-xs text-slate-500 truncate">${escHtml(l.teacher)}</span>
                 </span>
                 <i class="ph-bold ph-caret-right text-slate-400"></i>
               </div>`).join('')}
@@ -687,6 +690,10 @@
       document.getElementById('modalRoom').querySelector('span').textContent = lesson.aula;
       document.getElementById('modalDescription').textContent = lesson.description;
       document.getElementById('modalDescription').parentElement.classList.toggle('hidden', !lesson.description);
+      // lezione sospesa: avviso in rosso sopra il titolo
+      const avvisoSosp = document.getElementById('modalSospesa');
+      avvisoSosp.textContent = lesson.sospesa ? '⚠ LEZIONE SOSPESA' + (lesson.motivo ? ' · ' + lesson.motivo : '') : '';
+      avvisoSosp.classList.toggle('hidden', !lesson.sospesa);
 
       const modal = document.getElementById('lessonModal');
       modal.classList.remove('hidden');
@@ -755,6 +762,8 @@
     const MESI = ['gennaio', 'febbraio', 'marzo', 'aprile', 'maggio', 'giugno', 'luglio', 'agosto', 'settembre', 'ottobre', 'novembre', 'dicembre'];
     const maiusc = s => s.charAt(0).toUpperCase() + s.slice(1);
     const dueCifre = n => String(n).padStart(2, '0');
+    // testi dentro l'HTML: le virgolette di un titolo come "Noi siamo i tempi" non devono rompere la pagina
+    const escHtml = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
     // "2026-10-05" + n giorni → oggetto Date (a mezzogiorno, così l'ora legale non sposta il giorno)
     function giornoDopo(iso, n) {
@@ -770,13 +779,15 @@
     // es. "05 - 09 Ottobre 2026" (o "28 Settembre - 02 Ottobre 2026")
     function periodoBreve() {
       const a = giornoDopo(settimana.dal, 0), b = giornoDopo(settimana.al, 0);
-      const primo = a.getMonth() === b.getMonth() ? dueCifre(a.getDate()) : `${dueCifre(a.getDate())} ${maiusc(MESI[a.getMonth()])}`;
+      const primo = a.getMonth() === b.getMonth() ? dueCifre(a.getDate())
+        : `${dueCifre(a.getDate())} ${maiusc(MESI[a.getMonth()])}${a.getFullYear() !== b.getFullYear() ? ' ' + a.getFullYear() : ''}`;
       return `${primo} - ${dueCifre(b.getDate())} ${maiusc(MESI[b.getMonth()])} ${b.getFullYear()}`;
     }
     // es. "dal 5 al 9 ottobre 2026"
     function periodoLungo() {
       const a = giornoDopo(settimana.dal, 0), b = giornoDopo(settimana.al, 0);
-      const primo = a.getMonth() === b.getMonth() ? `${a.getDate()}` : `${a.getDate()} ${MESI[a.getMonth()]}`;
+      const primo = a.getMonth() === b.getMonth() ? `${a.getDate()}`
+        : `${a.getDate()} ${MESI[a.getMonth()]}${a.getFullYear() !== b.getFullYear() ? ' ' + a.getFullYear() : ''}`;
       return `dal ${primo} al ${b.getDate()} ${MESI[b.getMonth()]} ${b.getFullYear()}`;
     }
     function aggiornatoIl() {
