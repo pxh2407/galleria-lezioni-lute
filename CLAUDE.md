@@ -8,7 +8,8 @@ Online: https://pxh2407.github.io/galleria-lezioni-lute/ — repo `pxh2407/galle
 - **`dati/corsi.json`**: catalogo dei 61 corsi (cod, nome, doc, area) preso da `CLAUDE\CORSI LUTE\index.html`; **`images/corsi/<cod>.jpg`** = le 61 immagini di CORSI LUTE (scelta dell'utente: stile uniforme, NON le Gemini). Se si aggiunge un corso al catalogo: aggiungere voce + immagine qui.
 - **Back-end (solo PC di Filippo)** `gestione/Gestione Orario.html` (+ `gestione/chiave.js` con il token GitHub) — cartella in `.gitignore`, MAI online. Icona sul Desktop "Gestione Orario LUTE". Funzioni: settimana (lunedì → venerdì automatico, "Passa alla settimana successiva"), aggiornato al, elenco per giorno con Modifica/Sostituisci, Elimina, Aggiungi (corso dal catalogo → titolo, docente, categoria e immagine automatici), avviso sovrapposizioni stessa aula, bozza automatica in localStorage, **Pubblica** = via API GitHub: `images/copertina-<dal>.jpg` (disegnata con canvas, stesso stile di `crea_copertina.py`), `dati/settimana.json`, meta og:/title di `index.html`; poi attende che il sito sia aggiornato e dà il link `?dal-<g>-<mese>` per WhatsApp.
 - Prova in locale: server `galleria-lezioni` in `CLAUDE\.claude\launch.json` (porta 8795); il back-end si apre anche da file://.
-- ⚠ Il PRIMO "Pubblica" reale non l'ho potuto fare io (permesso negato): da far provare all'utente.
+- 2026-10-07: primo "Pubblica" fatto dall'utente → tutto OK (settimana.json, copertina-2026-10-05.jpg, meta og:). A me il pulsante Pubblica è negato dal sistema: lo preme l'utente.
+- ⚠ Il programma scrive direttamente su GitHub: prima di lavorare in questa cartella fare SEMPRE `git pull`.
 
 ## Regole
 - NON mettere `og:url`: WhatsApp segue quell'indirizzo e riusa l'anteprima vuota memorizzata (2026-10-06).
