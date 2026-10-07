@@ -822,6 +822,8 @@
           settimana = await r.json();
         }
       } catch (err) {
+        // Aperta dalla copia sul PC (file://): il browser non lascia leggere dati/settimana.json → vado al sito
+        if (location.protocol === 'file:') { location.replace('https://pxh2407.github.io/galleria-lezioni-lute/'); return; }
         document.getElementById('galleryView').innerHTML =
           '<p class="text-sm text-slate-600 col-span-full">Non riesco a caricare l\'orario. Controlla la connessione e ricarica la pagina.</p>';
         return;
