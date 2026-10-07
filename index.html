@@ -341,8 +341,9 @@
 
       <!-- Modal Image Cover with Tag -->
       <div class="relative h-64 sm:h-72 w-full overflow-hidden bg-slate-900">
-        <img id="modalImage" src="" alt="Dettaglio Lezione" onerror="this.style.visibility='hidden'" onload="this.style.visibility='visible'" class="w-full h-full object-cover opacity-90 transition duration-300">
-        <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent"></div>
+        <img id="modalImage" src="" alt="Dettaglio Lezione" onerror="this.style.visibility='hidden'" onload="this.style.visibility='visible'" class="w-full h-full object-cover transition duration-300">
+        <!-- Sfumatura solo nella metà bassa, dietro titolo ed etichette -->
+        <div class="absolute inset-x-0 bottom-0 h-3/5 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
         
         <!-- Badges on image -->
         <div class="absolute bottom-4 left-4 right-4 text-white">
@@ -1046,7 +1047,8 @@
               >
               
               <!-- Subtle image gradient overlay -->
-              <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+              <!-- Sfumatura solo in basso, sotto l'orario: il resto della foto resta luminoso -->
+              <div class="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/55 to-transparent"></div>
               
               <!-- Floating Day & Aula Pills -->
               <div class="absolute top-3 left-3 right-3 flex items-center justify-between">
