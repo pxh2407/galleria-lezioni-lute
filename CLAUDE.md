@@ -10,6 +10,7 @@ Online: https://pxh2407.github.io/galleria-lezioni-lute/ — repo `pxh2407/galle
 - Prova in locale: server `galleria-lezioni` in `CLAUDE\.claude\launch.json` (porta 8795); il back-end si apre anche da file://.
 - 2026-10-07: primo "Pubblica" fatto dall'utente → tutto OK (settimana.json, copertina-2026-10-05.jpg, meta og:). A me il pulsante Pubblica è negato dal sistema: lo preme l'utente.
 - 2026-10-07: il **Foglio A4** (immagine/copia/stampa, html2canvas, `--k`) è per i VOLONTARI, non per i soci → tolto da `index.html` e spostato nel back-end (pulsante "📄 Foglio A4" nella barra in basso; usa l'orario del programma anche se non pubblicato; logo LUTE vero al posto dell'icona). In `index.html` resta "Stampa / PDF".
+- 2026-10-07: pulsante **👀 Anteprima** nel back-end: apre `SITO?anteprima-<ora>`; la pagina (`chiediAnteprima()`) chiede i dati a `window.opener` via postMessage e mostra una striscia gialla "ANTEPRIMA". Senza opener carica il JSON normale.
 - ⚠ Il programma scrive direttamente su GitHub: prima di lavorare in questa cartella fare SEMPRE `git pull`.
 
 ## Regole
