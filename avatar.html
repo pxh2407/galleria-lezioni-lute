@@ -163,7 +163,7 @@
       padding: 10px 0 calc(10px + env(safe-area-inset-bottom)); background: linear-gradient(to top, var(--fondo) 75%, rgba(246, 243, 236, 0));
     }
     .comandi button {
-      display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 8px 4px; min-height: 68px;
+      min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 8px 4px; min-height: 68px;
       border-radius: 16px; border: 2px solid var(--colore); background: #fff; color: var(--colore); font-size: 16px; font-weight: 700;
     }
     .comandi button .ic { font-size: 26px; line-height: 1; }
@@ -226,6 +226,23 @@
       .scheda .titolo { font-size: 23px; }
       .elenco .o { min-width: 104px; }
     }
+    /* telefoni molto stretti */
+    @media (max-width: 380px) {
+      header { gap: 8px; padding: 8px 12px; }
+      header img { height: 32px; }
+      header .t1 { font-size: 18px; }
+      .link-galleria .testo { display: none; }
+      main { padding: 14px 12px 24px; }
+      .comandi { gap: 5px; }
+      .comandi button { font-size: 13px; padding: 6px 2px; min-height: 60px; border-radius: 12px; }
+      .comandi button .ic { font-size: 22px; }
+      .guida { width: 88px; }
+      .fumetto { font-size: 17px; }
+      .giorno { gap: 10px; padding: 12px; }
+      .giorno .ritratto { width: 76px; height: 83px; }
+      .giorno .nome-giorno { font-size: 24px; }
+      .elenco .o { min-width: 92px; font-size: 16px; }
+    }
   </style>
 </head>
 <body>
@@ -236,7 +253,7 @@
       <div class="t1">L'orario raccontato</div>
       <div class="t2">LUTE Milazzo</div>
     </div>
-    <a class="link-galleria" href="./">📋 Galleria</a>
+    <a class="link-galleria" href="./" title="Galleria delle lezioni">📋<span class="testo"> Galleria</span></a>
   </header>
 
   <main>
@@ -284,112 +301,31 @@
   <footer>LUTE · Libera Università delle Tre Età · Milazzo</footer>
 
   <script src="guide.js"></script>
+  <script src="racconto.js"></script>
   <script>
     // ===== L'orario raccontato =====
     // Legge lo stesso orario della galleria (dati/settimana.json, pubblicato col programma "Gestione Orario"):
     // quando si pubblica una settimana nuova anche le guide la raccontano, senza fare altro.
-    // La voce è quella del telefono/computer di chi ascolta (sintesi vocale del browser).
+    // Le frasi (racconto.js) le registra GitHub con le voci naturali (strumenti/voci.py, cartella audio/);
+    // se una registrazione non c'è ancora, la dice la voce del telefono/computer di chi ascolta.
 
     const SITO = 'https://pxh2407.github.io/galleria-lezioni-lute/';
-    const GIORNI = ['LUNEDÌ', 'MARTEDÌ', 'MERCOLEDÌ', 'GIOVEDÌ', 'VENERDÌ'];
-    const MESI = ['gennaio', 'febbraio', 'marzo', 'aprile', 'maggio', 'giugno', 'luglio', 'agosto', 'settembre', 'ottobre', 'novembre', 'dicembre'];
+    const { GIORNI, MESI, nomeGiorno, titoloScritto } = RACCONTO;
     const AULE = { 'S09': '#0369a1', 'S08': '#7e22ce', 'S07': '#047857', 'S06': '#b45309', 'S05': '#be185d', 'Palestra': '#b91c1c', 'Aula Magna': '#3730a3' };
-    const CIFRE = ['zero', 'uno', 'due', 'tre', 'quattro', 'cinque', 'sei', 'sette', 'otto', 'nove'];
     const $ = id => document.getElementById(id);
-    const maiusc = s => s.charAt(0).toUpperCase() + s.slice(1);
     const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
-    let settimana = null, lezioni = [];
+    let settimana = null, corsi = [], lezioni = [], registrate = {};   // registrate: file mp3 → tempi delle parole
 
-    // ---------- date ----------
-    function dataDel(giorno) {   // Date del giorno della settimana (a mezzogiorno: l'ora legale non sposta il giorno)
-      const d = new Date(settimana.dal + 'T12:00:00');
-      d.setDate(d.getDate() + GIORNI.indexOf(giorno));
-      return d;
-    }
-    const dataBreve = g => { const d = dataDel(g); return `${d.getDate()} ${MESI[d.getMonth()]}`; };   // "12 ottobre"
-    const nomeGiorno = g => g.charAt(0) + g.slice(1).toLowerCase();                                    // "Lunedì"
-    const eOggi = g => dataDel(g).toDateString() === new Date().toDateString();
+    const dataBreve = g => RACCONTO.dataBreve(settimana, g);                                            // "12 ottobre"
+    const eOggi = g => RACCONTO.dataDel(settimana, g).toDateString() === new Date().toDateString();
     function periodoLungo() {
       const a = new Date(settimana.dal + 'T12:00:00'), b = new Date(settimana.al + 'T12:00:00');
       const primo = a.getMonth() === b.getMonth() ? `${a.getDate()}` : `${a.getDate()} ${MESI[a.getMonth()]}`;
       return `dal ${primo} al ${b.getDate()} ${MESI[b.getMonth()]} ${b.getFullYear()}`;
     }
 
-    // ---------- come si dicono le cose a voce ----------
-    const oraDetta = t => { const [h, m] = t.split(':'); return +m ? `${+h} e ${+m}` : `${+h}`; };   // "15:30" → "15 e 30"
-    function aulaDetta(a) {
-      if (/^palestra$/i.test(a)) return 'in palestra';
-      if (/^aula magna$/i.test(a)) return 'in aula magna';
-      const m = /^S\s*(\d+)$/i.exec(a);
-      return m ? 'in aula esse ' + [...m[1]].map(c => CIFRE[+c]).join(' ') : 'in aula ' + a;
-    }
-    const aulaScritta = a => /^S\s*\d+$/i.test(a) ? 'in aula ' + a : (/^palestra$/i.test(a) ? 'in palestra' : 'in ' + a.toLowerCase());
-    // "VENERDI'" → "VENERDÌ", "ISGRO'" → "ISGRÒ"
-    const accenti = s => s.replace(/([AEIOUaeiou])'(?=\s|$|[.,;:!?])/g, (x, v) => ({ a: 'à', e: 'è', i: 'ì', o: 'ò', u: 'ù', A: 'À', E: 'È', I: 'Ì', O: 'Ò', U: 'Ù' }[v]));
-    const parolaMaiusc = w => w.toLowerCase().replace(/(^|[\s'’-])(\p{L})/gu, (x, a, b) => a + b.toUpperCase());
-    // "FALLITI G. / PITRONE C." → "Falliti e Pitrone"; "Istruttore LUTE" → "" (non lo diciamo)
-    function docenteDetto(t) {
-      if (!t || /\bLUTE\b/i.test(t)) return '';
-      const nomi = accenti(t).split(/\s*\/\s*|\s+[-–]\s*|\s*[-–]\s+/)
-        .map(n => n.replace(/\b(?:\p{Lu}\.)+/gu, '').replace(/\s+/g, ' ').trim())
-        .filter(Boolean).map(parolaMaiusc);
-      return nomi.length > 1 ? nomi.slice(0, -1).join(', ') + ' e ' + nomi[nomi.length - 1] : (nomi[0] || '');
-    }
-    function titoloScritto(t) {
-      let s = accenti(String(t)).replace(/[.…]{2,}\s*$/, '').trim();
-      if (s === s.toUpperCase()) s = maiusc(s.toLowerCase()).replace(/\blute\b/g, 'LUTE').replace(/venerdì/g, 'Venerdì').replace(/mosaico/g, 'Mosaico');
-      return s;
-    }
-    const titoloDetto = t => titoloScritto(t).replace(/["“”«»]/g, '').replace(/\s[-–]\s/g, ', ').replace(/\s*\/\s*/g, ' e ').replace(/'900\b|’900\b/g, 'Novecento').replace(/\bLUTE\b/g, 'Lute');
-    const testoDetto = s => s.replace(/\bLUTE\b/g, 'Lute');
-
-    // ---------- le battute della guida per un giorno ----------
-    function battuteDel(giorno) {
-      const g = GUIDE[giorno], lez = lezioni.filter(l => l.day === giorno);
-      const attive = lez.filter(l => !l.sospesa), sospese = lez.length - attive.length;
-      const oraSaluto = new Date().getHours() < 17 ? 'Buongiorno' : 'Buonasera';
-      const quando = `${nomeGiorno(giorno)} ${dataBreve(giorno)}`;
-      const b = [];
-
-      let intro = `${oraSaluto}! Sono ${g.nome}, la vostra guida del ${giorno.toLowerCase()}. `;
-      if (!attive.length) {
-        const motivo = lez.find(l => l.motivo)?.motivo;
-        intro += `Attenzione: ${quando} le lezioni sono sospese${motivo ? ' (' + motivo + ')' : ''}.`;
-        b.push({ tipo: 'intro', testo: intro });
-      } else {
-        const inizio = attive.map(l => l.startTime).sort()[0];
-        const fini = attive.map(l => l.endTime).filter(t => /^\d\d:\d\d$/.test(t)).sort();
-        intro += attive.length === 1 ? `${quando} c'è una sola lezione. ` :
-          `${quando} ci sono ${attive.length} lezioni, dalle ${inizio}${fini.length ? ' alle ' + fini[fini.length - 1] : ''}. `;
-        if (sospese) intro += `Attenzione: ${sospese === 1 ? 'una lezione è sospesa' : sospese + ' lezioni sono sospese'}. `;
-        intro += attive.length === 1 ? 'Ve la racconto.' : 'Ve le racconto una per una.';
-        b.push({ tipo: 'intro', testo: intro, parlato: intro.replace(/(\d\d):(\d\d)/g, (x) => oraDetta(x)) });
-        lez.forEach(l => b.push(battutaLezione(l)));
-      }
-      const fine = `Questo è tutto per ${giorno.toLowerCase()}. Per sentire un altro giorno, toccate «Altri giorni». Buone lezioni e arrivederci alla LUTE!`;
-      b.push({ tipo: 'fine', testo: fine });
-      b.forEach(x => x.parlato = testoDetto(x.parlato || x.testo).replace(/[«»]/g, ''));
-      return b;
-    }
-
-    function battutaLezione(l) {
-      const doc = docenteDetto(l.teacher), finisce = /^\d\d:\d\d$/.test(l.endTime);
-      const tit = titoloScritto(l.title), titD = titoloDetto(l.title);
-      if (l.sospesa) {
-        const m = l.motivo ? `: ${l.motivo}` : '';
-        return { tipo: 'lezione', lezione: l,
-          testo: `Attenzione: questa settimana «${tit}» è sospesa${m}.`,
-          parlato: `Attenzione: questa settimana ${titD} è sospesa${m}.` };
-      }
-      const orario = finisce ? `Dalle ${l.startTime} alle ${l.endTime}` : `Alle ${l.startTime}`;
-      const orarioD = finisce ? `Dalle ${oraDetta(l.startTime)} alle ${oraDetta(l.endTime)}` : `Alle ${oraDetta(l.startTime)}`;
-      return { tipo: 'lezione', lezione: l,
-        testo: `${orario}, ${aulaScritta(l.aula)}: «${tit}»${doc ? ', con ' + doc : ''}.`,
-        parlato: `${orarioD}, ${aulaDetta(l.aula)}: ${titD}${doc ? ', con ' + doc : ''}.` };
-    }
-
-    // ---------- voce ----------
+    // ---------- voce del telefono (solo se manca la registrazione) ----------
     const sintesi = 'speechSynthesis' in window ? window.speechSynthesis : null;
     const MASCHILI = /\b(luca|diego|cosimo|giuseppe|benigno|calimero|cataldo|gianni|giorgio|lisandro|rinaldo|paolo|marco|roberto|lorenzo|alessandro|matteo|davide|carlo|male|maschile|uomo)\b/i;
     const FEMMINILI = /\b(alice|federica|paola|elsa|isabella|lucia|emma|fiamma|fabiola|carla|cristina|valentina|sara|chiara|serena|elisa|francesca|giulia|palmira|pierina|imelda|irma|female|femminile|donna)\b|google italiano/i;
@@ -397,17 +333,25 @@
     const qualita = v => (/natural|neural|online|premium|enhanced|migliorata/i.test(v.name) ? 4 : 0) + (/google/i.test(v.name) ? 2 : 0) + (v.localService ? 0 : 1);
     if (sintesi) { sintesi.getVoices(); sintesi.addEventListener?.('voiceschanged', () => {}); }
 
-    // Ogni guida ha la sua voce, se il telefono ne ha più d'una; altrimenti cambia il tono
     function voceDi(giorno) {
       const g = GUIDE[giorno], tutte = vociItaliane();
-      if (!tutte.length) return { voce: null, tono: g.sesso === 'm' ? g.tono * 0.85 : g.tono };
+      if (!tutte.length) return { voce: null, tono: g.sesso === 'm' ? 0.85 : 1 };
+      // su Edge ci sono le stesse voci naturali delle registrazioni (Isabella, Diego, Elsa, Giuseppe)
+      const nat = g.voce.nome.replace(/^it-IT-/, '').replace(/(Multilingual)?Neural$/, '');
+      const uguale = tutte.find(v => v.name.includes(nat) && /natural|online/i.test(v.name));
+      if (uguale) return { voce: uguale, tono: 1 };
       const sessoDi = v => MASCHILI.test(v.name) ? 'm' : FEMMINILI.test(v.name) ? 'f' : '?';
       const stesse = tutte.filter(v => sessoDi(v) === g.sesso).sort((a, b) => qualita(b) - qualita(a));
       const compagni = GIORNI.filter(x => GUIDE[x].sesso === g.sesso);
-      if (stesse.length) return { voce: stesse[compagni.indexOf(giorno) % stesse.length], tono: g.tono };
+      if (stesse.length) return { voce: stesse[compagni.indexOf(giorno) % stesse.length], tono: 1 };
       const migliore = [...tutte].sort((a, b) => qualita(b) - qualita(a))[0];
-      return { voce: migliore, tono: g.sesso === 'm' ? g.tono * 0.82 : g.tono };
+      return { voce: migliore, tono: g.sesso === 'm' ? 0.85 : 1 };
     }
+
+    // ---------- registrazioni ----------
+    const lettore = new Audio();   // uno solo, sempre lo stesso: dopo il primo tocco il telefono lo lascia suonare
+    lettore.preload = 'auto';
+    let paroleAttuali = null;      // [[inizio, fine] in millisecondi] delle parole della frase che sta suonando
 
     // ---------- bocca e occhi ----------
     const bocca = { el: null, a: 0, obiettivo: 0, attiva: false, prossimo: 0 };
@@ -418,8 +362,13 @@
     }
     function ciclo(t) {
       if (bocca.attiva && t > bocca.prossimo) {
-        bocca.obiettivo = Math.random() < 0.18 ? 0.05 : 0.3 + Math.random() * 0.7;
-        bocca.prossimo = t + 70 + Math.random() * 110;
+        let parlaOra = true;
+        if (paroleAttuali) {   // con la registrazione la bocca si muove solo mentre pronuncia una parola
+          const ms = lettore.currentTime * 1000;
+          parlaOra = !lettore.paused && (!paroleAttuali.length || paroleAttuali.some(([a, z]) => ms >= a - 40 && ms <= z + 40));
+        }
+        bocca.obiettivo = !parlaOra ? 0 : Math.random() < 0.15 ? 0.1 : 0.3 + Math.random() * 0.7;
+        bocca.prossimo = t + 70 + Math.random() * 100;
       }
       const prima = bocca.a;
       bocca.a += (bocca.obiettivo - bocca.a) * 0.35;
@@ -447,18 +396,42 @@
       stato.turno++;
       clearTimeout(stato.guardia);
       if (sintesi) sintesi.cancel();
+      lettore.pause();
+      paroleAttuali = null;
       muoviBocca(false);
     }
 
-    function parla(testo, poi) {
+    function parla(b, poi) {
       const turno = stato.turno;
       const fatto = () => {
         if (turno !== stato.turno) return;
-        stato.turno++;   // una sola volta, anche se arrivano sia onend sia la rete di sicurezza
+        stato.turno++;   // una sola volta, anche se arrivano sia la fine sia la rete di sicurezza
         clearTimeout(stato.guardia);
+        lettore.pause();
+        paroleAttuali = null;
         muoviBocca(false);
         poi();
       };
+      const parole = registrate[b.file];
+      if (!parole) return parlaColTelefono(b.parlato, turno, fatto);
+      // voce registrata
+      const ripiego = () => {   // file non arrivato o telefono che non lo suona: parla la voce del telefono
+        if (turno !== stato.turno) return;
+        clearTimeout(stato.guardia);
+        paroleAttuali = null;
+        parlaColTelefono(b.parlato, turno, fatto);
+      };
+      paroleAttuali = parole;
+      lettore.onended = fatto;
+      lettore.onerror = ripiego;
+      lettore.src = 'audio/' + b.file;
+      stato.guardia = setTimeout(fatto, Math.max(12000, b.parlato.length * 170));
+      muoviBocca(true);
+      const p = lettore.play();
+      if (p && p.catch) p.catch(ripiego);
+    }
+
+    function parlaColTelefono(testo, turno, fatto) {
       const soloTesto = () => { muoviBocca(true); stato.guardia = setTimeout(fatto, Math.max(3500, testo.length * 70)); };
       if (!sintesi || stato.muto) return soloTesto();
       const u = new SpeechSynthesisUtterance(testo);
@@ -466,7 +439,7 @@
       u.lang = voce ? voce.lang : 'it-IT';
       if (voce) u.voice = voce;
       u.pitch = tono;
-      u.rate = 0.92;
+      u.rate = 0.95;
       u.onstart = () => { if (turno === stato.turno) muoviBocca(true); };
       u.onboundary = () => { if (turno === stato.turno) bocca.obiettivo = 1; };
       u.onend = fatto;
@@ -495,18 +468,22 @@
       $('battuta').textContent = b.testo;
       mostraScheda(b);
       evidenzia(b.lezione);
-      parla(b.parlato, () => {
+      parla(b, () => {
         const turno = stato.turno;
-        if (i < stato.battute.length - 1) setTimeout(() => { if (turno === stato.turno && !stato.pausa) dici(i + 1); }, 650);
+        if (i < stato.battute.length - 1) setTimeout(() => { if (turno === stato.turno && !stato.pausa) dici(i + 1); }, 600);
         else { stato.pausa = true; aggiornaComandi(); }
       });
+      // la frase dopo (voce e immagine) arriva già pronta
+      const dopo = stato.battute[i + 1];
+      if (dopo && registrate[dopo.file]) fetch('audio/' + dopo.file).catch(() => {});
+      if (dopo && dopo.lezione) new Image().src = `images/corsi/${encodeURIComponent(dopo.lezione.cod)}.jpg?v=${settimana.versioneImmagini || 1}`;
     }
 
     function mostraScheda(b) {
       const giorno = stato.giorno, g = GUIDE[giorno];
       const lez = lezioni.filter(l => l.day === giorno && !l.sospesa);
       if (b.tipo === 'lezione') {
-        const l = b.lezione, finisce = /^\d\d:\d\d$/.test(l.endTime);
+        const l = b.lezione, finisce = /^\d\d:\d\d$/.test(l.endTime), doc = RACCONTO.docenti(l, corsi).scritto;
         $('scheda').innerHTML = `
           <article class="scheda${l.sospesa ? ' sospesa' : ''}">
             <div class="foto">
@@ -517,7 +494,7 @@
               <div class="ora">${finisce ? `${l.startTime} – ${l.endTime}` : `dalle ${l.startTime}`}</div>
               <div class="titolo">${esc(titoloScritto(l.title))}</div>
               <div class="riga"><span class="aula" style="background:${AULE[l.aula] || '#1a5f7a'}">${esc(/^S\s*\d+$/i.test(l.aula) ? 'Aula ' + l.aula : l.aula)}</span></div>
-              ${l.teacher ? `<div class="riga">👤 ${esc(l.teacher)}</div>` : ''}
+              ${doc ? `<div class="riga">👤 ${esc(doc)}</div>` : ''}
             </div>
           </article>`;
       } else if (b.tipo === 'intro') {
@@ -538,9 +515,6 @@
             </div>
           </div></article>`;
       }
-      // l'immagine della lezione successiva arriva già pronta
-      const dopo = stato.battute[stato.battute.indexOf(b) + 1];
-      if (dopo && dopo.lezione) new Image().src = `images/corsi/${encodeURIComponent(dopo.lezione.cod)}.jpg?v=${settimana.versioneImmagini || 1}`;
     }
 
     function evidenzia(lezione) {
@@ -570,8 +544,10 @@
     function preparaGiorno(giorno) {
       fermaTutto();
       const g = GUIDE[giorno];
+      const saluto = RACCONTO.SALUTI[new Date().getHours() < 17 ? 0 : 1];   // "Buongiorno" o "Buonasera"
       stato.giorno = giorno;
-      stato.battute = battuteDel(giorno);
+      stato.battute = RACCONTO.battute(settimana, corsi, giorno, saluto);
+      stato.battute.forEach(b => b.file = RACCONTO.fileAudio(giorno, b.parlato));
       document.documentElement.style.setProperty('--colore', g.colore);
       document.documentElement.style.setProperty('--chiaro', g.chiaro);
       $('titoloGiorno').textContent = `${nomeGiorno(giorno)} ${dataBreve(giorno)}${eOggi(giorno) ? ' · oggi' : ''}`;
@@ -650,6 +626,11 @@
       document.body.appendChild(velo);
     }
 
+    const leggiJson = async (f, oppure) => {
+      try { const r = await fetch(f + '?t=' + Date.now(), { cache: 'no-store' }); return r.ok ? await r.json() : oppure; }
+      catch (e) { return oppure; }
+    };
+
     async function carica() {
       try {
         const r = await fetch('dati/settimana.json?t=' + Date.now(), { cache: 'no-store' });
@@ -660,9 +641,9 @@
         $('giorni').innerHTML = '<p class="errore">Non riesco a caricare l\'orario. Controlla la connessione e ricarica la pagina.</p>';
         return;
       }
-      lezioni = settimana.lezioni
-        .filter(l => GIORNI.includes(l.day))
-        .sort((a, b) => GIORNI.indexOf(a.day) - GIORNI.indexOf(b.day) || a.startTime.localeCompare(b.startTime) || a.aula.localeCompare(b.aula));
+      // catalogo dei corsi (per i nomi dei docenti) e voci registrate: se mancano si fa senza
+      [corsi, registrate] = await Promise.all([leggiJson('dati/corsi.json', []), leggiJson('audio/elenco.json', {})]);
+      lezioni = settimana.lezioni.filter(l => GIORNI.includes(l.day)).sort(RACCONTO.ordine);
       disegnaScelta();
       const g = giornoDalLink();
       if (g && lezioni.some(l => l.day === g)) chiediTocco(g);

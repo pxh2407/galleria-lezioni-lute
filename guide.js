@@ -1,38 +1,45 @@
 // Le cinque guide dell'"Orario raccontato" (avatar.html): una per giorno, disegnate in SVG.
 // Ogni disegno ha la bocca (.bocca, mossa da avatar.html mentre la guida parla),
 // gli occhi (.occhio, battono le ciglia) e la testa (.testa, dondola mentre parla).
+// "voce" = voce naturale con cui GitHub registra le frasi (strumenti/voci.py, edge-tts);
+// "sesso" e "tono" servono solo se la registrazione manca e parla la voce del telefono.
 
 const GUIDE = {
   'LUNEDÌ': {
-    nome: 'Lucia', sesso: 'f', tono: 1.0,
+    nome: 'Lucia', sesso: 'f', tono: 1,
+    voce: { nome: 'it-IT-IsabellaNeural', velocita: '-6%', tono: '+0Hz' },
     colore: '#2f7d4f', chiaro: '#e2f0e6',
     pelle: '#f3cdaa', ombra: '#dfae88', capelli: '#d9dde2', capelliOmbra: '#b4bbc4', sopracciglia: '#a3a9b1',
     stile: 'caschetto', occhiali: 'rettangolari', montatura: '#c79a2b',
     abito: '#f3eddf', abitoOmbra: '#d9cfb8', collo: 'foulard', accento: '#2f7d4f', labbra: '#a8474a', orecchini: '#d4af37'
   },
   'MARTEDÌ': {
-    nome: 'Alfredo', sesso: 'm', tono: 0.9,
+    nome: 'Alfredo', sesso: 'm', tono: 1,
+    voce: { nome: 'it-IT-DiegoNeural', velocita: '-6%', tono: '+0Hz' },
     colore: '#1d4e89', chiaro: '#e1eaf6',
     pelle: '#eabd98', ombra: '#d29f79', capelli: '#ececec', capelliOmbra: '#c9c9c9', sopracciglia: '#d6d6d6',
     stile: 'calvo', baffi: '#efefef',
     abito: '#1f3a5f', abitoOmbra: '#152a46', collo: 'papillon', accento: '#c0392b', labbra: '#8f4a40'
   },
   'MERCOLEDÌ': {
-    nome: 'Elena', sesso: 'f', tono: 1.05,
+    nome: 'Elena', sesso: 'f', tono: 1,
+    voce: { nome: 'it-IT-ElsaNeural', velocita: '-6%', tono: '+0Hz' },
     colore: '#7b2d6b', chiaro: '#f3e3ef',
     pelle: '#f6d4b6', ombra: '#e2b593', capelli: '#5b3a28', capelliOmbra: '#3c2519', sopracciglia: '#4a2f20',
     stile: 'chignon',
     abito: '#7b2d6b', abitoOmbra: '#5e2051', collo: 'perle', labbra: '#b0475e', orecchini: '#e9e4d8'
   },
   'GIOVEDÌ': {
-    nome: 'Vittorio', sesso: 'm', tono: 0.85,
+    nome: 'Vittorio', sesso: 'm', tono: 1,
+    voce: { nome: 'it-IT-GiuseppeMultilingualNeural', velocita: '-6%', tono: '+0Hz' },
     colore: '#9b2c2c', chiaro: '#f6e2e0',
     pelle: '#dca582', ombra: '#c38865', capelli: '#b9b9b9', capelliOmbra: '#949494', sopracciglia: '#8a8a8a',
     stile: 'ricci', barba: '#b0b0b0', occhiali: 'tondi', montatura: '#3a3a3a',
     abito: '#9b2c2c', abitoOmbra: '#7a1f1f', collo: 'camicia', accento: '#dbe7f3', labbra: '#8f4a40'
   },
   'VENERDÌ': {
-    nome: 'Anna', sesso: 'f', tono: 1.12,
+    nome: 'Anna', sesso: 'f', tono: 1,
+    voce: { nome: 'it-IT-IsabellaNeural', velocita: '-3%', tono: '+6Hz' },
     colore: '#b4530b', chiaro: '#fbe9d9',
     pelle: '#f2c8a2', ombra: '#dca984', capelli: '#a8492a', capelliOmbra: '#7e331c', sopracciglia: '#7e3a22',
     stile: 'mossi',
@@ -181,3 +188,5 @@ function disegnaGuida(giorno) {
     `<circle cx="120" cy="130" r="120" fill="${g.chiaro}"/>` +
     `<g clip-path="url(#${id})">${p.join('')}</g></svg>`;
 }
+
+if (typeof module !== 'undefined') module.exports = { GUIDE, formaBocca, disegnaGuida };
