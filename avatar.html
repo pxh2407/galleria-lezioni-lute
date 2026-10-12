@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LUTE · L'orario raccontato</title>
+  <!-- Anteprima del link (WhatsApp ecc.): non dipende dalla settimana, quindi non va mai cambiata -->
+  <meta name="description" content="LUTE Milazzo · Scegli il giorno: una guida ti racconta a voce le lezioni della settimana, con orario, aula e docente.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="it_IT">
+  <meta property="og:site_name" content="LUTE Milazzo">
+  <meta property="og:title" content="LUTE · L'orario della settimana raccontato">
+  <meta property="og:description" content="Scegli il giorno: una guida ti racconta a voce le lezioni, con orario, aula e docente.">
+  <meta property="og:image" content="https://pxh2407.github.io/galleria-lezioni-lute/images/copertina-avatar.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --inchiostro: #0d2538;
+      --testo: #1e293b;
+      --tenue: #475569;
+      --fondo: #f6f3ec;
+      --carta: #ffffff;
+      --bordo: #e2dccd;
+      --colore: #1a5f7a;   /* cambia col giorno scelto */
+      --chiaro: #e3eef2;
+    }
+    * { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; }
+    body {
+      margin: 0; min-height: 100vh; display: flex; flex-direction: column;
+      font-family: 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif;
+      font-size: 20px; line-height: 1.45; color: var(--testo); background: var(--fondo);
+    }
+    button { font: inherit; color: inherit; cursor: pointer; }
+    a { color: inherit; }
+    [hidden] { display: none !important; }
+
+    /* ---------- intestazione ---------- */
+    header {
+      display: flex; align-items: center; gap: 12px; padding: 10px 16px;
+      background: var(--carta); border-bottom: 1px solid var(--bordo);
+    }
+    header img { height: 46px; width: auto; }
+    header .titoli { flex: 1; min-width: 0; }
+    header .t1 { font-family: 'Playfair Display', Georgia, serif; font-size: 22px; font-weight: 700; color: var(--inchiostro); line-height: 1.15; }
+    header .t2 { font-size: 15px; color: var(--tenue); }
+    .link-galleria {
+      flex: none; text-decoration: none; font-size: 15px; font-weight: 700; color: var(--inchiostro);
+      padding: 8px 12px; border: 2px solid var(--bordo); border-radius: 12px; background: #fff;
+    }
+    .link-galleria:hover { border-color: var(--inchiostro); }
+
+    main { flex: 1; width: 100%; max-width: 1180px; margin: 0 auto; padding: 18px 16px 28px; }
+
+    /* ---------- scelta del giorno ---------- */
+    .intro h1 { font-family: 'Playfair Display', Georgia, serif; font-size: 32px; color: var(--inchiostro); margin: 4px 0 6px; line-height: 1.15; }
+    .intro .periodo { font-size: 21px; font-weight: 800; color: #1a5f7a; margin-bottom: 6px; }
+    .intro p { margin: 0 0 18px; color: var(--tenue); }
+    .giorni { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
+    .giorno {
+      position: relative; display: flex; align-items: center; gap: 16px; padding: 14px 16px; text-align: left;
+      background: var(--carta); border: 3px solid var(--c); border-radius: 24px;
+      box-shadow: 0 2px 0 rgba(13, 37, 56, .06); transition: transform .15s, box-shadow .15s;
+    }
+    .giorno:hover, .giorno:focus-visible { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(13, 37, 56, .14); outline: none; }
+    .giorno .ritratto { width: 104px; height: 113px; flex: none; }
+    .giorno .ritratto svg { width: 100%; height: 100%; }
+    .giorno .nome-giorno { display: block; font-size: 28px; font-weight: 800; color: var(--c); line-height: 1.1; }
+    .giorno .data { display: block; font-size: 19px; font-weight: 600; color: var(--inchiostro); }
+    .giorno .chi { display: block; font-size: 17px; color: var(--tenue); margin-top: 2px; }
+    .giorno .quante {
+      display: inline-block; margin-top: 6px; padding: 3px 12px; border-radius: 999px;
+      background: var(--c); color: #fff; font-size: 16px; font-weight: 700;
+    }
+    .giorno .oggi {
+      position: absolute; top: -12px; right: 14px; padding: 2px 12px; border-radius: 999px;
+      background: #f28c38; color: #1a1a1a; font-size: 15px; font-weight: 800; letter-spacing: .04em;
+    }
+    .giorno:disabled { opacity: .5; cursor: default; transform: none; box-shadow: none; }
+    .nota { margin-top: 22px; font-size: 16px; color: var(--tenue); text-align: center; }
+
+    /* ---------- il palco: la guida racconta ---------- */
+    .barra-giorno { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; flex-wrap: wrap; }
+    .indietro {
+      padding: 10px 16px; border-radius: 14px; border: 2px solid var(--inchiostro); background: #fff;
+      font-size: 18px; font-weight: 700;
+    }
+    .barra-giorno h2 { margin: 0; font-size: 26px; color: var(--colore); line-height: 1.15; }
+
+    /* telefono: guida e fumetto, poi la scheda della lezione, i comandi sempre in basso e infine l'elenco */
+    .palco { display: flex; flex-direction: column; gap: 14px; }
+    .colonna-guida, .destra { display: contents; }
+    .scena { order: 1; }
+    #scheda { order: 2; }
+    .comandi { order: 3; }
+    .elenco-box { order: 4; }
+    .scena { display: flex; align-items: flex-start; gap: 12px; }
+    .guida { flex: none; width: 128px; text-align: center; }
+    .guida svg { width: 100%; height: auto; display: block; }
+    .guida .nome { font-weight: 800; color: var(--colore); font-size: 19px; margin-top: 2px; }
+    .fumetto {
+      position: relative; flex: 1; min-height: 120px; padding: 14px 16px; border-radius: 20px;
+      background: var(--carta); border: 3px solid var(--colore); font-size: 21px; font-weight: 600; color: var(--inchiostro);
+    }
+    .fumetto::before {
+      content: ''; position: absolute; left: -14px; top: 38px; border: 12px solid transparent;
+      border-right-color: var(--colore); border-left: 0;
+    }
+    .avviso-voce { margin-top: 8px; font-size: 16px; font-weight: 600; color: #9a3412; }
+
+    .scheda {
+      background: var(--carta); border-radius: 22px; overflow: hidden; border: 1px solid var(--bordo);
+      box-shadow: 0 4px 16px rgba(13, 37, 56, .08); animation: entra .35s ease-out;
+    }
+    @keyframes entra { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+    .scheda .foto { position: relative; aspect-ratio: 16 / 9; background: var(--chiaro); }
+    .scheda .foto img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .scheda .sospesa-fascia {
+      position: absolute; left: 0; right: 0; bottom: 0; padding: 8px; text-align: center;
+      background: #b91c1c; color: #fff; font-weight: 800; font-size: 19px;
+    }
+    .scheda.sospesa img { filter: grayscale(1); opacity: .6; }
+    .scheda .corpo { padding: 14px 18px 18px; }
+    .scheda .ora { font-size: 30px; font-weight: 800; color: var(--colore); line-height: 1.1; }
+    .scheda .titolo { font-size: 25px; font-weight: 800; color: var(--inchiostro); margin: 6px 0 8px; line-height: 1.2; }
+    .scheda.sospesa .titolo { text-decoration: line-through; text-decoration-color: #b91c1c; }
+    .scheda .riga { display: flex; align-items: center; gap: 10px; font-size: 20px; margin-top: 6px; flex-wrap: wrap; }
+    .aula { display: inline-block; padding: 3px 12px; border-radius: 10px; color: #fff; font-weight: 800; }
+    .scheda .riepilogo { padding: 20px 18px; }
+    .scheda .riepilogo .grande { font-size: 30px; font-weight: 800; color: var(--colore); line-height: 1.15; }
+    .scheda .riepilogo p { margin: 8px 0 0; }
+    .fine-pulsanti { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+    .fine-pulsanti button {
+      padding: 12px 18px; border-radius: 14px; font-size: 19px; font-weight: 700;
+      border: 2px solid var(--colore); background: #fff; color: var(--colore);
+    }
+    .fine-pulsanti button.pieno { background: var(--colore); color: #fff; }
+
+    .elenco-box h3 { margin: 4px 0 8px; font-size: 20px; color: var(--inchiostro); }
+    .elenco { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+    .elenco button {
+      width: 100%; display: flex; gap: 12px; align-items: baseline; text-align: left; padding: 10px 14px;
+      background: var(--carta); border: 2px solid var(--bordo); border-radius: 14px; font-size: 18px;
+    }
+    .elenco button:hover { border-color: var(--colore); }
+    .elenco .o { flex: none; font-weight: 800; color: var(--colore); min-width: 118px; }
+    .elenco .t { flex: 1; font-weight: 600; }
+    .elenco .a { flex: none; font-size: 15px; font-weight: 700; color: var(--tenue); }
+    .elenco .attuale button { background: var(--colore); border-color: var(--colore); color: #fff; }
+    .elenco .attuale .o, .elenco .attuale .a { color: #fff; }
+    .elenco .barrata .t { text-decoration: line-through; color: #b91c1c; }
+
+    /* comandi fissi in basso */
+    .comandi {
+      position: sticky; bottom: 0; z-index: 10; display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;
+      padding: 10px 0 calc(10px + env(safe-area-inset-bottom)); background: linear-gradient(to top, var(--fondo) 75%, rgba(246, 243, 236, 0));
+    }
+    .comandi button {
+      display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 8px 4px; min-height: 68px;
+      border-radius: 16px; border: 2px solid var(--colore); background: #fff; color: var(--colore); font-size: 16px; font-weight: 700;
+    }
+    .comandi button .ic { font-size: 26px; line-height: 1; }
+    .comandi button.principale { background: var(--colore); color: #fff; }
+    .comandi button:disabled { opacity: .4; cursor: default; }
+
+    /* tocca per ascoltare (quando si arriva da un link diretto a un giorno) */
+    .tocca {
+      position: fixed; inset: 0; z-index: 50; display: flex; align-items: center; justify-content: center; padding: 16px;
+      background: rgba(13, 37, 56, .55);
+    }
+    .tocca button {
+      display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 22px 28px; max-width: 360px;
+      border: 0; border-radius: 28px; background: #fff; color: var(--inchiostro); font-size: 24px; font-weight: 800;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, .3);
+    }
+    .tocca .ritratto { width: 170px; }
+    .tocca .play { display: inline-block; margin-top: 4px; padding: 10px 22px; border-radius: 999px; background: var(--colore); color: #fff; }
+
+    /* animazioni della guida */
+    .guida-svg .occhio { transform-box: fill-box; transform-origin: center; transition: transform .07s; }
+    .guida-svg.chiudi .occhio { transform: scaleY(.12); }
+    .guida-svg .testa { transform-origin: 120px 190px; }
+    .parla .guida .testa { animation: dondola 2.8s ease-in-out infinite; }
+    @keyframes dondola { 0%, 100% { transform: rotate(-1.6deg); } 50% { transform: rotate(1.6deg); } }
+    @media (prefers-reduced-motion: reduce) { .parla .guida .testa { animation: none; } .scheda { animation: none; } }
+
+    footer { padding: 14px 16px 18px; text-align: center; font-size: 15px; color: var(--tenue); }
+    .errore { padding: 18px; border-radius: 16px; background: #fff; border: 2px solid #b91c1c; color: #7f1d1d; }
+
+    /* computer e tablet: guida a sinistra, scheda ed elenco a destra */
+    @media (min-width: 900px) {
+      .palco { display: grid; grid-template-columns: 380px 1fr; align-items: start; gap: 24px; }
+      .colonna-guida { display: block; position: sticky; top: 16px; }
+      .scena { flex-direction: column; align-items: center; }
+      .guida { width: 250px; }
+      .guida .nome { font-size: 22px; }
+      .fumetto { width: 100%; min-height: 150px; font-size: 22px; }
+      .fumetto::before { left: 50%; top: -14px; transform: translateX(-50%); border: 12px solid transparent; border-bottom-color: var(--colore); border-top: 0; }
+      .comandi { position: static; background: none; margin-top: 12px; }
+      .destra { display: grid; grid-template-columns: 1fr; gap: 16px; }
+    }
+    @media (max-width: 420px) {
+      body { font-size: 19px; }
+      header .t1 { font-size: 20px; }
+      header img { height: 40px; }
+      .link-galleria { padding: 6px 9px; font-size: 14px; }
+      .intro h1 { font-size: 28px; }
+      .giorni { grid-template-columns: 1fr; }
+      .giorno .ritratto { width: 92px; height: 100px; }
+      .guida { width: 104px; }
+      .guida .nome { font-size: 17px; }
+      .fumetto { font-size: 18px; padding: 10px 13px; min-height: 100px; }
+      .fumetto::before { top: 30px; }
+      .barra-giorno { gap: 10px; margin-bottom: 10px; }
+      .indietro { padding: 8px 12px; font-size: 17px; }
+      .barra-giorno h2 { font-size: 21px; }
+      .scheda .corpo { padding: 10px 14px 14px; }
+      .scheda .ora { font-size: 26px; }
+      .scheda .titolo { font-size: 23px; }
+      .elenco .o { min-width: 104px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <img src="images/logo-lute.png" alt="LUTE Milazzo">
+    <div class="titoli">
+      <div class="t1">L'orario raccontato</div>
+      <div class="t2">LUTE Milazzo</div>
+    </div>
+    <a class="link-galleria" href="./">📋 Galleria</a>
+  </header>
+
+  <main>
+    <!-- 1. scelta del giorno -->
+    <section id="scelta">
+      <div class="intro">
+        <h1>Scegli il giorno</h1>
+        <div class="periodo" id="periodo">Lezioni della settimana</div>
+        <p>Tocca un giorno: la guida ti racconta le lezioni, con orario, aula e docente. 🔊 Alza il volume!</p>
+      </div>
+      <div class="giorni" id="giorni"></div>
+      <p class="nota">Se non senti la voce, leggi il fumetto: la guida scrive tutto quello che dice.</p>
+    </section>
+
+    <!-- 2. la guida racconta il giorno scelto -->
+    <section id="racconto" hidden>
+      <div class="barra-giorno">
+        <button class="indietro" onclick="tornaAllaScelta()">← Altri giorni</button>
+        <h2 id="titoloGiorno"></h2>
+      </div>
+      <div class="palco" id="palco">
+        <div class="colonna-guida">
+          <div class="scena">
+            <div class="guida"><div id="ritratto"></div><div class="nome" id="nomeGuida"></div></div>
+            <div class="fumetto"><div id="battuta"></div><div class="avviso-voce" id="avvisoVoce" hidden></div></div>
+          </div>
+          <div class="comandi">
+            <button onclick="indietro()" id="btnIndietro"><span class="ic">⏮</span>Indietro</button>
+            <button onclick="pausaOContinua()" id="btnPausa" class="principale"><span class="ic">⏸</span><span>Pausa</span></button>
+            <button onclick="avanti()" id="btnAvanti"><span class="ic">⏭</span>Avanti</button>
+            <button onclick="daCapo()"><span class="ic">↺</span>Da capo</button>
+          </div>
+        </div>
+        <div class="destra">
+          <div id="scheda"></div>
+          <div class="elenco-box">
+            <h3>Tutte le lezioni del giorno <span style="font-weight:600;color:var(--tenue);font-size:16px">(tocca per ascoltarne una)</span></h3>
+            <ol class="elenco" id="elenco"></ol>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>LUTE · Libera Università delle Tre Età · Milazzo</footer>
+
+  <script src="guide.js"></script>
+  <script>
+    // ===== L'orario raccontato =====
+    // Legge lo stesso orario della galleria (dati/settimana.json, pubblicato col programma "Gestione Orario"):
+    // quando si pubblica una settimana nuova anche le guide la raccontano, senza fare altro.
+    // La voce è quella del telefono/computer di chi ascolta (sintesi vocale del browser).
+
+    const SITO = 'https://pxh2407.github.io/galleria-lezioni-lute/';
+    const GIORNI = ['LUNEDÌ', 'MARTEDÌ', 'MERCOLEDÌ', 'GIOVEDÌ', 'VENERDÌ'];
+    const MESI = ['gennaio', 'febbraio', 'marzo', 'aprile', 'maggio', 'giugno', 'luglio', 'agosto', 'settembre', 'ottobre', 'novembre', 'dicembre'];
+    const AULE = { 'S09': '#0369a1', 'S08': '#7e22ce', 'S07': '#047857', 'S06': '#b45309', 'S05': '#be185d', 'Palestra': '#b91c1c', 'Aula Magna': '#3730a3' };
+    const CIFRE = ['zero', 'uno', 'due', 'tre', 'quattro', 'cinque', 'sei', 'sette', 'otto', 'nove'];
+    const $ = id => document.getElementById(id);
+    const maiusc = s => s.charAt(0).toUpperCase() + s.slice(1);
+    const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+    let settimana = null, lezioni = [];
+
+    // ---------- date ----------
+    function dataDel(giorno) {   // Date del giorno della settimana (a mezzogiorno: l'ora legale non sposta il giorno)
+      const d = new Date(settimana.dal + 'T12:00:00');
+      d.setDate(d.getDate() + GIORNI.indexOf(giorno));
+      return d;
+    }
+    const dataBreve = g => { const d = dataDel(g); return `${d.getDate()} ${MESI[d.getMonth()]}`; };   // "12 ottobre"
+    const nomeGiorno = g => g.charAt(0) + g.slice(1).toLowerCase();                                    // "Lunedì"
+    const eOggi = g => dataDel(g).toDateString() === new Date().toDateString();
+    function periodoLungo() {
+      const a = new Date(settimana.dal + 'T12:00:00'), b = new Date(settimana.al + 'T12:00:00');
+      const primo = a.getMonth() === b.getMonth() ? `${a.getDate()}` : `${a.getDate()} ${MESI[a.getMonth()]}`;
+      return `dal ${primo} al ${b.getDate()} ${MESI[b.getMonth()]} ${b.getFullYear()}`;
+    }
+
+    // ---------- come si dicono le cose a voce ----------
+    const oraDetta = t => { const [h, m] = t.split(':'); return +m ? `${+h} e ${+m}` : `${+h}`; };   // "15:30" → "15 e 30"
+    function aulaDetta(a) {
+      if (/^palestra$/i.test(a)) return 'in palestra';
+      if (/^aula magna$/i.test(a)) return 'in aula magna';
+      const m = /^S\s*(\d+)$/i.exec(a);
+      return m ? 'in aula esse ' + [...m[1]].map(c => CIFRE[+c]).join(' ') : 'in aula ' + a;
+    }
+    const aulaScritta = a => /^S\s*\d+$/i.test(a) ? 'in aula ' + a : (/^palestra$/i.test(a) ? 'in palestra' : 'in ' + a.toLowerCase());
+    // "VENERDI'" → "VENERDÌ", "ISGRO'" → "ISGRÒ"
+    const accenti = s => s.replace(/([AEIOUaeiou])'(?=\s|$|[.,;:!?])/g, (x, v) => ({ a: 'à', e: 'è', i: 'ì', o: 'ò', u: 'ù', A: 'À', E: 'È', I: 'Ì', O: 'Ò', U: 'Ù' }[v]));
+    const parolaMaiusc = w => w.toLowerCase().replace(/(^|[\s'’-])(\p{L})/gu, (x, a, b) => a + b.toUpperCase());
+    // "FALLITI G. / PITRONE C." → "Falliti e Pitrone"; "Istruttore LUTE" → "" (non lo diciamo)
+    function docenteDetto(t) {
+      if (!t || /\bLUTE\b/i.test(t)) return '';
+      const nomi = accenti(t).split(/\s*\/\s*|\s+[-–]\s*|\s*[-–]\s+/)
+        .map(n => n.replace(/\b(?:\p{Lu}\.)+/gu, '').replace(/\s+/g, ' ').trim())
+        .filter(Boolean).map(parolaMaiusc);
+      return nomi.length > 1 ? nomi.slice(0, -1).join(', ') + ' e ' + nomi[nomi.length - 1] : (nomi[0] || '');
+    }
+    function titoloScritto(t) {
+      let s = accenti(String(t)).replace(/[.…]{2,}\s*$/, '').trim();
+      if (s === s.toUpperCase()) s = maiusc(s.toLowerCase()).replace(/\blute\b/g, 'LUTE').replace(/venerdì/g, 'Venerdì').replace(/mosaico/g, 'Mosaico');
+      return s;
+    }
+    const titoloDetto = t => titoloScritto(t).replace(/["“”«»]/g, '').replace(/\s[-–]\s/g, ', ').replace(/\s*\/\s*/g, ' e ').replace(/'900\b|’900\b/g, 'Novecento').replace(/\bLUTE\b/g, 'Lute');
+    const testoDetto = s => s.replace(/\bLUTE\b/g, 'Lute');
+
+    // ---------- le battute della guida per un giorno ----------
+    function battuteDel(giorno) {
+      const g = GUIDE[giorno], lez = lezioni.filter(l => l.day === giorno);
+      const attive = lez.filter(l => !l.sospesa), sospese = lez.length - attive.length;
+      const oraSaluto = new Date().getHours() < 17 ? 'Buongiorno' : 'Buonasera';
+      const quando = `${nomeGiorno(giorno)} ${dataBreve(giorno)}`;
+      const b = [];
+
+      let intro = `${oraSaluto}! Sono ${g.nome}, la vostra guida del ${giorno.toLowerCase()}. `;
+      if (!attive.length) {
+        const motivo = lez.find(l => l.motivo)?.motivo;
+        intro += `Attenzione: ${quando} le lezioni sono sospese${motivo ? ' (' + motivo + ')' : ''}.`;
+        b.push({ tipo: 'intro', testo: intro });
+      } else {
+        const inizio = attive.map(l => l.startTime).sort()[0];
+        const fini = attive.map(l => l.endTime).filter(t => /^\d\d:\d\d$/.test(t)).sort();
+        intro += attive.length === 1 ? `${quando} c'è una sola lezione. ` :
+          `${quando} ci sono ${attive.length} lezioni, dalle ${inizio}${fini.length ? ' alle ' + fini[fini.length - 1] : ''}. `;
+        if (sospese) intro += `Attenzione: ${sospese === 1 ? 'una lezione è sospesa' : sospese + ' lezioni sono sospese'}. `;
+        intro += attive.length === 1 ? 'Ve la racconto.' : 'Ve le racconto una per una.';
+        b.push({ tipo: 'intro', testo: intro, parlato: intro.replace(/(\d\d):(\d\d)/g, (x) => oraDetta(x)) });
+        lez.forEach(l => b.push(battutaLezione(l)));
+      }
+      const fine = `Questo è tutto per ${giorno.toLowerCase()}. Per sentire un altro giorno, toccate «Altri giorni». Buone lezioni e arrivederci alla LUTE!`;
+      b.push({ tipo: 'fine', testo: fine });
+      b.forEach(x => x.parlato = testoDetto(x.parlato || x.testo).replace(/[«»]/g, ''));
+      return b;
+    }
+
+    function battutaLezione(l) {
+      const doc = docenteDetto(l.teacher), finisce = /^\d\d:\d\d$/.test(l.endTime);
+      const tit = titoloScritto(l.title), titD = titoloDetto(l.title);
+      if (l.sospesa) {
+        const m = l.motivo ? `: ${l.motivo}` : '';
+        return { tipo: 'lezione', lezione: l,
+          testo: `Attenzione: questa settimana «${tit}» è sospesa${m}.`,
+          parlato: `Attenzione: questa settimana ${titD} è sospesa${m}.` };
+      }
+      const orario = finisce ? `Dalle ${l.startTime} alle ${l.endTime}` : `Alle ${l.startTime}`;
+      const orarioD = finisce ? `Dalle ${oraDetta(l.startTime)} alle ${oraDetta(l.endTime)}` : `Alle ${oraDetta(l.startTime)}`;
+      return { tipo: 'lezione', lezione: l,
+        testo: `${orario}, ${aulaScritta(l.aula)}: «${tit}»${doc ? ', con ' + doc : ''}.`,
+        parlato: `${orarioD}, ${aulaDetta(l.aula)}: ${titD}${doc ? ', con ' + doc : ''}.` };
+    }
+
+    // ---------- voce ----------
+    const sintesi = 'speechSynthesis' in window ? window.speechSynthesis : null;
+    const MASCHILI = /\b(luca|diego|cosimo|giuseppe|benigno|calimero|cataldo|gianni|giorgio|lisandro|rinaldo|paolo|marco|roberto|lorenzo|alessandro|matteo|davide|carlo|male|maschile|uomo)\b/i;
+    const FEMMINILI = /\b(alice|federica|paola|elsa|isabella|lucia|emma|fiamma|fabiola|carla|cristina|valentina|sara|chiara|serena|elisa|francesca|giulia|palmira|pierina|imelda|irma|female|femminile|donna)\b|google italiano/i;
+    const vociItaliane = () => sintesi ? sintesi.getVoices().filter(v => /^it([-_]|$)/i.test(v.lang)) : [];
+    const qualita = v => (/natural|neural|online|premium|enhanced|migliorata/i.test(v.name) ? 4 : 0) + (/google/i.test(v.name) ? 2 : 0) + (v.localService ? 0 : 1);
+    if (sintesi) { sintesi.getVoices(); sintesi.addEventListener?.('voiceschanged', () => {}); }
+
+    // Ogni guida ha la sua voce, se il telefono ne ha più d'una; altrimenti cambia il tono
+    function voceDi(giorno) {
+      const g = GUIDE[giorno], tutte = vociItaliane();
+      if (!tutte.length) return { voce: null, tono: g.sesso === 'm' ? g.tono * 0.85 : g.tono };
+      const sessoDi = v => MASCHILI.test(v.name) ? 'm' : FEMMINILI.test(v.name) ? 'f' : '?';
+      const stesse = tutte.filter(v => sessoDi(v) === g.sesso).sort((a, b) => qualita(b) - qualita(a));
+      const compagni = GIORNI.filter(x => GUIDE[x].sesso === g.sesso);
+      if (stesse.length) return { voce: stesse[compagni.indexOf(giorno) % stesse.length], tono: g.tono };
+      const migliore = [...tutte].sort((a, b) => qualita(b) - qualita(a))[0];
+      return { voce: migliore, tono: g.sesso === 'm' ? g.tono * 0.82 : g.tono };
+    }
+
+    // ---------- bocca e occhi ----------
+    const bocca = { el: null, a: 0, obiettivo: 0, attiva: false, prossimo: 0 };
+    function muoviBocca(on) {
+      bocca.attiva = on;
+      if (!on) bocca.obiettivo = 0;
+      $('palco').classList.toggle('parla', on);
+    }
+    function ciclo(t) {
+      if (bocca.attiva && t > bocca.prossimo) {
+        bocca.obiettivo = Math.random() < 0.18 ? 0.05 : 0.3 + Math.random() * 0.7;
+        bocca.prossimo = t + 70 + Math.random() * 110;
+      }
+      const prima = bocca.a;
+      bocca.a += (bocca.obiettivo - bocca.a) * 0.35;
+      if (bocca.el && Math.abs(prima - bocca.a) > 0.002) bocca.el.setAttribute('d', formaBocca(bocca.a));
+      requestAnimationFrame(ciclo);
+    }
+    requestAnimationFrame(ciclo);
+    // battito di ciglia, a intervalli irregolari, per tutte le guide sullo schermo
+    setInterval(() => {
+      const ora = Date.now();
+      document.querySelectorAll('.guida-svg').forEach(s => {
+        if (!s._ciglia) s._ciglia = ora + 1000 + Math.random() * 4000;
+        if (ora > s._ciglia) {
+          s.classList.add('chiudi');
+          setTimeout(() => s.classList.remove('chiudi'), 140);
+          s._ciglia = ora + 2500 + Math.random() * 3500;
+        }
+      });
+    }, 200);
+
+    // ---------- il racconto ----------
+    const stato = { giorno: null, battute: [], i: 0, pausa: false, turno: 0, guardia: null, frase: null, muto: false };
+
+    function fermaTutto() {
+      stato.turno++;
+      clearTimeout(stato.guardia);
+      if (sintesi) sintesi.cancel();
+      muoviBocca(false);
+    }
+
+    function parla(testo, poi) {
+      const turno = stato.turno;
+      const fatto = () => {
+        if (turno !== stato.turno) return;
+        stato.turno++;   // una sola volta, anche se arrivano sia onend sia la rete di sicurezza
+        clearTimeout(stato.guardia);
+        muoviBocca(false);
+        poi();
+      };
+      const soloTesto = () => { muoviBocca(true); stato.guardia = setTimeout(fatto, Math.max(3500, testo.length * 70)); };
+      if (!sintesi || stato.muto) return soloTesto();
+      const u = new SpeechSynthesisUtterance(testo);
+      const { voce, tono } = voceDi(stato.giorno);
+      u.lang = voce ? voce.lang : 'it-IT';
+      if (voce) u.voice = voce;
+      u.pitch = tono;
+      u.rate = 0.92;
+      u.onstart = () => { if (turno === stato.turno) muoviBocca(true); };
+      u.onboundary = () => { if (turno === stato.turno) bocca.obiettivo = 1; };
+      u.onend = fatto;
+      u.onerror = e => {
+        if (turno !== stato.turno || e.error === 'interrupted' || e.error === 'canceled') return;
+        stato.muto = true;   // su questo apparecchio la voce non funziona: si continua col fumetto
+        $('avvisoVoce').textContent = '🔇 La voce non è disponibile su questo apparecchio: leggi qui sopra.';
+        $('avvisoVoce').hidden = false;
+        clearTimeout(stato.guardia);
+        soloTesto();
+      };
+      stato.frase = u;   // tenerla in vita: alcuni browser altrimenti "perdono" la fine della frase
+      // rete di sicurezza: se il browser non avvisa della fine, si va avanti lo stesso
+      stato.guardia = setTimeout(fatto, Math.max(9000, testo.length * 160));
+      muoviBocca(true);
+      sintesi.cancel();
+      setTimeout(() => { if (turno === stato.turno) sintesi.speak(u); }, 80);
+    }
+
+    function dici(i) {
+      fermaTutto();
+      stato.i = i;
+      stato.pausa = false;
+      aggiornaComandi();
+      const b = stato.battute[i];
+      $('battuta').textContent = b.testo;
+      mostraScheda(b);
+      evidenzia(b.lezione);
+      parla(b.parlato, () => {
+        const turno = stato.turno;
+        if (i < stato.battute.length - 1) setTimeout(() => { if (turno === stato.turno && !stato.pausa) dici(i + 1); }, 650);
+        else { stato.pausa = true; aggiornaComandi(); }
+      });
+    }
+
+    function mostraScheda(b) {
+      const giorno = stato.giorno, g = GUIDE[giorno];
+      const lez = lezioni.filter(l => l.day === giorno && !l.sospesa);
+      if (b.tipo === 'lezione') {
+        const l = b.lezione, finisce = /^\d\d:\d\d$/.test(l.endTime);
+        $('scheda').innerHTML = `
+          <article class="scheda${l.sospesa ? ' sospesa' : ''}">
+            <div class="foto">
+              <img src="images/corsi/${encodeURIComponent(l.cod)}.jpg?v=${settimana.versioneImmagini || 1}" alt="" onerror="this.remove()">
+              ${l.sospesa ? `<div class="sospesa-fascia">LEZIONE SOSPESA${l.motivo ? ' · ' + esc(l.motivo) : ''}</div>` : ''}
+            </div>
+            <div class="corpo">
+              <div class="ora">${finisce ? `${l.startTime} – ${l.endTime}` : `dalle ${l.startTime}`}</div>
+              <div class="titolo">${esc(titoloScritto(l.title))}</div>
+              <div class="riga"><span class="aula" style="background:${AULE[l.aula] || '#1a5f7a'}">${esc(/^S\s*\d+$/i.test(l.aula) ? 'Aula ' + l.aula : l.aula)}</span></div>
+              ${l.teacher ? `<div class="riga">👤 ${esc(l.teacher)}</div>` : ''}
+            </div>
+          </article>`;
+      } else if (b.tipo === 'intro') {
+        $('scheda').innerHTML = `
+          <article class="scheda"><div class="riepilogo">
+            <div class="grande">${nomeGiorno(giorno)} ${dataBreve(giorno)}</div>
+            <p>${lez.length ? `<b>${lez.length} ${lez.length === 1 ? 'lezione' : 'lezioni'}</b> — te le racconta ${g.nome}.` : 'Nessuna lezione.'}</p>
+          </div></article>`;
+      } else {
+        const altri = GIORNI.filter(x => x !== giorno && lezioni.some(l => l.day === x));
+        $('scheda').innerHTML = `
+          <article class="scheda"><div class="riepilogo">
+            <div class="grande">Buone lezioni! 👋</div>
+            <p>Vuoi ascoltare un altro giorno?</p>
+            <div class="fine-pulsanti">
+              ${altri.map(x => `<button onclick="apriGiorno('${x}')">${nomeGiorno(x)}</button>`).join('')}
+              <button class="pieno" onclick="daCapo()">↺ Ascolta di nuovo</button>
+            </div>
+          </div></article>`;
+      }
+      // l'immagine della lezione successiva arriva già pronta
+      const dopo = stato.battute[stato.battute.indexOf(b) + 1];
+      if (dopo && dopo.lezione) new Image().src = `images/corsi/${encodeURIComponent(dopo.lezione.cod)}.jpg?v=${settimana.versioneImmagini || 1}`;
+    }
+
+    function evidenzia(lezione) {
+      document.querySelectorAll('#elenco li').forEach(li => li.classList.toggle('attuale', !!lezione && li.dataset.id === lezione.id));
+      const li = lezione && document.querySelector(`#elenco li[data-id="${CSS.escape(lezione.id)}"]`);
+      if (li && window.innerWidth >= 900) li.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    }
+
+    function aggiornaComandi() {
+      const finito = stato.i === stato.battute.length - 1 && stato.pausa;
+      $('btnPausa').innerHTML = stato.pausa
+        ? `<span class="ic">▶</span><span>${finito ? 'Riascolta' : 'Continua'}</span>`
+        : '<span class="ic">⏸</span><span>Pausa</span>';
+      $('btnIndietro').disabled = stato.i === 0;
+      $('btnAvanti').disabled = stato.i >= stato.battute.length - 1;
+    }
+
+    function pausaOContinua() {
+      if (!stato.pausa) { fermaTutto(); stato.pausa = true; aggiornaComandi(); return; }
+      if (stato.i === stato.battute.length - 1) return daCapo();
+      dici(stato.i);
+    }
+    const avanti = () => dici(Math.min(stato.i + 1, stato.battute.length - 1));
+    const indietro = () => dici(Math.max(stato.i - 1, 0));
+    const daCapo = () => dici(0);
+
+    function preparaGiorno(giorno) {
+      fermaTutto();
+      const g = GUIDE[giorno];
+      stato.giorno = giorno;
+      stato.battute = battuteDel(giorno);
+      document.documentElement.style.setProperty('--colore', g.colore);
+      document.documentElement.style.setProperty('--chiaro', g.chiaro);
+      $('titoloGiorno').textContent = `${nomeGiorno(giorno)} ${dataBreve(giorno)}${eOggi(giorno) ? ' · oggi' : ''}`;
+      $('ritratto').innerHTML = disegnaGuida(giorno);
+      bocca.el = $('ritratto').querySelector('.bocca');
+      bocca.a = 0;
+      $('nomeGuida').textContent = g.nome;
+      $('elenco').innerHTML = lezioni.filter(l => l.day === giorno).map(l => {
+        const k = stato.battute.findIndex(b => b.lezione === l);
+        return `<li data-id="${esc(l.id)}" class="${l.sospesa ? 'barrata' : ''}"><button onclick="dici(${k})">
+          <span class="o">${l.startTime}${/^\d\d:\d\d$/.test(l.endTime) ? '–' + l.endTime : ''}</span>
+          <span class="t">${esc(titoloScritto(l.title))}</span><span class="a">${esc(l.aula)}</span></button></li>`;
+      }).join('');
+      $('scelta').hidden = true;
+      $('racconto').hidden = false;
+      window.scrollTo(0, 0);
+    }
+
+    // giorno scelto dall'elenco: si parte subito (il tocco del socio permette al telefono di parlare)
+    function apriGiorno(giorno, daStoria = false) {
+      preparaGiorno(giorno);
+      if (!daStoria) history.pushState({ giorno }, '', '?' + senzaAccenti(giorno));
+      dici(0);
+    }
+    const senzaAccenti = g => g.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+
+    function tornaAllaScelta(daStoria = false) {
+      fermaTutto();
+      $('racconto').hidden = true;
+      $('scelta').hidden = false;
+      document.documentElement.style.setProperty('--colore', '#1a5f7a');
+      if (!daStoria) history.pushState({}, '', location.pathname);
+      window.scrollTo(0, 0);
+    }
+    // tasto "indietro" del telefono
+    window.addEventListener('popstate', e => {
+      const g = e.state && e.state.giorno;
+      if (g) { preparaGiorno(g); dici(0); } else tornaAllaScelta(true);
+    });
+
+    function disegnaScelta() {
+      $('periodo').textContent = `Settimana ${periodoLungo()}`;
+      $('giorni').innerHTML = GIORNI.map(giorno => {
+        const g = GUIDE[giorno], lez = lezioni.filter(l => l.day === giorno), n = lez.filter(l => !l.sospesa).length;
+        return `<button class="giorno" style="--c:${g.colore}" onclick="apriGiorno('${giorno}')" ${lez.length ? '' : 'disabled'}>
+          ${eOggi(giorno) ? '<span class="oggi">OGGI</span>' : ''}
+          <span class="ritratto">${disegnaGuida(giorno)}</span>
+          <span>
+            <span class="nome-giorno">${nomeGiorno(giorno)}</span>
+            <span class="data">${dataBreve(giorno)}</span>
+            <span class="chi">racconta ${g.nome}</span>
+            <span class="quante">${lez.length ? (n ? `${n} ${n === 1 ? 'lezione' : 'lezioni'}` : 'lezioni sospese') : 'nessuna lezione'}</span>
+          </span>
+        </button>`;
+      }).join('');
+    }
+
+    // link diretto a un giorno (es. avatar.html?lunedi o ?oggi): serve un tocco prima che il telefono possa parlare
+    function giornoDalLink() {
+      const q = location.search.slice(1).toLowerCase();
+      if (!q) return null;
+      if (/oggi/.test(q)) return GIORNI.find(eOggi) || null;
+      return GIORNI.find(g => q.includes(senzaAccenti(g))) || null;
+    }
+    function chiediTocco(giorno) {
+      const g = GUIDE[giorno];
+      preparaGiorno(giorno);
+      history.replaceState({ giorno }, '', location.search);
+      $('battuta').textContent = `Tocca il pulsante e ti racconto le lezioni di ${giorno.toLowerCase()}.`;
+      mostraScheda(stato.battute[0]);
+      const velo = document.createElement('div');
+      velo.className = 'tocca';
+      velo.innerHTML = `<button><span class="ritratto">${disegnaGuida(giorno)}</span>
+        <span>${nomeGiorno(giorno)} ${dataBreve(giorno)}</span><span class="play">▶ Ascolta ${g.nome}</span></button>`;
+      velo.querySelector('button').onclick = () => { velo.remove(); dici(0); };
+      document.body.appendChild(velo);
+    }
+
+    async function carica() {
+      try {
+        const r = await fetch('dati/settimana.json?t=' + Date.now(), { cache: 'no-store' });
+        settimana = await r.json();
+      } catch (err) {
+        // aperta dalla copia sul PC (file://): il browser non lascia leggere i dati → vado al sito
+        if (location.protocol === 'file:') { location.replace(SITO + 'avatar.html'); return; }
+        $('giorni').innerHTML = '<p class="errore">Non riesco a caricare l\'orario. Controlla la connessione e ricarica la pagina.</p>';
+        return;
+      }
+      lezioni = settimana.lezioni
+        .filter(l => GIORNI.includes(l.day))
+        .sort((a, b) => GIORNI.indexOf(a.day) - GIORNI.indexOf(b.day) || a.startTime.localeCompare(b.startTime) || a.aula.localeCompare(b.aula));
+      disegnaScelta();
+      const g = giornoDalLink();
+      if (g && lezioni.some(l => l.day === g)) chiediTocco(g);
+    }
+    window.addEventListener('DOMContentLoaded', carica);
+  </script>
+</body>
+</html>

@@ -1,9 +1,22 @@
 {
- "dal": "2026-10-05",
- "al": "2026-10-09",
- "aggiornato": "2026-09-30",
- "pubblicato": "2026-10-07T12:54:50.244Z",
+ "dal": "2026-10-12",
+ "al": "2026-10-16",
+ "aggiornato": "2026-10-10",
+ "pubblicato": "2026-10-12T12:51:04.000Z",
  "lezioni": [
+  {
+   "id": "LUN-mv593b0b",
+   "day": "LUNEDÌ",
+   "startTime": "15:30",
+   "endTime": "17:30",
+   "aula": "S05",
+   "title": "Patchwork",
+   "teacher": "ARRIGO G.",
+   "category": "Laboratori & Artigianato",
+   "categoryColor": "bg-amber-600",
+   "cod": "505",
+   "description": ""
+  },
   {
    "id": "LUN-1",
    "day": "LUNEDÌ",
@@ -55,6 +68,19 @@
    "categoryColor": "bg-rose-600",
    "cod": "215",
    "description": "Coreografie di gruppo a tempo di musica, passi sincroni e attività motoria a basso impatto per mantenere agilità, coordinazione e buonumore."
+  },
+  {
+   "id": "LUN-mv593b0c",
+   "day": "LUNEDÌ",
+   "startTime": "17:30",
+   "endTime": "19:30",
+   "aula": "S05",
+   "title": "Psicologia della Terza Età",
+   "teacher": "ARRIA I.",
+   "category": "Storia & Pensiero",
+   "categoryColor": "bg-indigo-700",
+   "cod": "420",
+   "description": ""
   },
   {
    "id": "LUN-5",
@@ -135,6 +161,19 @@
    "description": "Esercizi posturali a corpo libero con piccoli attrezzi per distendere la colonna, migliorare la respirazione e rinforzare le articolazioni in totale sicurezza."
   },
   {
+   "id": "MAR-mv593b0e",
+   "day": "MARTEDÌ",
+   "startTime": "16:30",
+   "endTime": "17:30",
+   "aula": "S05",
+   "title": "Il Vangelo ci rende liberi",
+   "teacher": "RAPPAZZO M.",
+   "category": "Storia & Pensiero",
+   "categoryColor": "bg-indigo-700",
+   "cod": "440",
+   "description": ""
+  },
+  {
    "id": "MAR-3",
    "day": "MARTEDÌ",
    "startTime": "16:30",
@@ -148,17 +187,17 @@
    "description": "Workshop pratico di manipolazione di materiali misti, pittura polimaterica e riciclo artistico per opere creative e decorative."
   },
   {
-   "id": "MAR-2",
+   "id": "MAR-mv593b0d",
    "day": "MARTEDÌ",
    "startTime": "16:30",
    "endTime": "18:30",
    "aula": "S09",
-   "title": "\"Noi siamo i tempi\" dal libro di Damilano",
-   "teacher": "RAPPAZZO M.",
-   "category": "Letteratura & Attualità",
-   "categoryColor": "bg-indigo-600",
-   "cod": "640",
-   "description": "Lettura critica ed esegesi del testo di Marco Damilano. Una profonda riflessione sulla responsabilità civile e sulla coscienza storica dei nostri giorni."
+   "title": "Storia della Sicilia",
+   "teacher": "PASQUARIELLO E.",
+   "category": "Storia & Pensiero",
+   "categoryColor": "bg-indigo-700",
+   "cod": "400",
+   "description": ""
   },
   {
    "id": "MAR-6",
@@ -226,6 +265,19 @@
    "description": "Imparare a padroneggiare lo smartphone Android: impostazioni, WhatsApp, SPID, prenotazioni online e salvataggio foto in cloud."
   },
   {
+   "id": "MER-2",
+   "day": "MERCOLEDÌ",
+   "startTime": "15:30",
+   "endTime": "17:30",
+   "aula": "S08",
+   "title": "Fotografia",
+   "teacher": "LA CARA F. - RIGGI V.",
+   "category": "Arti Visive",
+   "categoryColor": "bg-amber-600",
+   "cod": "110",
+   "description": "Composizione fotografica, padronanza della luce, tempi di scatto e diaframma. Uscite didattiche ed elaborazione visiva di scatti urbani e ritratti."
+  },
+  {
    "id": "MER-6",
    "day": "MERCOLEDÌ",
    "startTime": "16:30",
@@ -276,19 +328,6 @@
    "categoryColor": "bg-purple-600",
    "cod": "100",
    "description": "Dizione, espressività corporea e valorizzazione del patrimonio dialettale e letterario della commedia e poesia siciliana."
-  },
-  {
-   "id": "MER-2",
-   "day": "MERCOLEDÌ",
-   "startTime": "16:30",
-   "endTime": "18:30",
-   "aula": "S08",
-   "title": "Fotografia",
-   "teacher": "LA CARA F. - RIGGI V.",
-   "category": "Arti Visive",
-   "categoryColor": "bg-amber-600",
-   "cod": "110",
-   "description": "Composizione fotografica, padronanza della luce, tempi di scatto e diaframma. Uscite didattiche ed elaborazione visiva di scatti urbani e ritratti."
   },
   {
    "id": "MER-8",
@@ -423,7 +462,7 @@
   {
    "id": "VEN-2",
    "day": "VENERDÌ",
-   "startTime": "17:30",
+   "startTime": "16:30",
    "endTime": "18:30",
    "aula": "Palestra",
    "title": "Tarantella e balli sociali",
