@@ -22,12 +22,12 @@ permissions:
 
 concurrency:
   group: voci
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   voci:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -37,6 +37,7 @@ jobs:
         run: pip install edge-tts
       - name: Registra le frasi della settimana
         continue-on-error: true
+        timeout-minutes: 15
         run: |
           node strumenti/frasi.js > /tmp/frasi.json
           python strumenti/voci.py /tmp/frasi.json

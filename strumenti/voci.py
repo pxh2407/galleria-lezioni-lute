@@ -38,22 +38,27 @@ async def main():
         vecchio = json.load(open(ELENCO, encoding='utf-8'))
     except Exception:
         vecchio = {}
-    elenco, nuove, errori = {}, 0, 0
+    elenco, nuove, errori, di_fila = {}, 0, 0, 0
     for f in frasi:
         percorso = os.path.join(CARTELLA, f['file'])
         if os.path.exists(percorso) and f['file'] in vecchio:
             elenco[f['file']] = vecchio[f['file']]
             continue
-        for prova in range(5):
+        if di_fila >= 3:   # il servizio rifiuta tutto: inutile insistere, si riprova al giro dopo
+            errori += 1
+            continue
+        for prova in range(3):
             try:
-                elenco[f['file']] = await registra(f, percorso)
+                elenco[f['file']] = await asyncio.wait_for(registra(f, percorso), 60)
                 nuove += 1
+                di_fila = 0
                 break
             except Exception as e:   # il servizio ogni tanto rifiuta (403): si riprova con pause crescenti
-                print(f'  riprovo ({prova + 1}) {f["file"]}: {e}', flush=True)
-                await asyncio.sleep(3 * (prova + 1) ** 2)
+                print(f'  riprovo ({prova + 1}) {f["file"]}: {str(e)[:120]}', flush=True)
+                await asyncio.sleep(2 + 4 * prova)
         else:
             errori += 1   # questa frase la dirà la voce del telefono
+            di_fila += 1
     for nome in os.listdir(CARTELLA):
         if nome.endswith('.mp3') and nome not in elenco:
             os.remove(os.path.join(CARTELLA, nome))
